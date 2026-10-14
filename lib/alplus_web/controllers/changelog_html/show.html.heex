@@ -1,0 +1,65 @@
+<.topbar :if={@first_party?} current_path="/changelog" current_user={assigns[:current_user]} />
+
+<.public_page_masthead
+  :if={!@first_party?}
+  public_page={@public_page}
+  postdeploy_owned?={@postdeploy_owned?}
+  header_id="changelog-header"
+  active={:changelog}
+  status_path={@status_path}
+  changelog_path={@changelog_path}
+/>
+
+<main id="public-changelog" data-public-shell>
+  <%!-- Title, feed actions and the filter disclosure open the reading column
+        together, so the first thing a visitor sees is what this page is and
+        how to narrow or subscribe to it. --%>
+  <section
+    id="changelog-lead"
+    aria-labelledby="changelog-title"
+    class="px-5 pb-6 pt-8 sm:px-11 sm:pt-12"
+  >
+    <div class="mx-auto flex max-w-content flex-col gap-3">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+        <h1
+          id="changelog-title"
+          class="min-w-0 text-heading-01 font-semibold tracking-[-0.02em] text-text-primary"
+        >
+          <%= if @postdeploy_owned? do %>
+            Latest updates from PostDeploy
+          <% else %>
+            Latest updates from {@public_page.title}
+          <% end %>
+        </h1>
+        <nav
+          id="changelog-feeds"
+          aria-label="Changelog feeds"
+          class="flex w-full shrink-0 items-center gap-2 sm:w-auto"
+        >
+          <a href={@rss_path} class={public_action_class()}>RSS</a>
+          <a href={@json_path} class={public_action_class()}>JSON</a>
+        </nav>
+      </div>
+      <p class="text-pretty text-body text-text-secondary">
+        What changed, what it affects, and when it shipped. Newest first.
+      </p>
+    </div>
+  </section>
+
+  <.changelog_index_body
+    first_party?={@first_party?}
+    postdeploy_owned?={@postdeploy_owned?}
+    available_areas={@available_areas}
+    filters={@filters}
+    query_path={@query_path}
+    canonical_path={@canonical_path}
+    public_page={@public_page}
+    rss_path={@rss_path}
+    json_path={@json_path}
+    entries={@entries}
+    changelog_path={@changelog_path}
+    pagination={@pagination}
+  />
+</main>
+
+<.site_footer :if={@first_party?} />

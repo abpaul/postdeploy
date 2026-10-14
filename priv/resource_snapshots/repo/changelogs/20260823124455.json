@@ -1,0 +1,234 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": true,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "changelogs_org_id_fkey",
+        "on_delete": "delete",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "organizations"
+      },
+      "scale": null,
+      "size": null,
+      "source": "org_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "changelogs_project_id_fkey",
+        "on_delete": "delete",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "projects"
+      },
+      "scale": null,
+      "size": null,
+      "source": "project_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "logo_url",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "public_title",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "public_slug",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "true",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "enabled",
+      "type": "boolean"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "activated_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "inserted_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "updated_at",
+      "type": "utc_datetime_usec"
+    }
+  ],
+  "base_filter": null,
+  "check_constraints": [],
+  "create_table_options": null,
+  "custom_indexes": [
+    {
+      "all_tenants?": false,
+      "concurrently": false,
+      "error_fields": [
+        "project_id"
+      ],
+      "fields": [
+        {
+          "type": "atom",
+          "value": "project_id"
+        }
+      ],
+      "include": null,
+      "include_base_filter?": true,
+      "message": null,
+      "name": "changelogs_one_per_project_index",
+      "nulls_distinct": true,
+      "prefix": null,
+      "table": null,
+      "unique": true,
+      "using": null,
+      "where": null
+    }
+  ],
+  "custom_statements": [
+    {
+      "code?": false,
+      "down": "ALTER TABLE changelogs\n  DROP CONSTRAINT changelogs_public_title_length_check,\n  DROP CONSTRAINT changelogs_public_slug_length_check,\n  DROP CONSTRAINT changelogs_logo_url_length_check\n",
+      "global?": false,
+      "name": "changelog_text_caps",
+      "up": "ALTER TABLE changelogs\n  ADD CONSTRAINT changelogs_public_title_length_check CHECK (octet_length(public_title) BETWEEN 1 AND 200),\n  ADD CONSTRAINT changelogs_public_slug_length_check CHECK (octet_length(public_slug) BETWEEN 1 AND 100),\n  ADD CONSTRAINT changelogs_logo_url_length_check CHECK (logo_url IS NULL OR octet_length(logo_url) BETWEEN 1 AND 2048)\n"
+    },
+    {
+      "code?": false,
+      "down": "ALTER TABLE changelogs DROP CONSTRAINT changelogs_public_slug_format_check",
+      "global?": false,
+      "name": "public_slug_format",
+      "up": "ALTER TABLE changelogs ADD CONSTRAINT changelogs_public_slug_format_check CHECK (public_slug ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$' AND public_slug <> 'postdeploy')"
+    }
+  ],
+  "has_create_action": true,
+  "hash": "57AD59515F74AD9C56ACE1E9CAB4ED15A09B28F1787B0567A585B871741F0818",
+  "identities": [
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "changelogs_unique_public_slug_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "public_slug"
+        }
+      ],
+      "name": "unique_public_slug",
+      "nils_distinct?": true,
+      "where": null
+    }
+  ],
+  "multitenancy": {
+    "attribute": null,
+    "global": null,
+    "strategy": null
+  },
+  "repo": "Elixir.Alplus.Repo",
+  "schema": null,
+  "table": "changelogs"
+}

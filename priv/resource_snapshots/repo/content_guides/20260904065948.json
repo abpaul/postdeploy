@@ -1,0 +1,569 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": true,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "slug",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "path",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "title",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "meta_description",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "nav_label",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "summary",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "hero_badge",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "hero_heading",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "hero_description",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "[]",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "body_sections",
+      "type": [
+        "array",
+        "map"
+      ]
+    },
+    {
+      "allow_nil?": true,
+      "default": "[]",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "faqs",
+      "type": [
+        "array",
+        "map"
+      ]
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "related_guide_path",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "cta_heading",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "cta_label",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "[]",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "related_paths",
+      "type": [
+        "array",
+        "map"
+      ]
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "lastmod",
+      "type": "date"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "author_name",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "published_on",
+      "type": "date"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "last_verified_on",
+      "type": "date"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "platform",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "docs_host",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "platform_failure_mode",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "[]",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "sources",
+      "type": [
+        "array",
+        "map"
+      ]
+    },
+    {
+      "allow_nil?": true,
+      "default": "[]",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "not_offered",
+      "type": [
+        "array",
+        "text"
+      ]
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "code_verified_on",
+      "type": "date"
+    },
+    {
+      "allow_nil?": false,
+      "default": "\"published\"",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "status",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "cluster",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "intent",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "primary_query",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "inserted_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "updated_at",
+      "type": "utc_datetime_usec"
+    }
+  ],
+  "base_filter": null,
+  "check_constraints": [],
+  "create_table_options": null,
+  "custom_indexes": [],
+  "custom_statements": [
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_title_length_check",
+      "global?": false,
+      "name": "title_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_title_length_check CHECK (octet_length(title) <= 300)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_meta_description_length_check",
+      "global?": false,
+      "name": "meta_description_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_meta_description_length_check CHECK (octet_length(meta_description) <= 500)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_summary_length_check",
+      "global?": false,
+      "name": "summary_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_summary_length_check CHECK (octet_length(summary) <= 500)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_hero_description_length_check",
+      "global?": false,
+      "name": "hero_description_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_hero_description_length_check CHECK (octet_length(hero_description) <= 2000)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_body_sections_length_check",
+      "global?": false,
+      "name": "body_sections_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_body_sections_length_check CHECK (octet_length(body_sections::text) <= 200000)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_faqs_length_check",
+      "global?": false,
+      "name": "faqs_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_faqs_length_check CHECK (octet_length(faqs::text) <= 50000)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_status_enum_check",
+      "global?": false,
+      "name": "status_enum_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_status_enum_check CHECK (status IN ('draft', 'published'))"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_platform_length_check",
+      "global?": false,
+      "name": "platform_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_platform_length_check CHECK (octet_length(platform) <= 100)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_docs_host_length_check",
+      "global?": false,
+      "name": "docs_host_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_docs_host_length_check CHECK (octet_length(docs_host) <= 255)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_platform_failure_mode_length_check",
+      "global?": false,
+      "name": "platform_failure_mode_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_platform_failure_mode_length_check CHECK (octet_length(platform_failure_mode) <= 2000)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_sources_length_check",
+      "global?": false,
+      "name": "sources_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_sources_length_check CHECK (octet_length(sources::text) <= 20000)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_not_offered_length_check",
+      "global?": false,
+      "name": "not_offered_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_not_offered_length_check CHECK (octet_length(not_offered::text) <= 10000)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_intent_enum_check",
+      "global?": false,
+      "name": "intent_enum_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_intent_enum_check CHECK (intent IN ('informational', 'commercial_investigation', 'transactional', 'navigational'))"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_cluster_length_check",
+      "global?": false,
+      "name": "cluster_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_cluster_length_check CHECK (octet_length(cluster) <= 100)"
+    },
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE content_guides DROP CONSTRAINT content_guides_primary_query_length_check",
+      "global?": false,
+      "name": "primary_query_length_check",
+      "up": "ALTER TABLE content_guides ADD CONSTRAINT content_guides_primary_query_length_check CHECK (octet_length(primary_query) <= 200)"
+    }
+  ],
+  "has_create_action": true,
+  "hash": "D6E91D227251C387A3D5FB784719C75B8AB6E4A0A1366E1728FF3C35BA31E8CF",
+  "identities": [
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "content_guides_unique_path_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "path"
+        }
+      ],
+      "name": "unique_path",
+      "nils_distinct?": true,
+      "where": null
+    },
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "content_guides_unique_slug_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "slug"
+        }
+      ],
+      "name": "unique_slug",
+      "nils_distinct?": true,
+      "where": null
+    }
+  ],
+  "multitenancy": {
+    "attribute": null,
+    "global": null,
+    "strategy": null
+  },
+  "repo": "Elixir.Alplus.Repo",
+  "schema": null,
+  "table": "content_guides"
+}

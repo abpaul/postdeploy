@@ -1,0 +1,24 @@
+# Disposable developer PostgreSQL only. This file is never a production target.
+services:
+  postgres:
+    image: postgres:17.9
+    environment:
+      POSTGRES_DB: alplus_local
+      POSTGRES_USER: alplus_local
+      POSTGRES_PASSWORD: alplus_local_only_disposable
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale=C
+    ports:
+      - "127.0.0.1:54329:5432"
+    volumes:
+      - alplus-postgres-local-data:/var/lib/postgresql/data
+      - ./scripts/postgres-local/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username=alplus_local --dbname=alplus_local"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+volumes:
+  alplus-postgres-local-data:
+    name: alplus-postgres-local-data

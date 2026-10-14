@@ -1,0 +1,357 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": true,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "observe_session_rollups_org_id_fkey",
+        "on_delete": "delete",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "organizations"
+      },
+      "scale": null,
+      "size": null,
+      "source": "org_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "observe_session_rollups_project_id_fkey",
+        "on_delete": "delete",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "projects"
+      },
+      "scale": null,
+      "size": null,
+      "source": "project_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "observe_session_rollups_source_id_fkey",
+        "on_delete": "nilify",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "sources"
+      },
+      "scale": null,
+      "size": null,
+      "source": "source_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "environment",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "release",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "window_start",
+      "type": "date"
+    },
+    {
+      "allow_nil?": false,
+      "default": "0",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "sessions_count",
+      "type": "bigint"
+    },
+    {
+      "allow_nil?": false,
+      "default": "0",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "errored_count",
+      "type": "bigint"
+    },
+    {
+      "allow_nil?": false,
+      "default": "0",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "crashed_count",
+      "type": "bigint"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "inserted_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "updated_at",
+      "type": "utc_datetime_usec"
+    }
+  ],
+  "base_filter": null,
+  "check_constraints": [],
+  "create_table_options": null,
+  "custom_indexes": [
+    {
+      "all_tenants?": false,
+      "concurrently": false,
+      "error_fields": [
+        "org_id",
+        "project_id",
+        "environment",
+        "release",
+        "window_start"
+      ],
+      "fields": [
+        {
+          "type": "atom",
+          "value": "org_id"
+        },
+        {
+          "type": "atom",
+          "value": "project_id"
+        },
+        {
+          "type": "atom",
+          "value": "environment"
+        },
+        {
+          "type": "atom",
+          "value": "release"
+        },
+        {
+          "type": "atom",
+          "value": "window_start"
+        }
+      ],
+      "include": null,
+      "include_base_filter?": true,
+      "message": null,
+      "name": "observe_session_rollups_scope_window_index",
+      "nulls_distinct": false,
+      "prefix": null,
+      "table": null,
+      "unique": true,
+      "using": null,
+      "where": null
+    },
+    {
+      "all_tenants?": false,
+      "concurrently": false,
+      "error_fields": [
+        "org_id",
+        "project_id",
+        "environment",
+        "release"
+      ],
+      "fields": [
+        {
+          "type": "atom",
+          "value": "org_id"
+        },
+        {
+          "type": "atom",
+          "value": "project_id"
+        },
+        {
+          "type": "atom",
+          "value": "environment"
+        },
+        {
+          "type": "atom",
+          "value": "release"
+        }
+      ],
+      "include": null,
+      "include_base_filter?": true,
+      "message": null,
+      "name": "observe_session_rollups_scope_index",
+      "nulls_distinct": true,
+      "prefix": null,
+      "table": null,
+      "unique": false,
+      "using": null,
+      "where": null
+    },
+    {
+      "all_tenants?": false,
+      "concurrently": false,
+      "error_fields": [
+        "org_id",
+        "project_id",
+        "source_id",
+        "release",
+        "window_start"
+      ],
+      "fields": [
+        {
+          "type": "atom",
+          "value": "org_id"
+        },
+        {
+          "type": "atom",
+          "value": "project_id"
+        },
+        {
+          "type": "atom",
+          "value": "source_id"
+        },
+        {
+          "type": "atom",
+          "value": "release"
+        },
+        {
+          "type": "atom",
+          "value": "window_start"
+        }
+      ],
+      "include": null,
+      "include_base_filter?": true,
+      "message": null,
+      "name": "observe_session_rollups_source_id_index",
+      "nulls_distinct": true,
+      "prefix": null,
+      "table": null,
+      "unique": false,
+      "using": null,
+      "where": null
+    }
+  ],
+  "custom_statements": [
+    {
+      "code?": false,
+      "down": "ALTER TABLE observe_session_rollups\n  DROP CONSTRAINT observe_session_rollups_counts_check,\n  DROP CONSTRAINT observe_session_rollups_environment_check,\n  DROP CONSTRAINT observe_session_rollups_release_check\n",
+      "global?": false,
+      "name": "session_rollup_constraints",
+      "up": "ALTER TABLE observe_session_rollups\n  ADD CONSTRAINT observe_session_rollups_counts_check CHECK (\n    sessions_count >= 0 AND errored_count >= 0 AND crashed_count >= 0 AND\n    errored_count + crashed_count <= sessions_count\n  ),\n  ADD CONSTRAINT observe_session_rollups_environment_check CHECK (environment IS NULL OR octet_length(environment) <= 64),\n  ADD CONSTRAINT observe_session_rollups_release_check CHECK (release IS NULL OR octet_length(release) <= 256)\n"
+    }
+  ],
+  "has_create_action": false,
+  "hash": "1F6627F9F87EFCD52B24A4FC4C58919C6E0745930DFCA36684189DCF73FFB45D",
+  "identities": [],
+  "multitenancy": {
+    "attribute": null,
+    "global": null,
+    "strategy": null
+  },
+  "repo": "Elixir.Alplus.Repo",
+  "schema": null,
+  "table": "observe_session_rollups"
+}

@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+# `rubygems/release-gem` (the release workflow) runs `bundle exec rake release`.
+# That task comes from bundler's gem tasks: build, guard_clean, tag, push.
+require "bundler/gem_tasks"
+
+# This gem shares a repository with the product and the other SDKs, so its
+# tags are namespaced: `ruby-v0.3.0`, not `v0.3.0`. The release workflow
+# triggers on that same prefix. `rake -T` still prints the unprefixed name in
+# its description, which bundler builds before this line runs; the tag it
+# actually creates is the prefixed one.
+Bundler::GemHelper.tag_prefix = "ruby-"
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec)
+
+task default: :spec

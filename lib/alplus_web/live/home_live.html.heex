@@ -1,0 +1,1035 @@
+<% data = @homepage_data %>
+<% metrics = data.metrics %>
+<% measure = data.measure %>
+<% monitor = data.monitor %>
+<% publications = homepage_publications(data) %>
+<% status = publications.status %>
+<% changelog = publications.changelog %>
+<% selection = homepage_selection(data) %>
+<% overview = homepage_overview(data) %>
+<% ranges = homepage_ranges(overview) %>
+<% tiles = homepage_tiles(overview, data, selection) %>
+<% chart = homepage_chart(overview, data, selection) %>
+<% chart_points = chart.points %>
+<% wave = homepage_wave(chart_points, chart.peak) %>
+<% monitor_rows = homepage_monitor_rows(monitor, selection) %>
+<% selected_monitor = homepage_selected_monitor(monitor, monitor_rows) %>
+<% monitor_checks =
+  homepage_points((selected_monitor && Map.get(selected_monitor, :windows)) || []) %>
+<% monitor_peak = homepage_peak(monitor_checks, nil) %>
+<% measure_ranges = homepage_measure_ranges(measure) %>
+<% measure_range = Map.get(measure, :range) || selection.traffic_range %>
+<% measure_words = homepage_range_words(measure_range) %>
+<% measure_peak = Enum.max([1 | Enum.map(measure.trend, &(Map.get(&1, :pageviews) || 0))]) %>
+<% measure_last = length(measure.trend) - 1 %>
+<% pageviews_peak =
+  Enum.max([
+    1 | Enum.map(measure.top_pages, &(Map.get(&1, :pageviews) || Map.get(&1, :count) || 0))
+  ]) %>
+<% trial_days = Package.trial_days() %>
+<% preview? = data.state == :preview %>
+<% trend_visitors? = Enum.any?(measure.trend, &is_number(Map.get(&1, :visitors))) %>
+<% live_status = data.status.state == :ready && data.status.status %>
+<% displayed_status = status.state == :ready && status.status %>
+
+<.topbar current_path="/" current_user={@current_user} />
+
+<main id="homepage" data-public-shell>
+  <section
+    id="leadspace"
+    class="mx-auto max-w-content px-6 pt-4 sm:px-11 sm:pt-6"
+  >
+    <div class="grid items-start gap-4 lg:grid-cols-[5fr_6fr] lg:gap-x-12 lg:gap-y-5">
+      <div
+        id="home-hero-copy"
+        class="flex min-w-0 flex-col items-start gap-3 text-left sm:gap-6 lg:col-start-1 lg:row-start-1"
+      >
+        <span
+          :if={live_status && !preview?}
+          class="inline-flex min-w-0 items-center gap-2 rounded-dot border border-border-public px-[15px] py-2 text-[12.5px] font-semibold text-status-live-ink max-sm:hidden"
+        >
+          <span
+            class="pulse-live size-[7px] shrink-0 rounded-dot bg-status-live"
+            aria-hidden="true"
+          ></span>
+          <span class="min-w-0 break-words">{homepage_status_label(live_status)}</span>
+        </span>
+        <h1 class="max-w-[600px] text-[clamp(30px,1.6vw+20px,44px)] leading-[1.05] font-semibold tracking-[-0.025em] text-balance text-text-primary">
+          Production monitoring for the project you just shipped.
+          <span class="box-decoration-clone bg-[linear-gradient(transparent_62%,var(--color-interactive-tint)_62%)]">
+            Your coding agent sets it up.
+          </span>
+        </h1>
+        <p class="max-w-[520px] text-pretty text-[15.5px] leading-[23px] font-medium text-text-secondary sm:text-[16.5px] sm:leading-[27px]">
+          Uptime checks, cron heartbeats, error tracking, and cookieless analytics in one project,
+          for solo developers and small teams who run their own production software. Connect a coding
+          agent that supports remote MCP servers, then review what it creates.
+        </p>
+        <div class="flex flex-wrap items-center gap-x-[14px] gap-y-1 sm:gap-y-[14px]">
+          <.link
+            id="home-hero-cta"
+            href={start_path(@current_user)}
+            class="inline-flex min-h-target-min items-center rounded-dot bg-action-primary px-7 py-[11px] text-[15px] font-bold text-action-primary-ink sm:py-[14px] transition-[background-color,box-shadow] duration-productive ease-productive hover:bg-action-primary-hover hover:shadow-overlay focus-visible:shadow-[var(--alp-focus-ring)]"
+          >
+            Start your {trial_days}-day free trial
+          </.link>
+          <.link
+            id="home-hero-guide"
+            href={~p"/docs/get-started"}
+            class="inline-flex min-h-target-min items-center border-b-2 border-interactive-primary pb-px text-[15px] font-semibold text-text-primary transition-colors duration-productive ease-productive hover:border-interactive-hover hover:text-interactive-strong focus-visible:shadow-[var(--alp-focus-ring)]"
+          >
+            Read the setup guide
+          </.link>
+        </div>
+        <p class="text-[12.5px] font-medium text-text-tertiary max-sm:leading-[18px]">
+          {trial_days} days free. No credit card. Then {PackagePresenter.price()} a month per organisation.
+        </p>
+      </div>
+
+      <.founder_letter wide class="lg:col-span-2 lg:row-start-2 lg:mb-2" />
+
+      <div class="flex min-w-0 flex-col gap-3 lg:col-start-2 lg:row-start-1">
+        <div class="min-w-0 overflow-hidden rounded-frame bg-surface-inverse">
+          <div class="flex min-w-0 items-center gap-2 border-b border-border-inverse px-[18px] py-[11px]">
+            <span class="size-2 shrink-0 rounded-dot bg-surface-inverse-control"></span>
+            <span class="size-2 shrink-0 rounded-dot bg-surface-inverse-control"></span>
+            <span class="size-2 shrink-0 rounded-dot bg-surface-inverse-control"></span>
+            <span class="ml-2 min-w-0 flex-1 truncate font-mono text-[11px] text-text-inverse-muted">
+              project: my-saas
+            </span>
+            <span class="shrink-0 font-mono text-[11px] text-text-inverse-muted">
+              example session
+            </span>
+          </div>
+          <pre
+            id="home-setup-code"
+            class="m-0 overflow-x-auto px-4 py-3 font-mono text-[12px] leading-[20px] text-text-inverse-code sm:px-5"
+          ><span class="text-text-inverse-muted">you</span>  Watch my-saas.com and its API. Make the
+     nightly backup report a failure. Add
+     analytics and a status page.
+
+<span class="text-status-live-inverse">✓</span> monitor.create           my-saas.com
+<span class="text-status-live-inverse">✓</span> monitor.create           api.my-saas.com
+<span class="text-status-live-inverse">✓</span> monitor.create           nightly-backup
+<span class="text-status-live-inverse">✓</span> measure.create_source    my-saas.com
+<span class="text-status-live-inverse">✓</span> status.ensure_workspace  my-saas
+
+<span class="text-text-inverse-muted">Added to my-saas. Review it in PostDeploy.</span></pre>
+          <ol class="grid grid-cols-1 border-t border-border-inverse text-[12.5px] font-semibold text-text-inverse-code sm:grid-cols-3">
+            <li class="flex items-baseline gap-2 border-b border-border-inverse px-5 py-3 sm:border-b-0 sm:border-r">
+              <span class="font-mono text-status-live-inverse">1</span> Connect your agent
+            </li>
+            <li class="flex items-baseline gap-2 border-b border-border-inverse px-5 py-3 sm:border-b-0 sm:border-r">
+              <span class="font-mono text-status-live-inverse">2</span> Say what to watch
+            </li>
+            <li class="flex items-baseline gap-2 px-5 py-3">
+              <span class="font-mono text-status-live-inverse">3</span> Review the project
+            </li>
+          </ol>
+        </div>
+
+        <div
+          id="home-plain-setup"
+          class="min-w-0 rounded-frame border border-border-public bg-surface-raised px-5 py-2.5"
+        >
+          <h2 class="text-[14px] leading-[20px] font-bold text-text-primary">
+            After setup, your code calls plain endpoints
+          </h2>
+          <dl class="mt-2 grid gap-x-4 gap-y-1.5 text-[12.5px] sm:grid-cols-[auto_1fr]">
+            <dt class="font-semibold text-text-secondary">Cron job</dt>
+            <dd class="m-0 min-w-0 overflow-x-auto break-all font-mono text-[11.5px] text-text-primary sm:whitespace-nowrap sm:break-normal">
+              ./job.sh; curl -fsS https://ingest.postdeploy.dev/h/$TOKEN/$?
+            </dd>
+            <dt class="font-semibold text-text-secondary">Errors</dt>
+            <dd class="m-0 min-w-0 overflow-x-auto break-all font-mono text-[11.5px] text-text-primary sm:whitespace-nowrap sm:break-normal">
+              SENTRY_DSN=https://$KEY@ingest.postdeploy.dev/1
+            </dd>
+            <dt class="font-semibold text-text-secondary">Traffic</dt>
+            <dd class="m-0 min-w-0 overflow-x-auto break-all font-mono text-[11.5px] text-text-primary sm:whitespace-nowrap sm:break-normal">
+              &lt;script defer src="https://ingest.postdeploy.dev/m.js?token=…"&gt;
+            </dd>
+            <dt class="font-semibold text-text-secondary">URL check</dt>
+            <dd class="m-0 min-w-0 text-[12.5px] font-medium text-text-primary">
+              <.link
+                href={~p"/tools/website-health-check"}
+                class="font-semibold underline decoration-interactive-primary decoration-2 underline-offset-4 hover:bg-interactive-wash"
+              >
+                Website health check
+              </.link>
+              without an agent
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="project-view"
+    class="mx-auto flex max-w-content flex-col px-6 pt-16 sm:px-11 sm:pt-24"
+  >
+    <div class="mx-auto w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <h2 class="max-w-[640px] text-[26px] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[32px] text-text-primary">
+        One project view for everything it set up.
+      </h2>
+      <p class="mt-4 max-w-[560px] text-pretty text-[15.5px] leading-[26px] font-medium text-text-secondary">
+        Uptime, response time, traffic, and errors for the same deployed project. Switch the range
+        or the metric to see how the dashboard reads after setup.
+      </p>
+    </div>
+    <section
+      id="console-preview"
+      data-state={data.state}
+      aria-label={
+        if preview?,
+          do: "Example project evidence",
+          else: "Live PostDeploy project evidence"
+      }
+      class="mx-auto mt-8 mb-[72px] min-w-0 max-w-full w-full sm:max-w-[calc(var(--alp-width-content)-5.5rem)] overflow-hidden rounded-frame border border-border-public bg-surface-raised text-left shadow-frame"
+    >
+      <div class="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 border-b border-border-subtle px-5 py-[13px]">
+        <span class="min-w-0 break-words font-mono text-[12px] font-medium text-text-tertiary">
+          {homepage_identity(data.identity)}<span :if={data.identity.slug || data.identity.name}>, production</span>
+        </span>
+        <span
+          :if={preview?}
+          class="shrink-0 self-center rounded-dot bg-surface-sunken px-2.5 py-1 font-mono text-[10.5px] font-semibold text-text-secondary"
+        >
+          Preview data
+        </span>
+        <nav
+          id="console-preview-ranges"
+          aria-label="Overview time range"
+          class="min-w-0 w-full sm:ml-auto sm:w-auto"
+        >
+          <h2 class="sr-only">Time range for the overview</h2>
+          <ul class="flex min-h-target-min w-full max-w-full items-center rounded-dot bg-surface-sunken p-[3px]">
+            <li :for={range <- ranges} class="min-w-0 flex-1 sm:flex-none">
+              <button
+                type="button"
+                phx-click="select_overview_range"
+                phx-value-range={range}
+                aria-pressed={if range == selection.range, do: "true", else: "false"}
+                class={[
+                  "inline-flex min-h-target-min w-full items-center justify-center rounded-dot px-[13px] text-[12px] font-semibold transition-[color,background-color,box-shadow] duration-productive ease-productive focus-visible:shadow-[var(--alp-focus-ring)]",
+                  if(range == selection.range,
+                    do: "bg-surface-raised text-text-primary shadow-overlay",
+                    else: "text-text-secondary hover:bg-interactive-tint hover:text-text-primary"
+                  )
+                ]}
+              >
+                {range}
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <nav
+        id="home-metrics"
+        data-state={if preview?, do: "preview", else: data.state}
+        aria-label="Overview metric"
+        class="border-b border-border-subtle"
+      >
+        <h2 class="sr-only">Metric shown in the chart</h2>
+        <ul class="grid grid-cols-2 md:grid-cols-4">
+          <li :for={tile <- tiles} class="min-w-0">
+            <button
+              type="button"
+              phx-click="select_metric"
+              phx-value-metric={tile.id}
+              aria-pressed={if tile.selected?, do: "true", else: "false"}
+              class={[
+                "block min-h-target-min min-w-0 w-full px-5 py-4 transition-[background-color,box-shadow] duration-productive ease-productive focus-visible:shadow-[var(--alp-focus-ring)]",
+                if(tile.selected?,
+                  do: "bg-surface-raised shadow-selected-underline",
+                  else: "bg-surface-console hover:bg-interactive-tint"
+                )
+              ]}
+            >
+              <span class={[
+                "block text-[11.5px] font-semibold",
+                cond do
+                  tile.tone == :error -> "text-status-error-ink"
+                  tile.selected? -> "text-text-primary"
+                  true -> "text-text-secondary"
+                end
+              ]}>
+                {tile.label}
+              </span>
+              <span class={[
+                "mt-1 block font-ui text-[22px] font-semibold tracking-[-0.02em]",
+                if(tile.tone == :error, do: "text-status-error-ink", else: "text-text-primary")
+              ]}>
+                {tile.value || homepage_metric(chart.state, nil)}
+              </span>
+              <span class="mt-1 block break-words text-[11.5px] leading-[16px] font-medium text-text-tertiary">
+                {tile.sub}
+              </span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div
+        id="console-preview-panel-monitor"
+        data-state={if preview?, do: "preview", else: chart.state}
+        class="relative min-w-0 px-5 pb-2 pt-5"
+      >
+        <div
+          :if={chart.kind == :ticks and chart_points != []}
+          class="flex h-[120px] min-w-0 items-end gap-0.5 overflow-hidden"
+          aria-hidden="true"
+        >
+          <span
+            :for={point <- chart_points}
+            class={["min-w-0 flex-1 rounded-tick", homepage_chart_class(selection.metric, point)]}
+            style={"height: #{homepage_bar_pct(point.value, chart.peak)}%"}
+          ></span>
+        </div>
+        <div
+          :if={chart.kind == :bars and chart_points != []}
+          class="flex h-[120px] min-w-0 items-end gap-[3px] overflow-hidden"
+          aria-hidden="true"
+        >
+          <span
+            :for={point <- chart_points}
+            class={[
+              "min-w-0 flex-1 rounded-t-[4px] rounded-b-tick",
+              homepage_chart_class(selection.metric, point)
+            ]}
+            style={"height: #{homepage_bar_pct(point.value, chart.peak)}%"}
+          ></span>
+        </div>
+        <svg
+          :if={chart.kind == :wave and wave}
+          viewBox="0 0 100 40"
+          preserveAspectRatio="none"
+          class="block h-[120px] w-full min-w-0"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d={wave.area} class="fill-interactive-primary" fill-opacity="0.22" />
+          <path
+            d={wave.line}
+            fill="none"
+            class="stroke-interactive-outline"
+            stroke-width="1.6"
+            vector-effect="non-scaling-stroke"
+            stroke-linecap="round"
+          />
+        </svg>
+        <div :if={chart_points != []} class="sr-only">
+          <table>
+            <caption>{chart.table_caption}</caption>
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">{chart.column_label}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={point <- chart_points}>
+                <th scope="row">{point.label}</th>
+                <td>{if is_number(point.value), do: point.value, else: "No data"}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p
+          :if={chart_points == []}
+          class="py-6 text-center text-[12.5px] font-medium text-text-tertiary"
+        >
+          {homepage_empty_copy(chart.state, selection.metric)}
+        </p>
+      </div>
+      <div class="flex min-w-0 justify-between gap-3 px-5 pb-3.5 font-mono text-[11.5px] font-medium text-text-tertiary">
+        <span>{chart.axis_start}</span>
+        <span class="min-w-0 truncate">{chart.caption}</span>
+        <span>{chart.axis_end}</span>
+      </div>
+    </section>
+  </section>
+
+  <section
+    id="product"
+    class="flex flex-col items-center gap-[18px] border-t border-border-subtle px-6 pt-16 sm:px-11"
+  >
+    <div class="w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <h2
+        id="monitor"
+        class="max-w-[640px] text-[26px] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[32px] text-text-primary"
+      >
+        Know when the site, the API, or a job fails.
+      </h2>
+      <p class="mt-4 max-w-[560px] text-pretty text-[15.5px] leading-[26px] font-medium text-text-secondary">
+        Uptime checks cover HTTP, keyword, TCP, and DNS, with SSL and domain expiry warnings.
+        Scheduled jobs report start, finish, and fail with one curl line. A reported failure opens
+        an incident and alerts you at once, and an interval job that stops reporting shows as Late, with no alert.
+      </p>
+    </div>
+    <div class="mb-10 mt-[18px] grid min-w-0 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] gap-[18px] text-left lg:grid-cols-[5fr_7fr]">
+      <nav
+        aria-label="Published monitor"
+        class="min-w-0 max-w-full self-start overflow-hidden rounded-frame border border-border-public bg-surface-raised"
+      >
+        <h3 class="sr-only">Choose a monitor</h3>
+        <ul>
+          <li :for={row <- monitor_rows} class="min-w-0">
+            <button
+              type="button"
+              phx-click="select_monitor"
+              phx-value-monitor={row.index}
+              aria-pressed={if row.selected?, do: "true", else: "false"}
+              class={[
+                "flex min-h-target-min min-w-0 w-full items-center gap-3 border-b border-border-subtle px-[18px] py-[15px] transition-[background-color,box-shadow] duration-productive ease-productive focus-visible:shadow-[var(--alp-focus-ring)]",
+                if(row.selected?,
+                  do: "bg-surface-sunken",
+                  else: "bg-surface-raised hover:bg-interactive-tint"
+                )
+              ]}
+            >
+              <span
+                class={["size-2 shrink-0 rounded-dot", homepage_tick_class(row.state)]}
+                aria-hidden="true"
+              ></span>
+              <span class="min-w-0 flex-1">
+                <span class="block truncate font-public text-[13.5px] font-semibold">{row.name}</span>
+                <span class="block truncate font-mono text-[11px] text-text-tertiary">
+                  {row.type_label}
+                </span>
+              </span>
+              <span class="shrink-0 font-mono text-[12.5px] font-semibold text-status-live-ink">
+                {homepage_metric(monitor.state, row.uptime, "%")}
+              </span>
+            </button>
+          </li>
+        </ul>
+        <p :if={monitor_rows == []} class="px-[18px] py-[15px] text-[13px] text-text-tertiary">
+          {if monitor.state == :unavailable,
+            do: "Unavailable",
+            else: "No monitors published yet."}
+        </p>
+      </nav>
+      <div class="flex min-w-0 max-w-full flex-col gap-3.5 overflow-hidden rounded-frame border border-border-public bg-surface-raised p-[22px]">
+        <div class="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-2">
+          <h3 class="min-w-0 break-words font-public text-[16px] font-bold">
+            {(selected_monitor && selected_monitor.name) || "Published monitors"}
+          </h3>
+          <span
+            :if={selected_monitor}
+            class={[
+              "shrink-0 rounded-dot px-[11px] py-1 text-[11px] font-bold",
+              homepage_monitor_state_class(Map.get(selected_monitor, :state))
+            ]}
+          >
+            {homepage_monitor_state_label(Map.get(selected_monitor, :state))}
+          </span>
+          <span
+            :if={selected_monitor}
+            class="ml-auto shrink-0 font-mono text-[11.5px] text-text-tertiary"
+          >
+            {Map.get(selected_monitor, :type_label)}
+          </span>
+        </div>
+        <div
+          :if={monitor_checks != []}
+          class="flex h-16 min-w-0 items-end gap-[2px] overflow-hidden"
+          aria-hidden="true"
+        >
+          <span
+            :for={point <- monitor_checks}
+            class={["min-w-0 flex-1 rounded-[3px]", homepage_tick_class(point.state)]}
+            style={"height: #{homepage_bar_pct(point.value, monitor_peak)}%"}
+          ></span>
+        </div>
+        <div :if={monitor_checks != []} class="sr-only">
+          <table>
+            <caption>
+              Average response for {Map.get(selected_monitor || %{}, :name)}, milliseconds for each hour in the last 36 hours, oldest first.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Hour</th>
+                <th scope="col">Average response, milliseconds</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={point <- monitor_checks}>
+                <th scope="row">{point.label}</th>
+                <td>
+                  {if is_number(point.value),
+                    do: point.value,
+                    else: homepage_monitor_state_label(point.state)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p
+          :if={monitor_checks == []}
+          class="py-6 text-center text-[12.5px] font-medium text-text-tertiary"
+        >
+          {if monitor.state == :unavailable,
+            do: "Unavailable",
+            else: "No checks recorded yet."}
+        </p>
+        <div class="flex min-w-0 justify-between gap-3 font-mono text-[11.5px] font-medium text-text-tertiary">
+          <span>-36h</span>
+          <span class="min-w-0 truncate">
+            {(selected_monitor && selected_monitor.caption) || "Recent checks"}
+          </span>
+          <span>now</span>
+        </div>
+        <div class="grid min-w-0 grid-cols-2 gap-3 border-t border-border-subtle pt-3.5 sm:grid-cols-3">
+          <span class="min-w-0">
+            <span class="block font-ui text-[18px] font-semibold">
+              {homepage_metric(
+                monitor.state,
+                (selected_monitor && Map.get(selected_monitor, :uptime)) ||
+                  Map.get(monitor.headline, :uptime),
+                "%"
+              )}
+            </span>
+            <span class="block break-words text-[11.5px] font-medium text-text-tertiary">
+              {homepage_uptime_sub(monitor)}
+            </span>
+          </span>
+          <span class="min-w-0">
+            <span class="block font-ui text-[18px] font-semibold">
+              {homepage_metric(
+                monitor.state,
+                (selected_monitor && Map.get(selected_monitor, :response_time_ms)) ||
+                  metrics.monitor.response_time_ms,
+                "ms"
+              )}
+            </span>
+            <span class="block break-words text-[11.5px] font-medium text-text-tertiary">
+              average response
+            </span>
+          </span>
+          <span class="min-w-0">
+            <span class="block font-ui text-[18px] font-semibold">
+              {homepage_metric(monitor.state, monitor.headline.total)}
+            </span>
+            <span class="block break-words text-[11.5px] font-medium text-text-tertiary">
+              public monitors
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="mb-10 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <.link
+        href={~p"/monitoring"}
+        class="inline-flex min-h-target-min items-center text-[13px] font-semibold text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px] hover:text-text-primary"
+      >
+        Explore monitoring
+      </.link>
+    </div>
+  </section>
+  <section
+    id="measure"
+    class="flex flex-col items-center gap-[18px] border-t border-border-subtle bg-canvas px-6 pt-16 sm:px-11"
+  >
+    <div class="w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <h2 class="max-w-[640px] text-[26px] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[32px] text-text-primary">
+        Know what people use, with no cookies.
+      </h2>
+      <p class="mt-4 max-w-[560px] text-pretty text-[15.5px] leading-[26px] font-medium text-text-secondary">
+        Pageviews and custom events with no cookies, no raw IP storage, and no persistent visitor
+        identifier. Daily identifiers rotate, so visits cannot be linked across days. Funnels,
+        activation, and retention come from the events your own app sends.
+      </p>
+    </div>
+    <div class="mb-10 mt-[18px] grid min-w-0 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] gap-[18px] text-left lg:grid-cols-[7fr_5fr]">
+      <div class="min-w-0 rounded-frame border border-border-public bg-surface-raised p-[22px]">
+        <div class="mb-4 flex min-w-0 flex-wrap items-center gap-3">
+          <span class="min-w-0 flex-1">
+            <span
+              :if={metrics.measure.value}
+              class="font-ui text-[26px] font-semibold tracking-[-0.02em]"
+            >
+              {metrics.measure.value}
+            </span>
+            <span
+              :if={metrics.measure.value}
+              class="text-[12.5px] font-medium text-text-tertiary"
+            >
+              pageviews{if metrics.measure.visitors,
+                do: ", #{metrics.measure.visitors} visitors"}
+            </span>
+            <span
+              :if={!metrics.measure.value}
+              class="text-[12.5px] font-medium text-text-tertiary"
+            >
+              {homepage_measure_sub(measure, metrics)}
+            </span>
+          </span>
+          <nav
+            id="home-measure-ranges"
+            aria-label="Traffic time range"
+            class="min-w-0 w-full max-w-full sm:ml-auto sm:w-auto"
+          >
+            <h3 class="sr-only">Time range for traffic</h3>
+            <ul class="flex min-h-target-min w-full items-center rounded-dot bg-surface-sunken p-[3px]">
+              <li :for={range <- measure_ranges} class="min-w-0 flex-1 sm:flex-none">
+                <button
+                  type="button"
+                  phx-click="select_traffic_range"
+                  phx-value-traffic={range}
+                  data-home-measure-range={range}
+                  aria-pressed={if range == measure_range, do: "true", else: "false"}
+                  class={[
+                    "inline-flex min-h-target-min min-w-target-min w-full items-center justify-center rounded-dot px-[13px] text-[12px] font-semibold transition-[color,background-color,box-shadow] duration-productive ease-productive focus-visible:shadow-[var(--alp-focus-ring)]",
+                    if(range == measure_range,
+                      do: "bg-surface-raised text-text-primary shadow-overlay",
+                      else:
+                        "text-text-secondary hover:bg-interactive-tint hover:text-text-primary"
+                    )
+                  ]}
+                >
+                  {range}
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div
+          :if={measure.trend != []}
+          class="flex h-[110px] min-w-0 items-end gap-[3px]"
+          aria-hidden="true"
+        >
+          <span
+            :for={{point, index} <- Enum.with_index(measure.trend)}
+            class={[
+              "min-w-0 flex-1 rounded-t-[4px] rounded-b-tick",
+              if(index == measure_last,
+                do: "bg-interactive-outline",
+                else: "bg-interactive-primary"
+              )
+            ]}
+            style={"height: #{homepage_bar_pct(Map.get(point, :pageviews), measure_peak)}%"}
+          ></span>
+        </div>
+        <div :if={measure.trend != []} class="sr-only">
+          <table>
+            <caption>
+              {if trend_visitors?,
+                do: "Pageviews and visitors by day for the last #{measure_words}.",
+                else: "Pageviews by day for the last #{measure_words}."}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Pageviews</th>
+                <th :if={trend_visitors?} scope="col">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={point <- measure.trend}>
+                <th scope="row">{homepage_bucket_label(Map.get(point, :bucket))}</th>
+                <td>{Map.get(point, :pageviews) || 0}</td>
+                <td :if={trend_visitors?}>{Map.get(point, :visitors) || 0}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p
+          :if={measure.trend == []}
+          class="py-6 text-center text-[12.5px] font-medium text-text-tertiary"
+        >
+          {if measure.state == :unavailable,
+            do: "Unavailable",
+            else: "No traffic recorded in the last #{measure_words}."}
+        </p>
+        <div class="mt-2 flex min-w-0 justify-between gap-3 font-mono text-[11.5px] font-medium text-text-tertiary">
+          <span>-{measure_range}</span>
+          <span class="min-w-0 truncate">Pageviews per day</span>
+          <span>today</span>
+        </div>
+      </div>
+      <div class="flex min-w-0 flex-col gap-3 rounded-frame border border-border-public bg-surface-raised p-[22px]">
+        <h3 class="font-public text-[13.5px] font-bold">Top pages</h3>
+        <div
+          :for={page <- measure.top_pages}
+          class="grid min-w-0 grid-cols-[92px_1fr_52px] items-center gap-2.5 text-[12.5px] font-medium"
+          aria-hidden="true"
+        >
+          <span class="truncate font-mono text-[11.5px]">
+            {page.path || page.label || "No data"}
+          </span>
+          <span class="block h-[9px] rounded-dot bg-surface-sunken">
+            <span
+              class="block h-[9px] rounded-dot bg-interactive-primary"
+              style={"width: #{homepage_bar_pct(page.pageviews || page.count, pageviews_peak)}%"}
+            ></span>
+          </span>
+          <span class="text-right font-mono text-[11.5px] text-text-secondary">
+            {if is_number(page.pageviews),
+              do: page.pageviews,
+              else: if(is_number(page.count), do: page.count, else: "No data")}
+          </span>
+        </div>
+        <div :if={measure.top_pages != []} class="sr-only">
+          <table>
+            <caption>Most viewed pages by pageviews for the last {measure_words}.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Page</th>
+                <th scope="col">Pageviews</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={page <- measure.top_pages}>
+                <th scope="row">{page.path || page.label || "No data"}</th>
+                <td>
+                  {if is_number(page.pageviews),
+                    do: page.pageviews,
+                    else: if(is_number(page.count), do: page.count, else: "No data")}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p :if={measure.top_pages == []} class="text-[12px] text-text-tertiary">
+          {if measure.state == :unavailable,
+            do: "Unavailable",
+            else: "No public page data is available."}
+        </p>
+        <p class="mt-auto text-[11.5px] font-medium text-text-tertiary">
+          No tracking cookies. No persistent visitor identifiers.
+        </p>
+      </div>
+    </div>
+    <div class="mb-10 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <.link
+        href={~p"/analytics"}
+        class="inline-flex min-h-target-min items-center text-[13px] font-semibold text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px] hover:text-text-primary"
+      >
+        Explore analytics
+      </.link>
+    </div>
+  </section>
+
+  <section
+    id="observe"
+    class="flex flex-col items-center gap-[18px] border-t border-border-subtle bg-canvas px-6 pt-16 sm:px-11"
+  >
+    <div class="w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <h2 class="max-w-[640px] text-[26px] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[32px] text-text-primary">
+        See which release broke it.
+      </h2>
+      <p class="mt-4 max-w-[560px] text-pretty text-[15.5px] leading-[26px] font-medium text-text-secondary">
+        Errors arrive grouped into issues you can triage, with the release recorded on each one.
+        Upload sourcemaps and stack traces point at your source, not minified output.
+      </p>
+    </div>
+    <div class="mt-[18px] min-w-0 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] overflow-hidden rounded-frame border border-border-public bg-surface-raised shadow-frame">
+      <p class="border-b border-border-subtle px-5 py-3 font-mono text-[12px] font-medium text-text-tertiary">
+        Example dashboard<span class="sm:hidden">, scroll sideways for all columns</span>
+      </p>
+      <div class="overflow-x-auto">
+        <img
+          src={~p"/images/product/observe.webp"}
+          alt="Observe dashboard showing three errors and one open production issue for the side-project API."
+          class="block h-auto w-full min-w-[720px] sm:min-w-0"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class="mb-10 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <.link
+        href={~p"/error-tracking"}
+        class="inline-flex min-h-target-min items-center text-[13px] font-semibold text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px] hover:text-text-primary"
+      >
+        Explore error tracking
+      </.link>
+    </div>
+  </section>
+
+  <section
+    id="status"
+    class="flex flex-col items-center gap-[18px] border-t border-border-subtle px-6 pt-16 sm:px-11"
+  >
+    <div class="w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <h2 class="max-w-[640px] text-[26px] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[32px] text-text-primary">
+        Tell users before they email you.
+      </h2>
+      <p class="mt-4 max-w-[560px] text-pretty text-[15.5px] leading-[26px] font-medium text-text-secondary">
+        Your agent publishes a status page for the project and keeps a changelog beside it.
+        Incidents, maintenance, and release notes live on public pages your users can read.
+      </p>
+    </div>
+    <div class="mb-[88px] mt-[18px] grid min-w-0 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] gap-[18px] text-left md:grid-cols-2">
+      <div
+        id="home-status-preview"
+        data-state={if publications.status_example?, do: "example", else: status.state}
+        class="min-w-0 overflow-hidden rounded-frame border border-border-public bg-surface-raised"
+      >
+        <div class={[
+          "flex min-w-0 items-center gap-2.5 border-b border-border-public px-[22px] py-[18px]",
+          displayed_status && "bg-status-live-bg"
+        ]}>
+          <span
+            :if={displayed_status}
+            class="size-[9px] shrink-0 rounded-dot bg-status-live"
+            aria-hidden="true"
+          ></span>
+          <h3 class={[
+            "min-w-0 break-words font-public text-[14.5px] font-bold",
+            if(displayed_status, do: "text-status-live-ink", else: "text-text-secondary")
+          ]}>
+            {cond do
+              displayed_status -> homepage_status_label(status.status)
+              status.state == :unavailable -> "Unavailable"
+              true -> "No status page published yet"
+            end}
+          </h3>
+          <span
+            :if={data.identity.slug}
+            class="ml-auto shrink-0 font-mono text-[11px] text-text-secondary"
+          >
+            {data.identity.slug}
+          </span>
+        </div>
+        <div class="flex flex-col gap-3 px-[22px] py-4">
+          <div :for={component <- status.components} class="min-w-0">
+            <% days = Enum.take(component.history, -45) %>
+            <div class="flex min-w-0 items-center gap-2.5 text-[13px] font-semibold">
+              <span class="min-w-0 truncate" title={component.name}>{component.name}</span>
+              <span class="flex h-3.5 min-w-0 flex-1 items-stretch gap-[1.5px]" aria-hidden="true">
+                <span
+                  :for={point <- days}
+                  class={[
+                    "min-w-0 flex-1 rounded-tick",
+                    homepage_day_class(homepage_day_state(point))
+                  ]}
+                ></span>
+              </span>
+              <span class="shrink-0 font-mono text-[11.5px] font-medium tabular-nums text-text-secondary">
+                {cond do
+                  publications.status_example? -> homepage_status_label(component.state)
+                  is_number(component.uptime) -> "#{component.uptime}%"
+                  true -> "Unavailable"
+                end}
+              </span>
+            </div>
+            <div :if={days != []} class="sr-only">
+              <table>
+                <caption>
+                  Daily uptime for {component.name}, in percent, last {length(days)} days, oldest first.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Day</th>
+                    <th scope="col">Uptime, percent</th>
+                    <th scope="col">State</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr :for={point <- days}>
+                    <th scope="row">{homepage_bucket_label(Map.get(point, :day))}</th>
+                    <td>{Map.get(point, :uptime) || "No data"}</td>
+                    <td>{homepage_day_word(homepage_day_state(point))}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p :if={status.components == []} class="text-[11.5px] font-medium text-text-tertiary">
+            {if status.state == :unavailable,
+              do: "Unavailable",
+              else: "No status page published yet."}
+          </p>
+          <p :if={status.components != []} class="text-[11.5px] font-medium text-text-tertiary">
+            One square per day, last {min(45, length(List.first(status.components).history))} days.
+            <.link
+              :if={data.identity.slug}
+              href={~p"/status/#{data.identity.slug}"}
+              class="inline-flex min-h-target-min items-center font-semibold text-text-primary underline decoration-interactive-primary decoration-2 underline-offset-[3px]"
+            >
+              Read the incident record
+            </.link>
+          </p>
+        </div>
+      </div>
+      <div
+        id="console-preview-panel-changelog"
+        data-state={if publications.changelog_example?, do: "example", else: changelog.state}
+        class="min-w-0 overflow-hidden rounded-frame border border-border-public bg-surface-raised"
+      >
+        <div class="flex min-w-0 items-center gap-3 border-b border-border-subtle px-[22px] py-3.5">
+          <h3 class="font-public text-[13.5px] font-bold">Changelog</h3>
+          <span class="ml-auto flex shrink-0 items-center gap-3 font-mono text-[11.5px] font-medium text-text-tertiary">
+            <a
+              href="/changelog.rss"
+              class="inline-flex min-h-target-min items-center text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px]"
+            >
+              RSS
+            </a>
+            <a
+              href="/changelog.json"
+              class="inline-flex min-h-target-min items-center text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px]"
+            >
+              JSON
+            </a>
+          </span>
+        </div>
+        <div
+          :for={entry <- changelog.entries}
+          class="min-w-0 border-b border-border-subtle px-[22px] py-3.5"
+        >
+          <p class="mb-[3px] break-words text-[13.5px] font-semibold">{entry.title}</p>
+          <p class="font-mono text-[11px] text-text-tertiary">
+            {entry.published_at}{if Map.get(entry, :area), do: " / #{entry.area}"}
+          </p>
+        </div>
+        <p :if={changelog.entries == []} class="px-[22px] py-3.5 text-[12px] text-text-tertiary">
+          {if changelog.state == :unavailable,
+            do: "Unavailable",
+            else: "No updates are published yet."}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="mcp"
+    class="flex flex-col items-center gap-[22px] border-t border-border-subtle bg-canvas px-6 pt-16 sm:px-11"
+  >
+    <div class="w-full max-w-[calc(var(--alp-width-content)-5.5rem)] text-left">
+      <h2 class="max-w-[640px] text-[26px] leading-[1.15] font-semibold tracking-[-0.02em] sm:text-[32px] text-text-primary">
+        Your agent does the setup. You decide what it can touch.
+      </h2>
+      <p class="mt-4 max-w-[600px] text-pretty text-[15.5px] leading-[26px] font-medium text-text-secondary">
+        Add PostDeploy as a remote MCP server in the coding agent you already use and sign in with
+        OAuth. You approve what it can read and change. Review everything it creates in the
+        dashboard, and revoke its access in Settings when you want.
+      </p>
+    </div>
+    <div class="mt-[6px] grid min-w-0 w-full max-w-[calc(var(--alp-width-content)-5.5rem)] gap-5 text-left md:grid-cols-2">
+      <div class="min-w-0 overflow-hidden rounded-frame border border-border-public bg-surface-raised">
+        <h3 class="border-b border-border-subtle px-5 py-3.5 font-public text-[13.5px] font-bold">
+          Access your agent can be granted
+        </h3>
+        <dl class="m-0 text-[13px] font-medium">
+          <div class="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 border-b border-border-subtle px-5 py-[13px]">
+            <dt class="min-w-0">Uptime checks and heartbeats</dt>
+            <dd class="m-0 min-w-0 break-words font-mono text-[12px] text-text-secondary sm:shrink-0">
+              monitor:read, monitor:write
+            </dd>
+          </div>
+          <div class="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 border-b border-border-subtle px-5 py-[13px]">
+            <dt class="min-w-0">Error tracking</dt>
+            <dd class="m-0 min-w-0 break-words font-mono text-[12px] text-text-secondary sm:shrink-0">
+              errors:read, errors:write
+            </dd>
+          </div>
+          <div class="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 border-b border-border-subtle px-5 py-[13px]">
+            <dt class="min-w-0">Web and product analytics</dt>
+            <dd class="m-0 min-w-0 break-words font-mono text-[12px] text-text-secondary sm:shrink-0">
+              analytics:read, analytics:write
+            </dd>
+          </div>
+          <div class="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 border-b border-border-subtle px-5 py-[13px]">
+            <dt class="min-w-0">Status page</dt>
+            <dd class="m-0 min-w-0 break-words font-mono text-[12px] text-text-secondary sm:shrink-0">
+              status:read, status:write
+            </dd>
+          </div>
+          <div class="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 px-5 py-[13px]">
+            <dt class="min-w-0">Changelog</dt>
+            <dd class="m-0 min-w-0 break-words font-mono text-[12px] text-text-secondary sm:shrink-0">
+              changelog:read, changelog:write
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div class="min-w-0 overflow-hidden rounded-frame border border-border-public bg-surface-raised">
+        <h3 class="border-b border-border-subtle px-5 py-3.5 font-public text-[13.5px] font-bold">
+          What your agent can set up
+        </h3>
+        <div class="flex min-w-0 items-center gap-[11px] border-b border-border-subtle px-5 py-[13px]">
+          <span class="size-2 shrink-0 rounded-dot bg-status-live" aria-hidden="true"></span>
+          <span class="min-w-0 flex-1 text-[13px] font-medium">
+            Uptime checks for your site and API
+          </span>
+          <span class="shrink-0 border-b-2 border-interactive-primary text-[12px] font-semibold">
+            Monitor
+          </span>
+        </div>
+        <div class="flex min-w-0 items-center gap-[11px] border-b border-border-subtle px-5 py-[13px]">
+          <span class="size-2 shrink-0 rounded-dot bg-status-live" aria-hidden="true"></span>
+          <span class="min-w-0 flex-1 text-[13px] font-medium">
+            A heartbeat URL for each scheduled job
+          </span>
+          <span class="shrink-0 border-b-2 border-interactive-primary text-[12px] font-semibold">
+            Heartbeat
+          </span>
+        </div>
+        <div class="flex min-w-0 items-center gap-[11px] border-b border-border-subtle px-5 py-[13px]">
+          <span class="size-2 shrink-0 rounded-dot bg-status-live" aria-hidden="true"></span>
+          <span class="min-w-0 flex-1 text-[13px] font-medium">
+            Error and analytics keys for your app
+          </span>
+          <span class="shrink-0 border-b-2 border-interactive-primary text-[12px] font-semibold">
+            Observe, Measure
+          </span>
+        </div>
+        <div class="flex min-w-0 items-center gap-[11px] border-b border-border-subtle px-5 py-[13px]">
+          <span class="size-2 shrink-0 rounded-dot bg-status-live" aria-hidden="true"></span>
+          <span class="min-w-0 flex-1 text-[13px] font-medium">
+            A status page and changelog for your users
+          </span>
+          <span class="shrink-0 border-b-2 border-interactive-primary text-[12px] font-semibold">
+            Public pages
+          </span>
+        </div>
+        <p class="px-5 py-[13px] text-[12px] leading-[18px] font-medium text-text-secondary">
+          Deleting or revoking something waits for your approval in the dashboard. Organization,
+          team, and billing changes stay with you.
+        </p>
+      </div>
+    </div>
+    <div class="mb-20 mt-[26px] flex w-full max-w-[calc(var(--alp-width-content)-5.5rem)] flex-wrap justify-start gap-x-9 gap-y-3 text-left text-[13px] font-medium text-text-secondary">
+      <span class="flex items-baseline gap-[9px]">
+        <span class="font-mono text-[12px] font-bold text-interactive-strong">1</span>
+        Connect once and approve access with OAuth.
+      </span>
+      <span class="flex items-baseline gap-[9px]">
+        <span class="font-mono text-[12px] font-bold text-interactive-strong">2</span>
+        Describe what needs watching.
+      </span>
+      <span class="flex items-baseline gap-[9px]">
+        <span class="font-mono text-[12px] font-bold text-interactive-strong">3</span>
+        Review monitors, sources, and public pages in one project.
+      </span>
+      <.link
+        href={~p"/docs/mcp"}
+        class="inline-flex min-h-target-min items-center text-[13px] font-semibold text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px] hover:text-text-primary"
+      >
+        How the connection works
+      </.link>
+    </div>
+  </section>
+  <section
+    id="home-final-cta"
+    class="flex flex-col items-center gap-[22px] border-t border-border-subtle px-6 py-[100px] text-center sm:px-11"
+  >
+    <h2 class="max-w-[560px] text-[44px] leading-[1.08] font-semibold tracking-[-0.02em] text-text-primary">
+      Know what happens after your next deploy.
+    </h2>
+    <.link
+      href={start_path(@current_user)}
+      class="inline-flex min-h-target-min items-center rounded-dot bg-action-primary px-[30px] py-[14px] text-[15px] font-bold text-action-primary-ink transition-[background-color,box-shadow] duration-productive ease-productive hover:bg-action-primary-hover hover:shadow-overlay focus-visible:shadow-[var(--alp-focus-ring)]"
+    >
+      Start your {trial_days}-day free trial
+    </.link>
+    <p class="text-[12.5px] font-medium text-text-tertiary">
+      {trial_days} days free. No credit card.
+    </p>
+  </section>
+</main>
+
+<.site_footer />

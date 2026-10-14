@@ -1,0 +1,16 @@
+.git
+.env*
+env.*
+docs
+test
+sdks
+tools
+output
+tmp
+_build
+deps
+node_modules
+assets/node_modules
+*.log
+erl_crash.dump
+priv/plts

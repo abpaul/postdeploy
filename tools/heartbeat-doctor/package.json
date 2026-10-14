@@ -1,0 +1,30 @@
+{
+  "name": "heartbeat-doctor",
+  "version": "0.1.0",
+  "description": "Diagnose cron heartbeat monitoring: verify a ping URL reaches its monitor, and simulate the cron failures that silently stop jobs. Works with any heartbeat provider.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "heartbeat-doctor": "./bin/heartbeat-doctor.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "cron",
+    "heartbeat",
+    "monitoring",
+    "dead-mans-switch",
+    "healthcheck",
+    "cli",
+    "diagnostics"
+  ],
+  "scripts": {
+    "test": "node --test test/"
+  }
+}

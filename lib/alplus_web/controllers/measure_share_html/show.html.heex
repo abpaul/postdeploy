@@ -1,0 +1,354 @@
+<Layouts.app flash={@flash}>
+  <div
+    id="measure-public-dashboard"
+    data-public-shell="measure-share"
+    class="mx-auto max-w-content min-w-0 space-y-8"
+  >
+    <header
+      id="measure-public-source-identity"
+      class="flex flex-col gap-5 border-b border-border-default pb-5 lg:flex-row lg:items-end lg:justify-between"
+    >
+      <div class="min-w-0">
+        <h1
+          id="measure-public-source-name"
+          class="break-words text-heading-01 text-text-primary"
+        >
+          {@source.name}
+        </h1>
+        <p class="mt-1 text-label text-text-tertiary">Shared Measure dashboard</p>
+        <dl
+          id="measure-public-source-details"
+          class="mt-3 grid min-w-0 gap-x-6 gap-y-1 text-data text-text-secondary sm:grid-cols-3"
+        >
+          <div>
+            <dt class="text-label text-text-tertiary">Environment</dt>
+            <dd id="measure-public-source-environment" class="mt-0.5 break-words font-mono">
+              {@source.environment}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-label text-text-tertiary">Source</dt>
+            <dd id="measure-public-source-hostname" class="mt-0.5 break-all font-mono">
+              {source_hostname(@source)}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-label text-text-tertiary">Data availability</dt>
+            <dd id="measure-public-data-source" class="mt-0.5">
+              {dashboard_data_source(@dashboard)}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <nav id="measure-public-range" aria-label="Analytics window" class="shrink-0">
+        <p class="mb-2 text-label text-text-tertiary">Time range, UTC</p>
+        <div class="flex flex-wrap gap-1" role="group" aria-label="Time range">
+          <.link
+            :for={window <- @windows}
+            href={
+              public_query_path(%{window: window, metrics: metrics_param(@dashboard.metrics)})
+            }
+            class={[
+              "inline-flex min-h-target-min items-center justify-center rounded-control border px-3 text-label font-semibold transition-colors duration-productive",
+              if(window == @window,
+                do: "border-interactive-strong bg-interactive-tint text-text-primary",
+                else:
+                  "border-border-default text-text-secondary hover:bg-interactive-tint hover:text-text-primary"
+              )
+            ]}
+            aria-current={window == @window && "page"}
+          >
+            {window}
+          </.link>
+        </div>
+      </nav>
+    </header>
+
+    <p
+      id="measure-public-dashboard-state"
+      class={["flex items-center gap-2 text-body", dashboard_state_text_class(@dashboard.state)]}
+      data-state={state_value(@dashboard.state)}
+      role="status"
+    >
+      <span
+        class={["size-2 shrink-0 rounded-dot", dashboard_state_class(@dashboard.state)]}
+        aria-hidden="true"
+      ></span>
+      {dashboard_state_label(@dashboard.state)}
+    </p>
+
+    <section
+      :if={@retention_elapsed?}
+      id="measure-public-retention-empty"
+      class="rounded-frame border border-dashed border-border-control bg-surface-raised p-6"
+      data-state="empty"
+    >
+      <h2 class="text-heading-02 text-text-primary">No retained data for this window</h2>
+      <p class="mt-2 text-body text-text-secondary">
+        This site's retention period has elapsed, or it has not recorded traffic in this window.
+      </p>
+    </section>
+
+    <section
+      :if={@dashboard[:headline_cards]}
+      id="measure-public-headlines"
+      class="rounded-frame border border-border-default bg-surface-raised p-4 shadow-frame sm:p-5"
+      aria-labelledby="measure-public-headlines-title"
+      data-state={state_value(panel_state(@dashboard[:headline_cards]))}
+    >
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 id="measure-public-headlines-title" class="text-heading-02 text-text-primary">
+          Traffic metrics
+        </h2>
+        <div class="text-right">
+          <p class="text-data text-text-secondary">
+            {headline_data_source(@dashboard.headline_cards)}
+          </p>
+          <p class="text-data text-text-secondary">Change versus the preceding equal period</p>
+        </div>
+      </div>
+
+      <div class="mt-4 grid gap-x-4 gap-y-1 sm:grid-cols-2 lg:grid-cols-4">
+        <.link
+          :for={
+            {metric, label} <- [
+              {:visits, "Visits"},
+              {:pageviews, "Page Views"},
+              {:bounce_rate, "Bounce Rate"},
+              {:avg_duration, "Avg. Duration (engaged visits)"}
+            ]
+          }
+          href={
+            public_query_path(%{
+              window: @window,
+              metrics: Atom.to_string(metric)
+            })
+          }
+          id={"measure-public-headline-#{metric}"}
+          class="group block min-h-target-min border-b border-border-default py-3 text-left hover:bg-interactive-tint focus-visible:bg-interactive-tint"
+          aria-current={Atom.to_string(metric) == plotted_metric(@dashboard.metrics) && "true"}
+          aria-label={"Plot #{label}"}
+        >
+          <span class="flex items-center justify-between gap-2 text-label text-text-secondary">
+            {label}
+            <span
+              :if={Atom.to_string(metric) == plotted_metric(@dashboard.metrics)}
+              data-selected-indicator
+              class="inline-flex items-center gap-1 text-label text-interactive-strong"
+            >
+              <.icon name="hero-check-circle-mini" class="size-4" /> Shown
+            </span>
+          </span>
+          <span class="mt-1 block text-metric tabular-nums text-text-primary">
+            {metric_value(@dashboard.headline_cards[metric].value, Atom.to_string(metric))}
+          </span>
+          <span class="mt-1 block text-data text-text-secondary">
+            {change_label(@dashboard.headline_cards[metric].change, Atom.to_string(metric))}
+          </span>
+        </.link>
+      </div>
+    </section>
+
+    <section
+      :if={@dashboard[:chart]}
+      id="measure-public-chart"
+      class="rounded-frame border border-border-default bg-surface-raised p-4 shadow-frame sm:p-5"
+      aria-labelledby="measure-public-chart-title"
+      data-state={state_value(panel_state(@dashboard[:chart]))}
+    >
+      <header class="flex flex-wrap items-baseline justify-between gap-3 border-b border-border-default pb-3">
+        <div>
+          <h2 id="measure-public-chart-title" class="text-heading-02 text-text-primary">
+            Traffic wave
+          </h2>
+          <p class="mt-1 text-body text-text-secondary">
+            <%= if @window in ["24h", "7d"] do %>
+              Hourly buckets render in the viewer's local time.
+            <% else %>
+              Daily buckets render in UTC.
+            <% end %>
+          </p>
+        </div>
+        <p id="measure-public-chart-source" class="text-data text-text-secondary">
+          {chart_data_source(@dashboard[:chart])}
+        </p>
+      </header>
+
+      <div class="pt-4">
+        <.measure_metric_chart
+          source={@source}
+          summary={public_chart_summary(@dashboard[:chart])}
+          window={@window}
+          metric={plotted_metric(@dashboard.metrics)}
+          retry={false}
+        />
+      </div>
+    </section>
+
+    <div
+      id="measure-public-breakdown-grid"
+      data-layout="responsive"
+      data-mobile-layout="stacked"
+      class="grid min-w-0 grid-cols-1 items-start gap-5 lg:grid-cols-2"
+    >
+      <section
+        :for={panel <- [:pages, :sources, :events, :countries, :browsers]}
+        :if={@dashboard[panel]}
+        id={"measure-public-panel-#{panel}"}
+        class="min-w-0 overflow-hidden rounded-frame border border-border-default bg-surface-raised shadow-frame"
+        data-state={state_value(panel_state(@dashboard[panel]))}
+        aria-labelledby={"measure-public-panel-#{panel}-title"}
+      >
+        <header class="flex flex-wrap items-baseline justify-between gap-3 border-b border-border-default px-4 py-3">
+          <h2 id={"measure-public-panel-#{panel}-title"} class="text-heading-02 text-text-primary">
+            {panel_title(panel)}
+          </h2>
+          <p class="text-data text-text-secondary">{panel_value_label(@dashboard[panel])}</p>
+        </header>
+
+        <p
+          :if={panel_state(@dashboard[panel]) == :unavailable}
+          id={"measure-public-panel-#{panel}-unavailable"}
+          class="px-4 py-5 text-body text-status-error-ink"
+          role="alert"
+        >
+          This dimension is unavailable. Try again shortly.
+        </p>
+        <p
+          :if={panel_state(@dashboard[panel]) == :empty}
+          id={"measure-public-panel-#{panel}-empty"}
+          class="px-4 py-5 text-body text-text-secondary"
+          role="status"
+        >
+          No data in this window.
+        </p>
+        <p
+          :if={panel_state(@dashboard[panel]) == :partial}
+          id={"measure-public-panel-#{panel}-partial"}
+          class="border-b border-border-default px-4 py-3 text-body text-text-secondary"
+          role="status"
+        >
+          Some historical visit counts are missing. Visitor counts are used as a proxy, so this panel is partial.
+        </p>
+
+        <div
+          :if={
+            panel_state(@dashboard[panel]) in [:ready, :partial] and @dashboard[panel].rows != []
+          }
+          id={"measure-public-panel-#{panel}-bars"}
+          class="space-y-3 border-b border-border-default px-4 py-4"
+          aria-label={"Ranked #{panel_title(panel)} bars"}
+        >
+          <ol class="space-y-3">
+            <li :for={{row, rank} <- Enum.with_index(@dashboard[panel].rows, 1)}>
+              <div class="flex min-w-0 items-baseline justify-between gap-3 text-body">
+                <span class="flex min-w-0 items-center gap-2 break-words text-text-primary">
+                  <span class="shrink-0 font-mono text-data text-text-tertiary">
+                    {rank + (@dashboard[panel].page - 1) * 8}
+                  </span>
+                  <span class="break-words" title={row.label}>{row.label}</span>
+                </span>
+                <span class="shrink-0 tabular-nums text-data text-text-secondary">{row.count}</span>
+              </div>
+              <div class="mt-1 h-2 w-full bg-surface-sunken" role="presentation">
+                <span
+                  class="block h-2 bg-interactive-strong"
+                  style={"width: #{bar_width(row.share)}%"}
+                  data-share={row.share}
+                />
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <p
+          :if={Map.get(@dashboard[panel], :capped?, false)}
+          id={"measure-public-panel-#{panel}-cap"}
+          class="border-b border-border-default px-4 py-3 text-body text-text-secondary"
+          role="note"
+        >
+          The (other) row represents values beyond the per-day cardinality cap and always appears last.
+        </p>
+
+        <div
+          :if={
+            panel_state(@dashboard[panel]) in [:ready, :partial] and @dashboard[panel].rows != []
+          }
+          class="overflow-x-auto"
+        >
+          <table
+            id={"measure-public-panel-#{panel}-table"}
+            class="w-full min-w-[18rem] text-left text-body"
+          >
+            <thead>
+              <tr class="border-b border-border-default">
+                <th scope="col" class="px-4 py-2 font-medium text-text-secondary">Value</th>
+                <th scope="col" class="px-4 py-2 text-right font-medium text-text-secondary">
+                  Count
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-border-default">
+              <tr :for={row <- @dashboard[panel].rows}>
+                <td class="max-w-0 break-words px-4 py-3 text-text-primary">
+                  <span class="flex min-w-0 items-center gap-2 break-words">
+                    <svg :if={panel == :sources} class="size-4 shrink-0" aria-hidden="true">
+                      <use href={AlplusWeb.ReferrerFavicon.sprite_href(row.value)} />
+                    </svg>
+                    <span class="break-words" title={row.label}>{row.label}</span>
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-right tabular-nums text-text-secondary">{row.count}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <nav
+          :if={@dashboard[panel].total_pages > 1}
+          aria-label={"#{panel_title(panel)} pages"}
+          class="flex min-h-target-min items-center justify-between gap-3 border-t border-border-default px-4 py-3 text-label"
+        >
+          <.link
+            :if={@dashboard[panel].previous?}
+            href={
+              public_query_path(
+                panel_query(@window, @dashboard.metrics, panel, @dashboard[panel].page - 1)
+              )
+            }
+            class="min-h-target-min py-2 text-interactive-strong underline-offset-2 hover:underline"
+          >Previous</.link>
+          <span class="text-text-secondary">Page {@dashboard[panel].page} of {@dashboard[panel].total_pages}</span>
+          <.link
+            :if={@dashboard[panel].next?}
+            href={
+              public_query_path(
+                panel_query(@window, @dashboard.metrics, panel, @dashboard[panel].page + 1)
+              )
+            }
+            class="min-h-target-min py-2 text-interactive-strong underline-offset-2 hover:underline"
+          >Next</.link>
+        </nav>
+      </section>
+    </div>
+    <footer
+      id="measure-public-attribution"
+      class="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-border-default pt-5 text-label text-text-tertiary"
+    >
+      <p>
+        Analytics by
+        <.link
+          href={~p"/analytics"}
+          class="font-semibold text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px] hover:text-text-primary"
+        >PostDeploy</.link>
+      </p>
+      <.link
+        href={~p"/register"}
+        class="inline-flex min-h-target-min items-center font-semibold text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-[3px] hover:text-text-primary"
+      >
+        Start a free trial
+      </.link>
+    </footer>
+  </div>
+</Layouts.app>

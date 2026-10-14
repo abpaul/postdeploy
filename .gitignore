@@ -1,0 +1,66 @@
+node_modules/
+dist/
+dist-dry/
+.wrangler/
+.astro/
+packages/core/.data/
+.dev.vars
+!.dev.vars.example
+*.log
+.DS_Store
+coverage/
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+
+# Playwright run artifacts. 263 files / 5.5MB were committed by accident
+# and referenced a spec (e2e/tests/full-journey.spec.ts) that does not exist
+# in this repo at all.
+test-results/
+playwright-report/
+
+# Re-include project agents (global ignore excludes .claude/ wholesale);
+# session state under .claude/ stays ignored.
+!.claude/
+.claude/*
+!.claude/agents/
+
+# Elixir / Phoenix
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+erl_crash.dump
+*.ez
+/tmp/
+alplus-*.tar
+/priv/static/assets/
+/priv/static/cache_manifest.json
+# `mix phx.digest` (via assets.deploy) writes a content-hashed copy and a .gz
+# beside every static file. Only /priv/static/assets was ignored, so running it
+# locally staged ~25 build artifacts. The release regenerates all of them.
+/priv/static/**/*-????????????????????????????????.*
+/priv/static/**/*.gz
+/assets/node_modules/
+/priv/plts/
+
+# Deployment secrets and infra state. Never commit real values or state.
+# .kamal/secrets is committed on purpose: it holds NO secret values, only
+# fetch commands (AWS Secrets Manager, tofu output, ECR token). CI needs it.
+# Never inline a real value here.
+deploy/tofu/**/*.tfstate
+deploy/tofu/**/*.tfstate.*
+deploy/tofu/**/.terraform/
+deploy/tofu/**/terraform.tfvars
+deploy/tofu/**/*.tfplan
+deploy/tofu/**/backend.hcl
+deploy/tofu/**/*.tfvars
+!deploy/tofu/**/*.tfvars.example
+
+# Impeccable design-review captures (regenerated per session)
+.impeccable/review/
+
+# Python bytecode
+__pycache__/

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "custom override wins over exception frames",
+    "subject": {
+      "project_id": "proj_a",
+      "environment": "production",
+      "level": "error",
+      "custom_fingerprint": ["checkout", "timeout"],
+      "exception_type": "TypeError",
+      "frames": [{"file": "/src/a.ts", "function": "go"}]
+    },
+    "path": "custom",
+    "input": "checkout\u0000timeout\u0000proj_a\u0000production",
+    "fingerprint": "sha256:754d991cc8805002741128504b9e98e6ddfcf4dd78261eb625e301b2b7f17512"
+  },
+  {
+    "name": "exception keeps in-app frames and drops vendor frames",
+    "subject": {
+      "project_id": "proj_a",
+      "environment": "production",
+      "level": "error",
+      "exception_type": "TypeError",
+      "frames": [
+        {"file": "/node_modules/react/index.js", "function": "call"},
+        {"file": "https://app.example.com/src/checkout.ts?build=7", "function": "processOrder", "lineno": 999, "colno": 2}
+      ]
+    },
+    "path": "exception",
+    "input": "TypeError\u0000processOrder@/src/checkout.ts\u0000proj_a\u0000production",
+    "fingerprint": "sha256:bf6805aaa47a2c07af88991891b1d6a36d27b1f3ef48a2ff3dd0876a407f50cd"
+  },
+  {
+    "name": "vendor-only exception falls through to normalized message",
+    "subject": {
+      "project_id": "proj_a",
+      "environment": "production",
+      "level": "error",
+      "exception_type": "TypeError",
+      "exception_value": "lock held since 2026-07-30T14:32:06.902Z for 4471",
+      "frames": [{"file": "/node_modules/react/index.js", "function": "call"}]
+    },
+    "path": "message",
+    "input": "error\u0000TypeError: lock held since <ts> for <num>\u0000proj_a\u0000production",
+    "fingerprint": "sha256:4e5d6ce37f7e729d91f1933e6b34e3400d5c834310b15c6929499d13d6b23ec2"
+  },
+  {
+    "name": "message capture normalizes uuid and whitespace",
+    "subject": {
+      "project_id": "proj_a",
+      "environment": "production",
+      "level": "info",
+      "message": "  Order 4471 for user 018f2b3c-4d5e-7f80-9012-3456789abcde failed  "
+    },
+    "path": "message",
+    "input": "info\u0000Order <num> for user <uuid> failed\u0000proj_a\u0000production",
+    "fingerprint": "sha256:f065c423201ee3733a3a625cb7ef0bdd88f42bda923d09ec409e35783daa6068"
+  }
+]

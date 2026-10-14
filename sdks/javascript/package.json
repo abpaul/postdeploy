@@ -1,0 +1,63 @@
+{
+  "name": "@postdeploy/sdk",
+  "version": "0.6.0",
+  "description": "Official SDK for PostDeploy: errors, analytics, and cron monitoring after deployment.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "uptime",
+    "cron",
+    "heartbeat",
+    "monitoring",
+    "cloudflare-workers",
+    "healthcheck",
+    "error-tracking",
+    "observability",
+    "analytics"
+  ],
+  "homepage": "https://postdeploy.dev/docs/observe/javascript",
+  "bugs": "support@postdeploy.dev",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/browser/index.d.ts",
+      "import": "./dist/browser/index.js"
+    },
+    "./node": {
+      "types": "./dist/node/index.d.ts",
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs"
+    },
+    "./cloudflare": {
+      "types": "./dist/cloudflare/index.d.ts",
+      "import": "./dist/cloudflare/index.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit && tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "esbuild": "0.28.1"
+  }
+}

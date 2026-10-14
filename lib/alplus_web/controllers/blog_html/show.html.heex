@@ -1,0 +1,28 @@
+<.topbar current_path={"/blog/#{@article.slug}"} current_user={@current_user} />
+<main id="blog-article" data-public-shell>
+  <div class="mx-auto max-w-content px-6 py-12 sm:px-11 lg:py-16">
+    <article class="mx-auto max-w-[46rem]">
+      <.resource_masthead
+        id="blog-masthead"
+        breadcrumbs={[
+          {"Home", "/"},
+          {"Blog", "/blog"},
+          {@article.title, "/blog/#{@article.slug}"}
+        ]}
+        title={@article.title}
+        description={@article.description}
+      >
+        <:meta>
+          PostDeploy, published
+          <time datetime={DateTime.to_iso8601(@article.published_at)}>{Date.to_string(
+            DateTime.to_date(@article.published_at)
+          )}</time>
+        </:meta>
+      </.resource_masthead>
+      <div class={body_classes()}>
+        {Phoenix.HTML.raw(@article.body_html)}
+      </div>
+    </article>
+  </div>
+</main>
+<.site_footer />

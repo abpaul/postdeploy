@@ -1,0 +1,253 @@
+<Layouts.app flash={@flash} variant={:bare}>
+  <.public_page_masthead
+    public_page={@snapshot.public_page}
+    postdeploy_owned?={@snapshot.public_page.vendor?}
+    active={:status}
+    status_path={~p"/status/#{@snapshot.public_page.public_slug}"}
+    changelog_path={public_changelog_path(@snapshot)}
+  >
+    <:trailing>
+      <a
+        href={~p"/status/#{@snapshot.public_page.public_slug}/feed.xml"}
+        class={public_action_class()}
+      >
+        Subscribe
+      </a>
+    </:trailing>
+  </.public_page_masthead>
+
+  <%!-- The current route answers "what is broken now". Resolved incidents,
+        expired announcements and completed maintenance live on /history;
+        this page links there once. --%>
+  <main
+    id="public-status-page"
+    data-public-shell
+    data-status-timezone-root
+    data-refresh-seconds="30"
+  >
+    <%!-- One banner carries the whole verdict: the state as a dot plus a
+          word, the sentence that explains it, and when it was generated.
+          This is evidence, so it is a wash on a hairline, never a floating
+          product frame. --%>
+    <section
+      id="status-page-summary"
+      aria-labelledby="status-page-summary-verdict"
+      class="px-5 pb-8 pt-8 sm:px-11 sm:pt-10"
+    >
+      <div class={[
+        "mx-auto flex max-w-content flex-col gap-3 rounded-frame border p-5 sm:p-6",
+        banner_class(@snapshot.status)
+      ]}>
+        <p class="flex items-center gap-2 text-label font-bold">
+          <span
+            class={["size-[9px] shrink-0 rounded-dot", banner_dot_class(@snapshot.status)]}
+            aria-hidden="true"
+          />
+          <span>{status_word(@snapshot.status)}</span>
+        </p>
+        <h1
+          id="status-page-summary-verdict"
+          aria-live="polite"
+          class="text-heading-01 font-semibold tracking-[-0.02em]"
+        >
+          {status_headline(@snapshot)}
+        </h1>
+        <p class="text-pretty text-body text-text-secondary">
+          {status_lead(@snapshot)}
+        </p>
+        <p class="flex flex-col gap-x-2 gap-y-1 font-mono text-data font-medium text-text-tertiary sm:flex-row sm:flex-wrap sm:items-center">
+          <span class="flex flex-wrap items-center gap-x-2">
+            <span>As of</span>
+            <.status_time
+              at={@snapshot.generated_at}
+              class="font-mono tabular-nums text-text-tertiary"
+            />
+          </span>
+          <span>Updated automatically every 30 seconds.</span>
+        </p>
+      </div>
+    </section>
+
+    <section
+      :if={open_incidents(@snapshot) != []}
+      id="status-active-incidents"
+      aria-labelledby="status-active-incidents-heading"
+      class="border-t border-border-subtle bg-canvas px-5 py-8 sm:px-11"
+    >
+      <div class="mx-auto flex max-w-content flex-col gap-4">
+        <h2
+          id="status-active-incidents-heading"
+          class="text-heading-02 font-semibold tracking-[-0.01em] text-text-primary"
+        >
+          Open now
+        </h2>
+        <div class="flex flex-col gap-4">
+          <.incident_article :for={incident <- open_incidents(@snapshot)} incident={incident} />
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="status-components"
+      aria-labelledby="status-components-heading"
+      class="border-t border-border-subtle px-5 py-8 sm:px-11"
+    >
+      <div class="mx-auto flex max-w-content flex-col gap-4">
+        <div class="flex flex-col gap-1.5">
+          <h2
+            id="status-components-heading"
+            class="text-heading-02 font-semibold tracking-[-0.01em] text-text-primary"
+          >
+            Services
+          </h2>
+          <p class="text-pretty text-body text-text-secondary">
+            One square per day for the last 90 days. Grey squares are days with no checks, not downtime.
+          </p>
+        </div>
+        <div class="min-w-0 divide-y divide-border-subtle overflow-hidden rounded-frame border border-border-public bg-surface-raised">
+          <.service_row
+            :for={service <- @snapshot.services}
+            id={"status-component-#{service.id}"}
+            service={service}
+          />
+          <p
+            :if={@snapshot.services == []}
+            class="px-5 py-6 text-body text-text-secondary"
+          >
+            No services are published on this page yet.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      :if={@snapshot.announcements != []}
+      id="status-announcements"
+      aria-labelledby="status-announcements-heading"
+      class="border-t border-border-subtle bg-canvas px-5 py-8 sm:px-11"
+    >
+      <div class="mx-auto flex max-w-content flex-col gap-4">
+        <h2
+          id="status-announcements-heading"
+          class="text-heading-02 font-semibold tracking-[-0.01em] text-text-primary"
+        >
+          Announcements
+        </h2>
+        <div class="min-w-0 divide-y divide-border-subtle overflow-hidden rounded-frame border border-border-public bg-surface-raised">
+          <article :for={announcement <- @snapshot.announcements} class="px-5 py-5">
+            <h3 class="min-w-0 break-words font-public text-label font-semibold text-text-primary">
+              {announcement.title}
+            </h3>
+            <p class="mt-2 whitespace-pre-line break-words text-body text-text-secondary">
+              {announcement.body}
+            </p>
+            <.status_time
+              at={announcement.published_at}
+              class="mt-2.5 block font-mono text-data tabular-nums text-text-tertiary"
+            />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section
+      :if={active_maintenances(@snapshot) != [] or upcoming_maintenances(@snapshot) != []}
+      id="status-maintenance-upcoming"
+      aria-labelledby="status-maintenance-upcoming-heading"
+      class="border-t border-border-subtle px-5 py-8 sm:px-11"
+    >
+      <div class="mx-auto flex max-w-content flex-col gap-4">
+        <h2
+          id="status-maintenance-upcoming-heading"
+          class="text-heading-02 font-semibold tracking-[-0.01em] text-text-primary"
+        >
+          Scheduled maintenance
+        </h2>
+        <div class="min-w-0 overflow-hidden rounded-frame border border-border-public bg-surface-raised">
+          <.maintenance_list maintenances={
+            active_maintenances(@snapshot) ++ upcoming_maintenances(@snapshot)
+          } />
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="status-changelog"
+      aria-labelledby="status-changelog-heading"
+      class="border-t border-border-subtle bg-canvas px-5 py-8 sm:px-11"
+    >
+      <div class="mx-auto flex max-w-content flex-col gap-4">
+        <div class="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+          <h2
+            id="status-changelog-heading"
+            class="text-heading-02 font-semibold tracking-[-0.01em] text-text-primary"
+          >
+            Latest updates
+          </h2>
+          <a
+            href={~p"/status/#{@snapshot.public_page.public_slug}/changelog"}
+            class={public_quiet_link_class()}
+          >
+            View all updates <.icon name="hero-arrow-right" class="size-3.5 shrink-0" />
+          </a>
+        </div>
+        <div
+          :if={@changelog.entries != []}
+          class="min-w-0 divide-y divide-border-subtle border-y border-border-subtle"
+        >
+          <a
+            :for={entry <- @changelog.entries}
+            id={"status-changelog-entry-#{entry.public_slug}"}
+            href={~p"/status/#{@snapshot.public_page.public_slug}/changelog/#{entry.public_slug}"}
+            class="group grid min-h-target-min min-w-0 gap-1 py-4 hover:bg-interactive-tint sm:grid-cols-[110px_minmax(0,1fr)] sm:gap-5"
+          >
+            <.status_time
+              at={entry.published_at}
+              class="font-mono text-data tabular-nums text-text-tertiary"
+            />
+            <span class="min-w-0 break-words font-public text-label font-semibold text-text-primary group-hover:text-interactive-strong">
+              {entry.title}
+            </span>
+          </a>
+        </div>
+        <p
+          :if={@changelog.available? and @changelog.entries == []}
+          class="text-body text-text-secondary"
+        >
+          No updates have been published yet.
+        </p>
+        <p
+          :if={!@changelog.available?}
+          class="rounded-frame border border-status-error-border bg-status-error-bg px-4 py-3 text-body text-status-error-ink"
+        >
+          Updates are temporarily unavailable. Try the changelog link again in a moment.
+        </p>
+      </div>
+    </section>
+
+    <footer class="border-t border-border-subtle px-5 py-8 sm:px-11">
+      <div class="mx-auto flex max-w-content flex-wrap items-center gap-x-6 gap-y-3">
+        <a
+          id="status-history-link"
+          href={~p"/status/#{@snapshot.public_page.public_slug}/history"}
+          class={public_action_class()}
+        >
+          View 90-day history <.icon name="hero-arrow-right" class="size-3.5 shrink-0" />
+        </a>
+        <button
+          id="status-timezone-toggle"
+          type="button"
+          data-status-timezone-toggle
+          class={public_action_class()}
+          aria-pressed="false"
+        >
+          Use UTC
+        </button>
+        <.public_attribution
+          postdeploy_owned?={@snapshot.public_page.vendor?}
+          class="sm:ml-auto"
+        />
+      </div>
+    </footer>
+  </main>
+</Layouts.app>

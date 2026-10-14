@@ -1,0 +1,16 @@
+{
+  "name": "alplus-mcp-contract",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "contract": "node harness.mjs",
+    "lifecycle": "node lifecycle.mjs",
+    "readonly": "node readonly.mjs"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0"
+  }
+}

@@ -1,0 +1,147 @@
+<.topbar current_path={@comparison.path} current_user={@current_user} />
+<main id="alternative-page" data-public-shell>
+  <.leadspace
+    id="alternative-leadspace"
+    breadcrumbs={[
+      {"Home", ~p"/"},
+      {"Alternatives", ~p"/alternatives"},
+      {@comparison.nav_label || @comparison.competitor_name, @comparison.path}
+    ]}
+    breadcrumbs_id="alternative-breadcrumbs"
+    title={"PostDeploy as a #{@comparison.competitor_name} alternative"}
+    description={@comparison.tldr}
+  >
+    <:actions>
+      <.button href={start_path(@current_user)} variant="primary">
+        {AlplusWeb.Marketing.PackagePresenter.cta_label()}
+      </.button>
+      <span class="text-caption text-text-tertiary">
+        No card required. Then {AlplusWeb.Marketing.PackagePresenter.price()} a month.
+      </span>
+    </:actions>
+    <:evidence :if={@comparison.switch_to_us != []}>
+      <h2 class="text-heading-03 text-text-primary">Switch if</h2>
+      <ul id="alternative-switch-if" class="mt-3 divide-y divide-border-default">
+        <li
+          :for={reason <- @comparison.switch_to_us}
+          class="py-2.5 text-body text-text-secondary first:pt-0 last:pb-0"
+        >
+          {reason}
+        </li>
+      </ul>
+    </:evidence>
+  </.leadspace>
+
+  <div class="mx-auto max-w-content px-6 sm:px-11">
+    <.article_layout id="alternative-article" class="border-t-0 md:pt-4">
+      <section id="alternative-table" class="py-8 first:pt-0">
+        <h2 class="text-heading-02 text-text-primary">
+          {@comparison.competitor_name} against PostDeploy
+        </h2>
+        <div class="mt-5">
+          <.comparison_matrix
+            competitor={@comparison.competitor_name}
+            rows={@comparison.free_tier_rows}
+          />
+        </div>
+      </section>
+
+      <section
+        :if={@comparison.body_sections != []}
+        id="alternative-detail"
+        class="max-w-[46rem] border-t border-border-default py-8"
+      >
+        <.body_sections sections={@comparison.body_sections} variant="prose" />
+      </section>
+
+      <section
+        id="alternative-migration"
+        class="max-w-[46rem] border-t border-border-default py-8"
+      >
+        <div class="max-w-[46rem]">
+          <div>
+            <h2 class="text-heading-02 text-text-primary">
+              Move off {@comparison.competitor_name}
+            </h2>
+            <p class="mt-3 max-w-prose text-body text-text-secondary">
+              Each step happens once, and the {Alplus.Billing.Package.trial_days()}-day trial covers the move.
+            </p>
+          </div>
+          <ol class="mt-4 divide-y divide-border-default border-y border-border-default">
+            <li
+              :for={{step, i} <- Enum.with_index(@comparison.migration, 1)}
+              class="grid grid-cols-[auto_minmax(0,1fr)] gap-4 py-3"
+            >
+              <span class="text-data text-text-tertiary">{i}</span>
+              <span class="text-body text-text-secondary"><.rich_text text={step} /></span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section
+        :if={@comparison.faqs != []}
+        id="alternative-faq"
+        class="max-w-[46rem] border-t border-border-default py-8"
+      >
+        <div class="max-w-[46rem]">
+          <h2 class="text-heading-02 text-text-primary">Questions</h2>
+          <div class="mt-4"><.faq_list faqs={@comparison.faqs} /></div>
+        </div>
+      </section>
+
+      <section
+        :if={@comparison.sources != []}
+        id="alternative-sources"
+        class="max-w-[46rem] border-t border-border-default py-8"
+        aria-labelledby="alternative-sources-heading"
+      >
+        <div class="max-w-[46rem]">
+          <div>
+            <h2 id="alternative-sources-heading" class="text-heading-02 text-text-primary">
+              Sources
+            </h2>
+          </div>
+          <ul class="mt-4 divide-y divide-border-default border-y border-border-default">
+            <li
+              :for={source <- @comparison.sources}
+              class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-3"
+            >
+              <a
+                href={source["url"]}
+                class="inline-flex min-h-target-min items-center text-body text-interactive-strong underline decoration-2 underline-offset-4 hover:bg-interactive-wash"
+              >
+                {source["label"]}
+              </a>
+              <span class="text-data text-text-tertiary">
+                Checked <time datetime={source["retrieved"]}>{source["retrieved"]}</time>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section
+        :if={@others != []}
+        id="alternative-other-pages"
+        class="max-w-[46rem] border-t border-border-default py-8"
+      >
+        <div class="max-w-[46rem]">
+          <h2 class="text-heading-02 text-text-primary">Other comparisons</h2>
+          <ul class="mt-4 divide-y divide-border-default border-y border-border-default">
+            <li :for={other <- related_comparisons(@comparison, @others)}>
+              <.index_row
+                id={"comparison-other-#{other.slug}"}
+                title={other.competitor_name}
+                meta={comparison_pillar(other.path)}
+                href={other.path}
+              />
+            </li>
+          </ul>
+        </div>
+      </section>
+    </.article_layout>
+  </div>
+</main>
+
+<.site_footer />

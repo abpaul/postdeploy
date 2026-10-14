@@ -1,0 +1,51 @@
+# CI for sdks/javascript (npm package @postdeploy/sdk).
+#
+# Path-filtered: an SDK change runs this job alone, and a contract change runs
+# it too, because the contract test reads sdks/contract from this checkout.
+# The path list is repeated per trigger: GitHub Actions does not support YAML
+# anchors.
+name: SDK JavaScript CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "sdks/javascript/**"
+      - "sdks/contract/**"
+      - ".github/workflows/sdk-js-ci.yml"
+  pull_request:
+    paths:
+      - "sdks/javascript/**"
+      - "sdks/contract/**"
+      - ".github/workflows/sdk-js-ci.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: sdk-js-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: sdks/javascript
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Node 20 is the floor of engines.node that CI still exercises; testing
+      # here is what caught the Promise.withResolvers breakage.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: sdks/javascript/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Unit and contract tests
+        run: npm test

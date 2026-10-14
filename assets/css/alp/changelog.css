@@ -1,0 +1,86 @@
+/* Markdown preview for the Changelog entry editor (ChangelogEntryLive), console
+   scope. Sanitized MDEx output carries no utility classes, so
+   .changelog-preview styles the elements directly, v3 tokens only. Headings
+   inside an entry never outrank the page (docs/DESIGN-SYSTEM.md §2). */
+
+.changelog-preview {
+  max-width: var(--alp-width-prose);
+  color: var(--alp-text-secondary);
+  font: var(--alp-type-body-size) / var(--alp-type-body-leading) var(--alp-font-sans);
+}
+
+.changelog-preview p {
+  margin-block: 0.75rem;
+}
+
+.changelog-preview h1,
+.changelog-preview h2 {
+  margin-block: 1rem 0.5rem;
+  color: var(--alp-text-primary);
+  font: 600 var(--alp-type-heading-02-size) / var(--alp-type-heading-02-leading) var(--alp-font-sans);
+  letter-spacing: -0.01em;
+}
+
+.changelog-preview h3,
+.changelog-preview h4 {
+  margin-block: 1rem 0.5rem;
+  color: var(--alp-text-primary);
+  font: 600 var(--alp-type-label-size) / var(--alp-type-label-leading) var(--alp-font-sans);
+}
+
+.changelog-preview code,
+.changelog-preview pre {
+  border-radius: var(--alp-radius-control-sm);
+  background: var(--alp-surface-sunken);
+  font: var(--alp-type-data-size) / var(--alp-type-data-leading) var(--alp-font-mono);
+}
+
+.changelog-preview code {
+  padding: 0.0625rem 0.3125rem;
+}
+
+.changelog-preview pre {
+  overflow-x: auto;
+  padding: 0.75rem 1rem;
+}
+
+.changelog-preview pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.changelog-preview a {
+  color: var(--alp-interactive-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.changelog-preview a:hover {
+  color: var(--alp-interactive-strong-hover);
+}
+
+.changelog-preview ul,
+.changelog-preview ol {
+  margin-block: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.changelog-preview ul {
+  list-style: disc;
+}
+
+.changelog-preview ol {
+  list-style: decimal;
+}
+
+.changelog-preview blockquote {
+  margin-block: 0.75rem;
+  border-left: 2px solid var(--alp-border-control);
+  padding-left: 1rem;
+  color: var(--alp-text-tertiary);
+}
+
+.changelog-preview img {
+  max-width: 100%;
+  border-radius: var(--alp-radius-structural);
+}

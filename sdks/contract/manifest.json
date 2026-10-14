@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "owner": "Alplus-Tech/postdeploy",
+  "description": "Golden wire contract for PostDeploy Observe and Measure ingest. The Phoenix product owns these bytes and the server parsers that validate them. Every SDK under sdks/ pins this version and the per-item checksums below in its own code and reads this directory directly, so a fixture change must update the product parser and all three SDK pins in the same pull request. Path-filtered CI runs the server anchor and every SDK suite on any change to this set.",
+  "items": {
+    "exception_item.json": "sha256:a970a83c0b7f8a1d74b8602afd886941634c711e600e41e2dc6ea579f868a380",
+    "message_item.json": "sha256:0f14c4f20605fed9a844646905047835033a7c6ade38fc1cb1d7da0158362e8f",
+    "measure_event.json": "sha256:132914d7468c8909baad2509bfb17de8ee30d585259c783a72d21f9446b6a483",
+    "session_item.json": "sha256:3bfe1d1458a03a3ced1b725c86d2a9aabbd57129f7aeb6a529d2d923ede8ec40"
+  }
+}

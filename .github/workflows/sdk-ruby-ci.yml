@@ -1,0 +1,48 @@
+# CI for sdks/ruby (RubyGems package postdeploy).
+#
+# Path-filtered: an SDK change runs this job alone, and a contract change runs
+# it too, because the contract test reads sdks/contract from this checkout.
+# The path list is repeated per trigger: GitHub Actions does not support YAML
+# anchors.
+name: SDK Ruby CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "sdks/ruby/**"
+      - "sdks/contract/**"
+      - ".github/workflows/sdk-ruby-ci.yml"
+  pull_request:
+    paths:
+      - "sdks/ruby/**"
+      - "sdks/contract/**"
+      - ".github/workflows/sdk-ruby-ci.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: sdk-ruby-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: sdks/ruby
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: sdks/ruby
+      - name: RSpec (unit and contract)
+        run: bundle exec rspec
+      - name: Build the gem
+        run: gem build postdeploy.gemspec

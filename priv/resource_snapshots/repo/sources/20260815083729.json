@@ -1,0 +1,299 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": true,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "sources_org_id_fkey",
+        "on_delete": "delete",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "organizations"
+      },
+      "scale": null,
+      "size": null,
+      "source": "org_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "index_where": null,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "sources_project_id_fkey",
+        "on_delete": "delete",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "projects"
+      },
+      "scale": null,
+      "size": null,
+      "source": "project_id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "type",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "environment",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "name",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "\"active\"",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "status",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "secret_hash",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "secret_prefix",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "previous_secret_hash",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "previous_secret_prefix",
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "secret_grace_expires_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "measure_token",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "inserted_at",
+      "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "updated_at",
+      "type": "utc_datetime_usec"
+    }
+  ],
+  "base_filter": null,
+  "check_constraints": [],
+  "create_table_options": null,
+  "custom_indexes": [],
+  "custom_statements": [
+    {
+      "code?": false,
+      "down": "ALTER TABLE sources\n  DROP CONSTRAINT sources_type_check,\n  DROP CONSTRAINT sources_status_check,\n  DROP CONSTRAINT sources_name_check,\n  DROP CONSTRAINT sources_environment_check,\n  DROP CONSTRAINT sources_secret_hash_format_check,\n  DROP CONSTRAINT sources_secret_prefix_length_check,\n  DROP CONSTRAINT sources_previous_secret_hash_format_check,\n  DROP CONSTRAINT sources_previous_secret_prefix_length_check,\n  DROP CONSTRAINT sources_grace_after_creation_check,\n  DROP CONSTRAINT sources_measure_token_length_check,\n  DROP CONSTRAINT sources_credential_by_type_check\n",
+      "global?": false,
+      "name": "sources_checks",
+      "up": "ALTER TABLE sources\n  ADD CONSTRAINT sources_type_check CHECK (type IN ('monitor', 'observe', 'measure')),\n  ADD CONSTRAINT sources_status_check CHECK (status IN ('active', 'revoked')),\n  ADD CONSTRAINT sources_name_check CHECK (octet_length(btrim(name)) > 0 AND octet_length(name) <= 120),\n  ADD CONSTRAINT sources_environment_check CHECK (octet_length(btrim(environment)) > 0 AND octet_length(environment) <= 64),\n  ADD CONSTRAINT sources_secret_hash_format_check CHECK (secret_hash IS NULL OR secret_hash ~ '^[0-9a-f]{64}$'),\n  ADD CONSTRAINT sources_secret_prefix_length_check CHECK (secret_prefix IS NULL OR octet_length(secret_prefix) BETWEEN 1 AND 16),\n  ADD CONSTRAINT sources_previous_secret_hash_format_check CHECK (previous_secret_hash IS NULL OR previous_secret_hash ~ '^[0-9a-f]{64}$'),\n  ADD CONSTRAINT sources_previous_secret_prefix_length_check CHECK (previous_secret_prefix IS NULL OR octet_length(previous_secret_prefix) BETWEEN 1 AND 16),\n  ADD CONSTRAINT sources_grace_after_creation_check CHECK (secret_grace_expires_at IS NULL OR secret_grace_expires_at > inserted_at),\n  ADD CONSTRAINT sources_measure_token_length_check CHECK (measure_token IS NULL OR octet_length(measure_token) <= 80),\n  ADD CONSTRAINT sources_credential_by_type_check CHECK (\n    (type = 'observe' AND secret_hash IS NOT NULL AND secret_prefix IS NOT NULL AND measure_token IS NULL) OR\n    (type = 'measure' AND measure_token IS NOT NULL AND secret_hash IS NULL AND secret_prefix IS NULL) OR\n    (type = 'monitor' AND secret_hash IS NULL AND secret_prefix IS NULL AND measure_token IS NULL)\n  )\n"
+    }
+  ],
+  "has_create_action": true,
+  "hash": "E63A9185659D57124F253754456AD357EB6D90F58E6A0CA088BB4498D5C9E17D",
+  "identities": [
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "sources_unique_measure_token_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "measure_token"
+        }
+      ],
+      "name": "unique_measure_token",
+      "nils_distinct?": true,
+      "where": "measure_token IS NOT NULL"
+    },
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "sources_unique_secret_prefix_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "secret_prefix"
+        }
+      ],
+      "name": "unique_secret_prefix",
+      "nils_distinct?": true,
+      "where": "secret_prefix IS NOT NULL"
+    },
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "sources_unique_source_per_project_type_environment_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "project_id"
+        },
+        {
+          "type": "atom",
+          "value": "type"
+        },
+        {
+          "type": "atom",
+          "value": "environment"
+        }
+      ],
+      "name": "unique_source_per_project_type_environment",
+      "nils_distinct?": true,
+      "where": "status = 'active' AND type != 'measure'"
+    }
+  ],
+  "multitenancy": {
+    "attribute": null,
+    "global": null,
+    "strategy": null
+  },
+  "repo": "Elixir.Alplus.Repo",
+  "schema": null,
+  "table": "sources"
+}

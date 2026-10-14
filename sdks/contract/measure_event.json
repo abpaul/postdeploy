@@ -1,0 +1,11 @@
+{
+  "name": "signup",
+  "props": {
+    "campaign": "contract-test",
+    "discarded": true
+  },
+  "referrer": null,
+  "site": "msr_contract_site",
+  "type": "custom_event",
+  "url": "https://app.example.test/pricing"
+}

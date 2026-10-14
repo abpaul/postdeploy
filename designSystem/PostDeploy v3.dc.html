@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Open Runde';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/open-runde@latest/latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Open Runde';font-style:normal;font-weight:500;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/open-runde@latest/latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Open Runde';font-style:normal;font-weight:600;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/open-runde@latest/latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Open Runde';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/open-runde@latest/latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Geist';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Geist';font-style:normal;font-weight:500;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Geist';font-style:normal;font-weight:600;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/geist-mono@latest/latin-400-normal.woff2) format('woff2')}
+body{margin:0;background:#FFFFFF;color:#171B12;font-family:'Open Runde',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#171B12;text-decoration:underline;text-decoration-color:#C0DF16;text-decoration-thickness:2px;text-underline-offset:3px}a:hover{background:#F4FADC}
+::selection{background:#E7F3A3}
+</style>
+</helmet>
+
+<div style="max-width:1200px;margin:0 auto;padding:0 40px 140px">
+
+<!-- ============ MASTHEAD ============ -->
+<header data-screen-label="Masthead" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;padding:110px 0 90px">
+<span style="display:inline-flex;align-items:center;gap:8px;border:1px solid #E9ECE4;font:600 12.5px/1 'Open Runde',sans-serif;color:#5A6352;padding:9px 16px;border-radius:999px"><span style="width:7px;height:7px;border-radius:99px;background:#C0DF16;outline:1px solid #8FA80E"></span>PostDeploy Design System · v3</span>
+<h1 style="margin:0;font:600 62px/1.04 'Bricolage Grotesque',serif;letter-spacing:-.025em;max-width:800px">Billow on the outside.<br><span style="background:linear-gradient(transparent 62%,#E7F3A3 62%)">Notion × Linear</span> on the inside.</h1>
+<p style="margin:0;font:500 17px/28px 'Open Runde',sans-serif;color:#5A6352;max-width:560px;text-wrap:pretty">One coherent system, two deliberate expressions, MCP-first throughout. Ground-up rebuild: new palette anchored on Pantone 2297 C and 354 C, new type, new components.</p>
+<p style="margin:0;font:400 12.5px/1.6 'Geist Mono',monospace;color:#6E7864">2026-08-26 · for review · Lastik shown as Bricolage Grotesque until licensed</p>
+</header>
+
+<!-- ============ 01 PRINCIPLES ============ -->
+<section id="s01" data-screen-label="01 Principles" style="padding:40px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:48px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">01 — WHY BILLOW FEELS AIRY</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Six rules, extracted.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:540px">Studied from the live pages — home, pricing, help. Airiness is composition, not margin size. These rules govern every public PostDeploy surface.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px 44px;max-width:1040px;margin:0 auto">
+<div><p style="margin:0 0 6px;font:700 15px 'Open Runde',sans-serif">1 · One idea per viewport</p><p style="margin:0;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">Each section carries a single claim and a single artifact. Nothing competes. Sections may be tall and mostly empty as long as the one idea is unmissable.</p></div>
+<div><p style="margin:0 0 6px;font:700 15px 'Open Runde',sans-serif">2 · Narrow words, wide product</p><p style="margin:0;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">Copy never exceeds ~52ch; product surfaces run 75–100% of the container. The tension between a thin text column and a broad visual is what reads as "air".</p></div>
+<div><p style="margin:0 0 6px;font:700 15px 'Open Runde',sans-serif">3 · Two type sizes do the work</p><p style="margin:0;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">A large display size against a calm 15–17px body, almost nothing in between. Hierarchy comes from scale contrast, not from boxes, rules or color.</p></div>
+<div><p style="margin:0 0 6px;font:700 15px 'Open Runde',sans-serif">4 · Surfaces barely separate</p><p style="margin:0;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">White on near-white, 1px borders, generous radius. Shadow exists only under product frames — the one thing allowed to float.</p></div>
+<div><p style="margin:0 0 6px;font:700 15px 'Open Runde',sans-serif">5 · Density is delegated</p><p style="margin:0;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">The page stays sparse because product frames carry the detail. Marketing never re-explains what the screenshot already shows.</p></div>
+<div><p style="margin:0 0 6px;font:700 15px 'Open Runde',sans-serif">6 · Scroll is the navigation</p><p style="margin:0;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">The fold is ignored; each scroll stop is a complete thought. CTAs repeat quietly instead of shouting once.</p></div>
+</div>
+</section>
+
+<!-- ============ 02 TOKENS ============ -->
+<section id="s02" data-screen-label="02 Tokens" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:48px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">02 — FOUNDATIONS</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Brand is chartreuse. State is green.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">Identity and status are separated on purpose: Pantone 2297 C marks what is <em>PostDeploy</em>, Pantone 354 C marks what is <em>operational</em>. They never swap jobs.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1040px;margin:0 auto 24px">
+<div style="border:1px solid #E9ECE4;border-radius:20px;overflow:hidden">
+<div style="padding:22px 24px;background:#C0DF16"><p style="margin:0;font:700 15px 'Open Runde',sans-serif;color:#171B12">brand — Pantone 2297 C</p><p style="margin:4px 0 0;font:400 12px 'Geist Mono',monospace;color:#3D470B">#C0DF16 · rgb(192,223,22)</p></div>
+<div style="padding:16px 24px;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">Identity, logo accent, selected state, active navigation, the primary button (with ink text — 11.9:1), limited chart emphasis. Never for "healthy", never body text on white.
+<div style="display:flex;gap:8px;margin-top:12px"><span style="flex:1;height:22px;border-radius:6px;background:#C0DF16"></span><span style="flex:1;height:22px;border-radius:6px;background:#E7F3A3"></span><span style="flex:1;height:22px;border-radius:6px;background:#F4FADC"></span><span style="flex:1;height:22px;border-radius:6px;background:#69790D"></span></div>
+<p style="margin:6px 0 0;font:400 11px 'Geist Mono',monospace;color:#6E7864">brand · brand-tint · brand-wash · brand-deep (text-safe 5.9:1)</p></div>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:20px;overflow:hidden">
+<div style="padding:22px 24px;background:#00B140"><p style="margin:0;font:700 15px 'Open Runde',sans-serif;color:#FFFFFF">operational — Pantone 354 C</p><p style="margin:4px 0 0;font:400 12px 'Geist Mono',monospace;color:#CFF3DC">#00B140 · rgb(0,177,64)</p></div>
+<div style="padding:16px 24px;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">Up, available, success, passing checks, uptime history. Semantic partners:
+<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E9ECE4;border-radius:999px;padding:6px 12px;font:600 12px 'Open Runde',sans-serif;color:#00753B"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span>operational #00B140</span>
+<span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E9ECE4;border-radius:999px;padding:6px 12px;font:600 12px 'Open Runde',sans-serif;color:#9A5B07"><span style="width:7px;height:7px;border-radius:99px;background:#E8960C"></span>degraded #E8960C</span>
+<span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E9ECE4;border-radius:999px;padding:6px 12px;font:600 12px 'Open Runde',sans-serif;color:#B42318"><span style="width:7px;height:7px;border-radius:99px;background:#D92D20"></span>failure #D92D20</span>
+<span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E9ECE4;border-radius:999px;padding:6px 12px;font:600 12px 'Open Runde',sans-serif;color:#1D4FC4"><span style="width:7px;height:7px;border-radius:99px;background:#2E62E8"></span>info #2E62E8</span>
+</div>
+<p style="margin:10px 0 0;font:500 13px/20px 'Open Runde',sans-serif;color:#5A6352">State is always dot + word, never color alone.</p></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1040px;margin:0 auto">
+<div style="border:1px solid #E9ECE4;border-radius:20px;padding:24px">
+<p style="margin:0 0 16px;font:700 15px 'Open Runde',sans-serif">Public type — Lastik + Open Runde</p>
+<p style="margin:0;font:600 30px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Run on signals, not vibes.</p>
+<p style="margin:4px 0 14px;font:400 11px 'Geist Mono',monospace;color:#6E7864">display · Lastik 600 (standing in: Bricolage Grotesque) · hero + major headings only</p>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352">Body, nav, buttons, pricing, help, public status and changelog set in Open Runde — soft terminals, friendly without being toylike.</p>
+<p style="margin:4px 0 0;font:400 11px 'Geist Mono',monospace;color:#6E7864">body · Open Runde 400–700 · 15–17px / 1.6</p>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:20px;padding:24px;background:#FBFBF9">
+<p style="margin:0 0 16px;font:700 15px 'Open Runde',sans-serif">Dashboard type — Geist Sans + Geist Mono</p>
+<p style="margin:0;font:600 17px/1.35 'Geist',system-ui,sans-serif;color:#171B12">Response time regressed after v2.4.1</p>
+<p style="margin:4px 0 14px;font:400 11px 'Geist Mono',monospace;color:#6E7864">ui · Geist 400–600 · 13–15px, tighter leading, denser rhythm</p>
+<p style="margin:0;font:400 13px/20px 'Geist Mono',monospace;color:#454D3E">mon_9f2c · v2.4.1 · 2026-08-26T09:14:02Z · 186ms</p>
+<p style="margin:4px 0 0;font:400 11px 'Geist Mono',monospace;color:#6E7864">machine · Geist Mono · IDs, versions, endpoints, timestamps, stack traces — never decoration</p>
+<p style="margin:14px 0 0;font:500 13px/20px 'Geist',sans-serif;color:#5A6352">Shape: public radius 16–24px and pill buttons; dashboard radius 8–10px, 32px-tall controls, hairline #ECEEE8 on #FBFBF9/#FFFFFF surfaces. Focus: 2px #2E62E8 ring, 2px offset, everywhere.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ 03 HOMEPAGE ============ -->
+<section id="s03" data-screen-label="03 Homepage" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:48px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">03 — PUBLIC · HOMEPAGE</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">The product explains itself.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">Every section below the hero is a real product component, enlarged and simplified. The hero is PostDeploy's own live overview — click the metrics, ranges and the deploy marker.</p>
+</div>
+
+<div style="border:1px solid #E9ECE4;border-radius:28px;overflow:hidden;box-shadow:0 24px 70px rgba(23,27,18,.07)">
+<!-- nav -->
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 44px">
+<span style="display:inline-flex;align-items:center;gap:9px;font:700 17px 'Open Runde',sans-serif;letter-spacing:-.01em"><svg width="24" height="24" viewBox="0 0 512 512"><path d="M96 190C60 150 90 105 150 80C230 42 345 25 408 60C458 88 452 141 394 176C328 216 198 240 140 228C112 222 104 208 96 190Z" fill="#C0DF16"></path><path d="M258 234C330 226 400 292 434 370C462 434 428 466 350 471C268 476 162 474 116 455C72 437 66 396 96 342C126 289 192 241 258 234Z" fill="#171B12"></path></svg><span>postdeploy<span style="color:#8FA80E">.</span></span></span>
+<div style="display:flex;gap:30px;font:600 14px 'Open Runde',sans-serif;color:#5A6352"><span>Product</span><span>MCP</span><span>Pricing</span><span>Changelog</span><span>Help</span></div>
+<div style="display:flex;align-items:center;gap:18px"><span style="font:600 14px 'Open Runde',sans-serif;color:#5A6352">Log in</span><span style="background:#C0DF16;color:#171B12;font:700 14px 'Open Runde',sans-serif;padding:11px 20px;border-radius:999px">Get started</span></div>
+</div>
+
+<!-- hero -->
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px;padding:88px 44px 0">
+<span style="display:inline-flex;align-items:center;gap:8px;border:1px solid #E9ECE4;font:600 12.5px 'Open Runde',sans-serif;color:#00753B;padding:8px 15px;border-radius:999px"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span>postdeploy.dev — all systems operational</span>
+<h3 style="margin:0;font:600 60px/1.05 'Bricolage Grotesque',serif;letter-spacing:-.025em;max-width:780px">Your agent sets it up.<br>You see everything.</h3>
+<p style="margin:0;font:500 16.5px/27px 'Open Runde',sans-serif;color:#5A6352;max-width:520px;text-wrap:pretty">Uptime, errors, analytics, status pages and changelogs — configured by the agent you already use, through MCP. One dashboard to watch it all run.</p>
+<div style="display:flex;gap:14px;align-items:center">
+<span style="background:#C0DF16;color:#171B12;font:700 15px 'Open Runde',sans-serif;padding:14px 28px;border-radius:999px">Start free trial</span>
+<span style="font:600 15px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16;padding-bottom:1px">See how MCP works ↓</span>
+</div>
+<p style="margin:0;font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">14 days free · no credit card · the overview below is our own project, live</p>
+
+<!-- interactive hero overview -->
+<div style="width:100%;max-width:920px;margin:26px 0 72px;border:1px solid #E9ECE4;border-radius:18px;background:#FFFFFF;box-shadow:0 20px 60px rgba(23,27,18,.08);overflow:hidden;text-align:left">
+<div style="display:flex;align-items:center;gap:10px;padding:13px 20px;border-bottom:1px solid #F0F2EC">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6E7864">postdeploy / postdeploy.dev · production</span>
+<span style="margin-left:auto;display:inline-flex;background:#F5F6F1;border-radius:999px;padding:3px">
+<sc-for list="{{ranges}}" as="r" hint-placeholder-count="3"><span onClick="{{r.onClick}}" style="cursor:pointer;font:600 12px 'Open Runde',sans-serif;color:{{r.fg}};background:{{r.bg}};padding:6px 13px;border-radius:999px;box-shadow:{{r.sh}}">{{r.label}}</span></sc-for>
+</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid #F0F2EC">
+<sc-for list="{{metrics}}" as="m" hint-placeholder-count="4">
+<div onClick="{{m.onClick}}" style="padding:16px 20px;cursor:pointer;box-shadow:{{m.sh}};background:{{m.bg}}" style-hover="background:#FBFBF9">
+<p style="margin:0 0 4px;font:600 11.5px 'Open Runde',sans-serif;color:{{m.labC}}">{{m.label}}</p>
+<p style="margin:0;font:600 22px/1 'Geist',sans-serif;letter-spacing:-.02em;color:{{m.valC}}">{{m.val}}</p>
+<p style="margin:4px 0 0;font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">{{m.sub}}</p>
+</div>
+</sc-for>
+</div>
+<div style="padding:20px 20px 8px;position:relative">
+<sc-if value="{{isUptime}}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:2px;align-items:flex-end;height:120px"><sc-for list="{{upTicks}}" as="t" hint-placeholder-count="36"><span style="flex:1;height:{{t.h}};border-radius:3px;background:{{t.c}}"></span></sc-for></div>
+</sc-if>
+<sc-if value="{{isResponse}}" hint-placeholder-val="{{ false }}">
+<div style="position:relative">
+<div style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#171B12;opacity:.25"></div>
+<div style="display:flex;gap:3px;align-items:flex-end;height:120px"><sc-for list="{{respBars}}" as="b" hint-placeholder-count="28"><span style="flex:1;height:{{b.h}};border-radius:4px 4px 2px 2px;background:{{b.c}}"></span></sc-for></div>
+</div>
+</sc-if>
+<sc-if value="{{isTraffic}}" hint-placeholder-val="{{ false }}">
+<svg width="100%" height="120" viewBox="0 0 100 40" preserveAspectRatio="none" style="display:block">
+<path d="{{waveArea}}" fill="rgba(192,223,22,.22)"></path>
+<path d="{{wavePath}}" fill="none" stroke="#8FA80E" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linecap="round"></path>
+</svg>
+</sc-if>
+<sc-if value="{{isErrors}}" hint-placeholder-val="{{ false }}">
+<div style="position:relative">
+<div style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#171B12;opacity:.25"></div>
+<div style="display:flex;gap:3px;align-items:flex-end;height:120px"><sc-for list="{{errBars}}" as="b" hint-placeholder-count="28"><span style="flex:1;height:{{b.h}};border-radius:4px 4px 2px 2px;background:{{b.c}}"></span></sc-for></div>
+</div>
+</sc-if>
+<span onClick="{{toggleDeploy}}" style="position:absolute;left:60%;top:6px;transform:translateX(-50%);cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:#171B12;color:#F4FADC;font:500 11px 'Geist Mono',monospace;padding:5px 11px;border-radius:999px">▲ v2.4.1</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:0 20px 14px;font:500 11.5px 'Geist Mono',monospace;color:#6E7864"><span>{{rangeStart}}</span><span>{{chartCaption}}</span><span>now</span></div>
+<sc-if value="{{showDeploy}}" hint-placeholder-val="{{ false }}">
+<div style="margin:0 20px 18px;border:1px solid #E9ECE4;border-radius:12px;padding:14px 18px;display:flex;gap:22px;align-items:center;background:#FBFBF9">
+<span><span style="display:block;font:600 13.5px 'Geist',sans-serif">v2.4.1 deployed</span><span style="font:400 11.5px 'Geist Mono',monospace;color:#6E7864">2h ago · via MCP · claude-code</span></span>
+<span style="font:500 12.5px 'Open Runde',sans-serif;color:#B42318">errors +3</span>
+<span style="font:500 12.5px 'Open Runde',sans-serif;color:#9A5B07">p95 +38ms</span>
+<span style="font:500 12.5px 'Open Runde',sans-serif;color:#00753B">traffic +6%</span>
+<span onClick="{{toggleDeploy}}" style="margin-left:auto;cursor:pointer;font:600 12px 'Open Runde',sans-serif;color:#6E7864">Close ✕</span>
+</div>
+</sc-if>
+</div>
+</div>
+
+<!-- MCP section -->
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;padding:96px 44px 0;background:#FBFBF9;border-top:1px solid #F0F2EC">
+<h3 style="margin:0;font:600 44px/1.08 'Bricolage Grotesque',serif;letter-spacing:-.02em;max-width:640px">Setup is a sentence,<br>not an afternoon.</h3>
+<p style="margin:0;font:500 15.5px/26px 'Open Runde',sans-serif;color:#5A6352;max-width:540px">The clicking every ops tool makes you do — wizards, pasted snippets, alert rules — goes away. Connect the agent you already use with one OAuth grant, then ask in plain language. There is no PostDeploy chatbot: your agent, our tools.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:940px;margin:22px 0 0;text-align:left">
+<div style="border-radius:16px;background:#171B12;overflow:hidden;align-self:start">
+<div style="display:flex;align-items:center;gap:8px;padding:11px 18px;border-bottom:1px solid #2A3023"><span style="width:8px;height:8px;border-radius:99px;background:#333B2B"></span><span style="width:8px;height:8px;border-radius:99px;background:#333B2B"></span><span style="width:8px;height:8px;border-radius:99px;background:#333B2B"></span><span style="margin-left:8px;font:400 11px 'Geist Mono',monospace;color:#A9B49B">your terminal — not our UI</span></div>
+<pre style="margin:0;padding:18px 20px;font:400 12px/19px 'Geist Mono',monospace;color:#E8ECDF;overflow-x:auto">$ claude
+<span style="color:#A9B49B">&gt;</span> Set up ops for postdeploy.dev: uptime
+  checks, a heartbeat for the nightly
+  backup, cookieless analytics and a
+  public status page.
+
+<span style="color:#7BD99B">✓</span> create_monitor     api.postdeploy.dev
+<span style="color:#7BD99B">✓</span> create_monitor     postdeploy.dev
+<span style="color:#7BD99B">✓</span> create_heartbeat   nightly-backup · 03:00
+<span style="color:#7BD99B">✓</span> enable_analytics   0 cookies
+<span style="color:#7BD99B">✓</span> create_status_page status.postdeploy.dev
+
+Done in 41s.</pre>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:16px;background:#FFFFFF;overflow:hidden;align-self:start">
+<div style="padding:14px 20px;border-bottom:1px solid #F0F2EC;font:700 13.5px 'Open Runde',sans-serif">Five minutes later, you have</div>
+<div style="display:flex;align-items:center;gap:11px;padding:13px 20px;border-bottom:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:500 13px 'Open Runde',sans-serif">Two monitors checking every 60s, from two regions</span><span style="font:600 12px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16">Uptime</span></div>
+<div style="display:flex;align-items:center;gap:11px;padding:13px 20px;border-bottom:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:500 13px 'Open Runde',sans-serif">A heartbeat armed for tonight's backup window</span><span style="font:600 12px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16">Heartbeats</span></div>
+<div style="display:flex;align-items:center;gap:11px;padding:13px 20px;border-bottom:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:500 13px 'Open Runde',sans-serif">Analytics counting, without a consent banner</span><span style="font:600 12px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16">Traffic</span></div>
+<div style="display:flex;align-items:center;gap:11px;padding:13px 20px;border-bottom:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:500 13px 'Open Runde',sans-serif">A status page your users can check, live</span><span style="font:600 12px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16">Open</span></div>
+<div style="padding:13px 20px;font:500 12px/18px 'Open Runde',sans-serif;color:#5A6352">Every call is logged under MCP activity. The token is org-scoped, and revoking it is one click.</div>
+</div>
+</div>
+<div style="display:flex;gap:36px;flex-wrap:wrap;justify-content:center;margin:26px 0 80px">
+<span style="display:flex;align-items:baseline;gap:9px;font:500 13px 'Open Runde',sans-serif;color:#5A6352"><span style="font:700 12px 'Geist Mono',monospace;color:#69790D">1</span>Connect once — OAuth, revocable org token</span>
+<span style="display:flex;align-items:baseline;gap:9px;font:500 13px 'Open Runde',sans-serif;color:#5A6352"><span style="font:700 12px 'Geist Mono',monospace;color:#69790D">2</span>Ask in your own words — no YAML, no wizard</span>
+<span style="display:flex;align-items:baseline;gap:9px;font:500 13px 'Open Runde',sans-serif;color:#5A6352"><span style="font:700 12px 'Geist Mono',monospace;color:#69790D">3</span>Review it all in the dashboard — logged, undoable</span>
+</div>
+</div>
+
+<!-- Monitor section (interactive) -->
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:96px 44px 0;border-top:1px solid #F0F2EC">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">MONITOR</span>
+<h3 style="margin:0;font:600 38px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Silence is a signal.</h3>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:480px">Checks and heartbeats on everything we run — this list is live. Click a monitor; this is the dashboard component, enlarged.</p>
+<div style="display:grid;grid-template-columns:5fr 7fr;gap:18px;width:100%;max-width:920px;margin:18px 0 80px;text-align:left">
+<div style="border:1px solid #E9ECE4;border-radius:16px;overflow:hidden;align-self:start;background:#FFFFFF">
+<sc-for list="{{monRows}}" as="m" hint-placeholder-count="4">
+<div onClick="{{m.onClick}}" style="display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid #F0F2EC;cursor:pointer;background:{{m.bg}}" style-hover="background:#FBFBF9">
+<span style="width:8px;height:8px;border-radius:99px;background:{{m.dot}}"></span>
+<span style="flex:1;min-width:0"><span style="display:block;font:600 13.5px 'Open Runde',sans-serif">{{m.name}}</span><span style="font:400 11px 'Geist Mono',monospace;color:#6E7864">{{m.type}}</span></span>
+<span style="font:600 12.5px 'Geist Mono',monospace;color:#00753B">{{m.up}}</span>
+</div>
+</sc-for>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;background:#FFFFFF">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="font:700 16px 'Open Runde',sans-serif">{{selName}}</span>
+<span style="background:{{selStateBg}};color:{{selStateFg}};font:700 11px 'Open Runde',sans-serif;padding:4px 11px;border-radius:999px">{{selState}}</span>
+<span style="margin-left:auto;font:400 11.5px 'Geist Mono',monospace;color:#6E7864">{{selType}}</span>
+</div>
+<div style="display:flex;gap:2px;align-items:flex-end;height:64px"><sc-for list="{{selTicks}}" as="t" hint-placeholder-count="36"><span style="flex:1;height:{{t.h}};border-radius:3px;background:{{t.c}}"></span></sc-for></div>
+<div style="display:flex;justify-content:space-between;font:500 11.5px 'Geist Mono',monospace;color:#6E7864"><span>-36h</span><span style="color:{{selStateFg}}">{{selCap}}</span><span>now</span></div>
+<div style="display:flex;gap:32px;border-top:1px solid #F0F2EC;padding-top:14px">
+<span><span style="display:block;font:600 18px 'Geist',sans-serif">{{selUp}}</span><span style="font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">uptime · 90 days</span></span>
+<span><span style="display:block;font:600 18px 'Geist',sans-serif">{{selMs}}</span><span style="font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">avg response</span></span>
+<span><span style="display:block;font:600 18px 'Geist',sans-serif">2</span><span style="font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">alert channels</span></span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Measure section (interactive) -->
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:96px 44px 0;background:#FBFBF9;border-top:1px solid #F0F2EC">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">MEASURE</span>
+<h3 style="margin:0;font:600 38px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Our traffic, counted without cookies.</h3>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:480px">This site's analytics, public. No cookies, no raw IPs, salt rotated daily — switch the range.</p>
+<div style="display:grid;grid-template-columns:7fr 5fr;gap:18px;width:100%;max-width:920px;margin:18px 0 80px;text-align:left">
+<div style="border:1px solid #E9ECE4;border-radius:16px;padding:22px;background:#FFFFFF">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<span><span style="font:600 26px/1 'Geist',sans-serif;letter-spacing:-.02em">{{trafTotal}}</span><span style="font:500 12.5px 'Open Runde',sans-serif;color:#6E7864"> pageviews · {{trafVis}} visitors</span></span>
+<span style="margin-left:auto;display:inline-flex;background:#F5F6F1;border-radius:999px;padding:3px">
+<sc-for list="{{tRanges}}" as="r" hint-placeholder-count="3"><span onClick="{{r.onClick}}" style="cursor:pointer;font:600 12px 'Open Runde',sans-serif;color:{{r.fg}};background:{{r.bg}};padding:6px 13px;border-radius:999px;box-shadow:{{r.sh}}">{{r.label}}</span></sc-for>
+</span>
+</div>
+<div style="display:flex;gap:3px;align-items:flex-end;height:110px"><sc-for list="{{trafBars}}" as="b" hint-placeholder-count="14"><span style="flex:1;height:{{b.h}};border-radius:4px 4px 2px 2px;background:{{b.c}}" style-hover="background:#8FA80E"></span></sc-for></div>
+<div style="display:flex;justify-content:space-between;font:500 11.5px 'Geist Mono',monospace;color:#6E7864;margin-top:8px"><span>{{tRangeStart}}</span><span>vs previous period <span style="color:#00753B">+12%</span></span><span>today</span></div>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px;background:#FFFFFF">
+<p style="margin:0;font:700 13.5px 'Open Runde',sans-serif">Top pages</p>
+<sc-for list="{{topPages}}" as="p" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:92px 1fr 52px;gap:10px;align-items:center;font:500 12.5px 'Open Runde',sans-serif">
+<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Geist Mono',monospace;font-size:11.5px">{{p.path}}</span>
+<span><span style="display:block;height:9px;border-radius:999px;background:#F0F2EC"><span style="display:block;height:9px;border-radius:999px;background:#C0DF16;width:{{p.w}}"></span></span></span>
+<span style="text-align:right;color:#5A6352;font-family:'Geist Mono',monospace;font-size:11.5px">{{p.n}}</span>
+</div>
+</sc-for>
+<p style="margin:auto 0 0;font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">0 cookies · no consent banner needed</p>
+</div>
+</div>
+</div>
+
+<!-- Status + changelog strip -->
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:96px 44px 0;border-top:1px solid #F0F2EC">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">STATUS · CHANGELOG</span>
+<h3 style="margin:0;font:600 38px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Tell your users before they ask.</h3>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:480px">Every project gets a public status page and a changelog — both publishable by your agent.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%;max-width:920px;margin:18px 0 88px;text-align:left">
+<div style="border:1px solid #E9ECE4;border-radius:16px;overflow:hidden;background:#FFFFFF">
+<div style="padding:18px 22px;display:flex;align-items:center;gap:10px;background:#EAF9F0;border-bottom:1px solid #E9ECE4"><span style="width:9px;height:9px;border-radius:99px;background:#00B140"></span><span style="font:700 14.5px 'Open Runde',sans-serif;color:#00753B">All systems operational</span><span style="margin-left:auto;font:400 11px 'Geist Mono',monospace;color:#00753B">status.postdeploy.dev</span></div>
+<div style="padding:16px 22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:10px;font:600 13px 'Open Runde',sans-serif"><span>API</span><span style="flex:1;display:flex;gap:1.5px"><sc-for list="{{days90a}}" as="d" hint-placeholder-count="45"><span style="flex:1;height:14px;border-radius:2px;background:{{d.c}}"></span></sc-for></span><span style="font:500 11.5px 'Geist Mono',monospace;color:#5A6352">99.98%</span></div>
+<div style="display:flex;align-items:center;gap:10px;font:600 13px 'Open Runde',sans-serif"><span>Site</span><span style="flex:1;display:flex;gap:1.5px"><sc-for list="{{days90b}}" as="d" hint-placeholder-count="45"><span style="flex:1;height:14px;border-radius:2px;background:{{d.c}}"></span></sc-for></span><span style="font:500 11.5px 'Geist Mono',monospace;color:#5A6352">100%</span></div>
+<p style="margin:0;font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">90 days · one square per day · incidents link to their post-mortem</p>
+</div>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:16px;overflow:hidden;background:#FFFFFF">
+<div style="padding:14px 22px;border-bottom:1px solid #F0F2EC;display:flex;align-items:center"><span style="font:700 13.5px 'Open Runde',sans-serif">Changelog</span><span style="margin-left:auto;font:500 11.5px 'Geist Mono',monospace;color:#6E7864">RSS · JSON</span></div>
+<div style="padding:14px 22px;border-bottom:1px solid #F0F2EC"><p style="margin:0 0 3px;font:600 13.5px 'Open Runde',sans-serif">DNS checks with CDN awareness</p><p style="margin:0;font:400 11px 'Geist Mono',monospace;color:#6E7864">2026-08-11 · Monitor · published via MCP</p></div>
+<div style="padding:14px 22px;border-bottom:1px solid #F0F2EC"><p style="margin:0 0 3px;font:600 13.5px 'Open Runde',sans-serif">Sourcemap symbolication</p><p style="margin:0;font:400 11px 'Geist Mono',monospace;color:#6E7864">2026-07-30 · Observe</p></div>
+<div style="padding:14px 22px"><p style="margin:0 0 3px;font:600 13.5px 'Open Runde',sans-serif">Agent access over MCP</p><p style="margin:0;font:400 11px 'Geist Mono',monospace;color:#6E7864">2026-07-14 · Platform</p></div>
+</div>
+</div>
+</div>
+
+<!-- CTA + footer -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:22px;padding:100px 44px 96px;text-align:center;border-top:1px solid #F0F2EC">
+<h3 style="margin:0;font:600 44px/1.08 'Bricolage Grotesque',serif;letter-spacing:-.02em;max-width:560px">Set up by your agent.<br>Understood at a glance.</h3>
+<span style="background:#C0DF16;color:#171B12;font:700 15px 'Open Runde',sans-serif;padding:14px 30px;border-radius:999px">Start free trial</span>
+<p style="margin:0;font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">14 days free · no credit card · MCP OAuth in the first five minutes</p>
+</div>
+<div style="border-top:1px solid #F0F2EC;display:flex;justify-content:space-between;align-items:center;padding:26px 44px;font:500 13px 'Open Runde',sans-serif;color:#6E7864">
+<span style="display:inline-flex;align-items:center;gap:8px;font:700 14.5px 'Open Runde',sans-serif;color:#171B12"><svg width="19" height="19" viewBox="0 0 512 512"><path d="M96 190C60 150 90 105 150 80C230 42 345 25 408 60C458 88 452 141 394 176C328 216 198 240 140 228C112 222 104 208 96 190Z" fill="#C0DF16"></path><path d="M258 234C330 226 400 292 434 370C462 434 428 466 350 471C268 476 162 474 116 455C72 437 66 396 96 342C126 289 192 241 258 234Z" fill="#171B12"></path></svg><span>postdeploy<span style="color:#8FA80E">.</span></span></span>
+<div style="display:flex;gap:22px"><span>Product</span><span>MCP</span><span>Pricing</span><span>Status</span><span>Changelog</span><span>Privacy</span><span>Terms</span></div>
+<span>Built in the open by Paul</span>
+</div>
+</div>
+</section>
+
+<!-- ============ 04 DASHBOARD ============ -->
+<section id="s04" data-screen-label="04 Dashboard" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:48px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">04 — DASHBOARD · PROJECT OVERVIEW</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Quieter inside.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:600px">Notion's calm surfaces, Linear's compact density. The overview answers "what is happening right now", then "what changed" — deploys are annotated on every chart, and the MCP feed shows what your agent did. Iconography: Lucide (open source, ISC) at 16px, 1.8px stroke, square-cornered grid.</p>
+</div>
+
+<div style="border:1px solid #E9ECE4;border-radius:16px;overflow:hidden;display:grid;grid-template-columns:252px 1fr;background:#FFFFFF;box-shadow:0 16px 50px rgba(23,27,18,.06);text-align:left;font-family:'Geist',system-ui,sans-serif">
+<!-- sidebar -->
+<div style="border-right:1px solid #ECEEE8;background:#FAFAF8;padding:14px 12px;display:flex;flex-direction:column;gap:2px;min-height:640px">
+<div style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E9ECE4;border-radius:12px;padding:10px 12px;margin-bottom:14px"><svg width="22" height="22" viewBox="0 0 512 512"><path d="M96 190C60 150 90 105 150 80C230 42 345 25 408 60C458 88 452 141 394 176C328 216 198 240 140 228C112 222 104 208 96 190Z" fill="#C0DF16"></path><path d="M258 234C330 226 400 292 434 370C462 434 428 466 350 471C268 476 162 474 116 455C72 437 66 396 96 342C126 289 192 241 258 234Z" fill="#171B12"></path></svg><span style="font:600 13.5px 'Geist',sans-serif">postdeploy</span><span style="margin-left:auto;font:500 12px 'Geist',sans-serif;color:#6E7864">⇅</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:8px 11px;background:#FFFFFF;border:1px solid #E9ECE4;border-radius:10px;box-shadow:0 1px 4px rgba(23,27,18,.06);font:600 13.5px 'Geist',sans-serif;color:#171B12"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171B12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>Overview</div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>Search<span style="margin-left:auto;font:400 11px 'Geist Mono',monospace;color:#98A18D">/</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 20h16a2 2 0 0 0 1.73-2Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>Incidents<span style="margin-left:auto;background:#FDECEA;color:#B42318;font:600 10.5px 'Geist',sans-serif;padding:1px 8px;border-radius:999px">1</span></div>
+<p style="margin:16px 0 4px;padding:0 12px;font:500 12px 'Geist',sans-serif;color:#6E7864">Monitor</p>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>Uptime</div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"></path></svg>Heartbeats<span style="margin-left:auto;font:400 11px 'Geist Mono',monospace;color:#9A5B07">7/8</span></div>
+<p style="margin:16px 0 4px;padding:0 12px;font:500 12px 'Geist',sans-serif;color:#6E7864">Observe</p>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>Issues</div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><circle cx="12" cy="12" r="3"></circle><line x1="3" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="21" y2="12"></line></svg>Releases</div>
+<p style="margin:16px 0 4px;padding:0 12px;font:500 12px 'Geist',sans-serif;color:#6E7864">Measure</p>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><line x1="6" y1="20" x2="6" y2="16"></line><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line></svg>Traffic</div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#A9B0A0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4CBB8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>Reports<span style="margin-left:auto;font:500 11px 'Geist',sans-serif;color:#A9B0A0">Soon</span></div>
+<p style="margin:16px 0 4px;padding:0 12px;font:500 12px 'Geist',sans-serif;color:#6E7864">Public</p>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>Status page</div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Changelog</div>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:2px">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 22v-5"></path><path d="M9 8V2"></path><path d="M15 8V2"></path><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"></path></svg>MCP<span style="margin-left:auto;width:7px;height:7px;border-radius:99px;background:#00B140"></span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font:500 13.5px 'Geist',sans-serif;color:#454D3E" style-hover="background:#F1F2EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7864" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><line x1="21" y1="4" x2="14" y2="4"></line><line x1="10" y1="4" x2="3" y2="4"></line><line x1="21" y1="12" x2="12" y2="12"></line><line x1="8" y1="12" x2="3" y2="12"></line><line x1="21" y1="20" x2="16" y2="20"></line><line x1="12" y1="20" x2="3" y2="20"></line><line x1="14" y1="2" x2="14" y2="6"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="16" y1="18" x2="16" y2="22"></line></svg>Settings</div>
+<div style="display:flex;align-items:center;gap:10px;padding:12px 12px 6px;border-top:1px solid #ECEEE8;margin-top:8px"><span style="width:24px;height:24px;border-radius:99px;background:#E7EBDC;display:inline-flex;align-items:center;justify-content:center;font:600 10.5px 'Geist',sans-serif;color:#454D3E">P</span><span style="font:500 13px 'Geist',sans-serif">Paul</span><span style="margin-left:auto;font:600 12px 'Geist',sans-serif;color:#6E7864">…</span></div>
+</div>
+</div>
+<!-- main -->
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:8px;padding:12px 24px;border-bottom:1px solid #ECEEE8">
+<span style="font:500 12.5px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:500 12.5px 'Geist',sans-serif">Overview</span>
+<span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;border:1px solid #ECEEE8;border-radius:999px;padding:4px 11px;font:500 11.5px 'Geist',sans-serif;color:#454D3E"><span style="width:6px;height:6px;border-radius:99px;background:#00B140"></span>production</span>
+<span style="border:1px solid #ECEEE8;border-radius:8px;padding:5px 12px;font:500 12px 'Geist',sans-serif;color:#454D3E">Last 24h ⌄</span>
+</div>
+<div style="padding:20px 24px 8px;display:flex;align-items:baseline;gap:14px">
+<h4 style="margin:0;font:600 19px 'Geist',sans-serif;letter-spacing:-.01em">Everything is up. One thing needs you.</h4>
+<span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">updated 12s ago</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 292px;gap:14px;padding:12px 24px 20px">
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px">
+<div style="display:flex;align-items:baseline;gap:10px"><span style="font:500 13.5px 'Geist',sans-serif;color:#454D3E">p95 response time for api.postdeploy.dev</span><span style="margin-left:auto;font:400 12px 'Geist Mono',monospace;color:#6E7864">checked every 60s</span></div>
+<p style="margin:8px 0 2px"><span style="font:600 28px/1 'Geist',sans-serif;letter-spacing:-.02em">186ms</span> <span style="background:#FCF0DD;color:#9A5B07;font:600 11.5px 'Geist',sans-serif;padding:3px 9px;border-radius:999px">+38ms since v2.4.1</span></p>
+<div style="position:relative;margin-top:14px">
+<div style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#171B12;opacity:.22"></div>
+<span style="position:absolute;left:60%;top:-6px;transform:translateX(-50%);background:#171B12;color:#F4FADC;font:500 10px 'Geist Mono',monospace;padding:3px 8px;border-radius:999px">▲ v2.4.1</span>
+<div style="display:flex;gap:2px;align-items:flex-end;height:96px;padding-top:14px"><sc-for list="{{dashBars}}" as="b" hint-placeholder-count="28"><span style="flex:1;height:{{b.h}};border-radius:3px 3px 1px 1px;background:{{b.c}}"></span></sc-for></div>
+</div>
+<div style="display:flex;justify-content:space-between;font:400 12px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-24h</span><span>threshold 400ms, never crossed</span><span>now</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:12px 16px"><p style="margin:0;font:500 12.5px 'Geist',sans-serif;color:#6E7864">Uptime, last 90 days</p><p style="margin:5px 0 0;font:600 24px 'Geist',sans-serif">99.98% <span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">1 incident, 4 minutes</span></p></div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:12px 16px"><p style="margin:0;font:500 12.5px 'Geist',sans-serif;color:#6E7864">Open issues</p><p style="margin:5px 0 0;font:600 24px 'Geist',sans-serif;color:#B42318">1 <span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">TypeError, 3 events, new in v2.4.1</span></p></div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:12px 16px"><p style="margin:0;font:500 12.5px 'Geist',sans-serif;color:#6E7864">Traffic, last 24 hours</p><p style="margin:5px 0 0;font:600 24px 'Geist',sans-serif">512 <span style="font:400 12px 'Geist Mono',monospace;color:#00753B">+6% after changelog post</span></p></div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:12px 16px"><p style="margin:0;font:500 12.5px 'Geist',sans-serif;color:#6E7864">Heartbeats</p><p style="margin:5px 0 0;font:600 24px 'Geist',sans-serif;color:#9A5B07">7/8 <span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">nightly-backup is 6 minutes late</span></p></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 24px 24px">
+<div style="border:1px solid #ECEEE8;border-radius:12px;overflow:hidden">
+<div style="padding:11px 16px;border-bottom:1px solid #ECEEE8;display:flex;align-items:center"><span style="font:600 14px 'Geist',sans-serif">Needs attention</span><span style="margin-left:auto;font:400 12px 'Geist Mono',monospace;color:#6E7864">2</span></div>
+<div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-bottom:1px solid #F0F2EC">
+<span style="width:7px;height:7px;border-radius:99px;background:#D92D20;margin-top:5px"></span>
+<span style="flex:1"><span style="display:block;font:500 14px 'Geist',sans-serif">TypeError: fetch failed <span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">worker/api</span></span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">First seen 2h ago, right after v2.4.1, not present in v2.4.0</span></span>
+<span style="border:1px solid #ECEEE8;border-radius:8px;padding:4px 10px;font:500 11.5px 'Geist',sans-serif;color:#454D3E">Open issue</span>
+</div>
+<div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px">
+<span style="width:7px;height:7px;border-radius:99px;background:#E8960C;margin-top:5px"></span>
+<span style="flex:1"><span style="display:block;font:500 14px 'Geist',sans-serif">nightly-backup missed its window</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">Expected at 03:00 UTC, now 6 minutes late, alert goes out at 15</span></span>
+<span style="border:1px solid #ECEEE8;border-radius:8px;padding:4px 10px;font:500 11.5px 'Geist',sans-serif;color:#454D3E">View</span>
+</div>
+</div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;overflow:hidden">
+<div style="padding:11px 16px;border-bottom:1px solid #ECEEE8;display:flex;align-items:center"><span style="font:600 14px 'Geist',sans-serif">MCP activity</span><span style="margin-left:auto;font:400 12px 'Geist Mono',monospace;color:#6E7864">claude-code connected</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2EC"><span style="width:6px;height:6px;border-radius:99px;background:#00B140"></span><span style="font:400 12.5px 'Geist Mono',monospace">publish_changelog</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">"v2.4.1: DNS checks"</span><span style="margin-left:auto;font:400 11.5px 'Geist Mono',monospace;color:#6E7864">09:16</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2EC"><span style="width:6px;height:6px;border-radius:99px;background:#00B140"></span><span style="font:400 12.5px 'Geist Mono',monospace">create_monitor</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">dns check for postdeploy.dev</span><span style="margin-left:auto;font:400 11.5px 'Geist Mono',monospace;color:#6E7864">09:12</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:10px 16px"><span style="width:6px;height:6px;border-radius:99px;background:#6E7864"></span><span style="font:400 12.5px 'Geist Mono',monospace">query_incidents</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">read-only, last 30 days</span><span style="margin-left:auto;font:400 11.5px 'Geist Mono',monospace;color:#6E7864">08:41</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 05 MCP SCREEN ============ -->
+<section id="s05" data-screen-label="05 MCP connections" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:48px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">05 — DASHBOARD · MCP CONNECTIONS</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Every agent action, on the record.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">Connection state, scopes, revocation and a full audit trail — trust in the agent model comes from reviewability, not faith.</p>
+</div>
+<div style="max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:14px;font-family:'Geist',system-ui,sans-serif">
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px;background:#FFFFFF">
+<span style="width:36px;height:36px;border-radius:10px;background:#171B12;color:#F4FADC;display:inline-flex;align-items:center;justify-content:center;font:600 12px 'Geist Mono',monospace">cc</span>
+<span style="flex:1"><span style="display:block;font:600 14px 'Geist',sans-serif">claude-code <span style="background:#EAF9F0;color:#00753B;font:600 10.5px 'Geist',sans-serif;padding:2px 9px;border-radius:999px;margin-left:6px">Connected</span></span><span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">org postdeploy, scopes monitor:write observe:read status:write changelog:write, last active 09:16</span></span>
+<span style="border:1px solid #ECEEE8;border-radius:8px;padding:6px 13px;font:500 12px 'Geist',sans-serif;color:#454D3E">Reconnect</span>
+<span style="border:1px solid #F3D2CE;border-radius:8px;padding:6px 13px;font:500 12px 'Geist',sans-serif;color:#B42318">Revoke</span>
+</div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;overflow:hidden;background:#FFFFFF">
+<div style="display:grid;grid-template-columns:1.2fr 1.6fr .8fr .6fr;gap:12px;padding:10px 20px;border-bottom:1px solid #ECEEE8;background:#FBFBF9;font:600 10.5px 'Geist Mono',monospace;letter-spacing:.05em;color:#6E7864"><span>ACTION</span><span>RESOURCE</span><span>CLIENT</span><span>RESULT</span></div>
+<div style="display:grid;grid-template-columns:1.2fr 1.6fr .8fr .6fr;gap:12px;padding:11px 20px;border-bottom:1px solid #F0F2EC;font:400 12.5px 'Geist',sans-serif;align-items:center"><span style="font-family:'Geist Mono',monospace;font-size:12px">publish_changelog</span><span style="color:#5A6352">"v2.4.1: DNS checks with CDN awareness"</span><span style="color:#5A6352">claude-code</span><span style="color:#00753B;font-weight:500">✓ published</span></div>
+<div style="display:grid;grid-template-columns:1.2fr 1.6fr .8fr .6fr;gap:12px;padding:11px 20px;border-bottom:1px solid #F0F2EC;font:400 12.5px 'Geist',sans-serif;align-items:center"><span style="font-family:'Geist Mono',monospace;font-size:12px">create_monitor</span><span style="color:#5A6352">dns check for postdeploy.dev, assert A record</span><span style="color:#5A6352">claude-code</span><span style="color:#00753B;font-weight:500">✓ created</span></div>
+<div style="display:grid;grid-template-columns:1.2fr 1.6fr .8fr .6fr;gap:12px;padding:11px 20px;border-bottom:1px solid #F0F2EC;font:400 12.5px 'Geist',sans-serif;align-items:center"><span style="font-family:'Geist Mono',monospace;font-size:12px">update_status_page</span><span style="color:#5A6352">components: add "Ingest"</span><span style="color:#5A6352">codex</span><span style="color:#00753B;font-weight:500">✓ updated</span></div>
+<div style="display:grid;grid-template-columns:1.2fr 1.6fr .8fr .6fr;gap:12px;padding:11px 20px;font:400 12.5px 'Geist',sans-serif;align-items:center"><span style="font-family:'Geist Mono',monospace;font-size:12px">delete_monitor</span><span style="color:#5A6352">http check, old-staging.postdeploy.dev</span><span style="color:#5A6352">codex</span><span style="color:#9A5B07;font-weight:500">⚠ needs confirm</span></div>
+</div>
+<p style="margin:0;font:500 12.5px 'Open Runde',sans-serif;color:#6E7864;text-align:center">Destructive tools require dashboard confirmation by default — configurable per scope.</p>
+</div>
+</section>
+
+<!-- ============ 06 AUTH + ONBOARDING ============ -->
+<section id="s06" data-screen-label="06 Auth + onboarding" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:48px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">06 — AUTH · ONBOARDING</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Five minutes to a connected agent.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">Auth inherits the public airiness — no tiny form floating in an oversized card. Onboarding ends with MCP OAuth and a working agent, not a product tour.</p>
+</div>
+
+<div style="border:1px solid #E9ECE4;border-radius:24px;overflow:hidden;background:#FFFFFF;box-shadow:0 16px 50px rgba(23,27,18,.06);margin-bottom:22px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 36px">
+<span style="display:inline-flex;align-items:center;gap:9px;font:700 15.5px 'Open Runde',sans-serif"><svg width="21" height="21" viewBox="0 0 512 512"><path d="M96 190C60 150 90 105 150 80C230 42 345 25 408 60C458 88 452 141 394 176C328 216 198 240 140 228C112 222 104 208 96 190Z" fill="#C0DF16"></path><path d="M258 234C330 226 400 292 434 370C462 434 428 466 350 471C268 476 162 474 116 455C72 437 66 396 96 342C126 289 192 241 258 234Z" fill="#171B12"></path></svg><span>postdeploy<span style="color:#8FA80E">.</span></span></span>
+<span style="font:500 13px 'Open Runde',sans-serif;color:#6E7864">New here? <span style="color:#171B12;border-bottom:2px solid #C0DF16;padding-bottom:1px">Create an account</span></span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:56px 36px 76px;text-align:center">
+<h3 style="margin:0;font:600 38px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Welcome back.</h3>
+<p style="margin:0 0 10px;font:500 14.5px/23px 'Open Runde',sans-serif;color:#5A6352">Your org and your agents are where you left them.</p>
+<div style="width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px;text-align:left">
+<span style="display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #E9ECE4;border-radius:999px;padding:12px 0;font:600 14px 'Open Runde',sans-serif" style-hover="background:#FBFBF9">Continue with GitHub</span>
+<span style="display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #E9ECE4;border-radius:999px;padding:12px 0;font:600 14px 'Open Runde',sans-serif" style-hover="background:#FBFBF9">Continue with Google</span>
+<div style="display:flex;align-items:center;gap:12px;margin:8px 0 2px"><span style="flex:1;height:1px;background:#F0F2EC"></span><span style="font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">or with email</span><span style="flex:1;height:1px;background:#F0F2EC"></span></div>
+<span style="font:600 12.5px 'Open Runde',sans-serif;color:#454D3E">Email</span>
+<div style="border:1px solid #E9ECE4;border-radius:12px;padding:12px 16px;font:500 14px 'Open Runde',sans-serif;color:#171B12">paul@postdeploy.dev</div>
+<span style="font:600 12.5px 'Open Runde',sans-serif;color:#454D3E;margin-top:2px">Password</span>
+<div style="border:2px solid #2E62E8;border-radius:12px;padding:11px 15px;display:flex;align-items:center"><span style="font:600 14px 'Open Runde',sans-serif;letter-spacing:3px">••••••••••</span><span style="margin-left:auto;font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">Show</span></div>
+<span style="background:#C0DF16;color:#171B12;border-radius:999px;padding:13px 0;text-align:center;font:700 14.5px 'Open Runde',sans-serif;margin-top:8px">Sign in</span>
+<p style="margin:6px 0 0;text-align:center;font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">Forgot password? · Sign in with SSO</p>
+</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:5fr 7fr;gap:22px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:0">
+<p style="margin:0 0 18px;font:700 15px 'Open Runde',sans-serif">Onboarding — six steps, one destination</p>
+<div style="display:flex;gap:14px;padding:0 0 22px;border-left:2px solid #E9ECE4;margin-left:13px;position:relative"><span style="position:absolute;left:-14px;top:0;width:26px;height:26px;border-radius:99px;background:#C0DF16;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Open Runde',sans-serif;color:#171B12">✓</span><span style="padding-left:26px"><span style="display:block;font:600 14px 'Open Runde',sans-serif">Create your account</span><span style="font:500 12.5px/19px 'Open Runde',sans-serif;color:#6E7864">GitHub, Google or email.</span></span></div>
+<div style="display:flex;gap:14px;padding:0 0 22px;border-left:2px solid #E9ECE4;margin-left:13px;position:relative"><span style="position:absolute;left:-14px;top:0;width:26px;height:26px;border-radius:99px;background:#C0DF16;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Open Runde',sans-serif;color:#171B12">✓</span><span style="padding-left:26px"><span style="display:block;font:600 14px 'Open Runde',sans-serif">Create your organization</span><span style="font:500 12.5px/19px 'Open Runde',sans-serif;color:#6E7864">Name, team invites optional — nothing else to configure by hand.</span></span></div>
+<div style="display:flex;gap:14px;padding:0 0 22px;border-left:2px solid #171B12;margin-left:13px;position:relative"><span style="position:absolute;left:-14px;top:0;width:26px;height:26px;border-radius:99px;background:#171B12;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Open Runde',sans-serif;color:#FFFFFF">3</span><span style="padding-left:26px"><span style="display:block;font:600 14px 'Open Runde',sans-serif">Connect MCP OAuth ←</span><span style="font:500 12.5px/19px 'Open Runde',sans-serif;color:#6E7864">Grant an org-scoped token. The consent screen is on the right.</span></span></div>
+<div style="display:flex;gap:14px;padding:0 0 22px;border-left:2px solid #E9ECE4;margin-left:13px;position:relative"><span style="position:absolute;left:-14px;top:0;width:26px;height:26px;border-radius:99px;background:#FFFFFF;border:2px solid #E9ECE4;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Open Runde',sans-serif;color:#6E7864">4</span><span style="padding-left:26px"><span style="display:block;font:600 14px 'Open Runde',sans-serif;color:#5A6352">Point your agent at it</span><span style="font:500 12.5px/19px 'Open Runde',sans-serif;color:#6E7864">Claude Code, Codex or any MCP client — one config line.</span></span></div>
+<div style="display:flex;gap:14px;padding:0 0 22px;border-left:2px solid #E9ECE4;margin-left:13px;position:relative"><span style="position:absolute;left:-14px;top:0;width:26px;height:26px;border-radius:99px;background:#FFFFFF;border:2px solid #E9ECE4;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Open Runde',sans-serif;color:#6E7864">5</span><span style="padding-left:26px"><span style="display:block;font:600 14px 'Open Runde',sans-serif;color:#5A6352">See the connection confirmed</span><span style="font:500 12.5px/19px 'Open Runde',sans-serif;color:#6E7864">Client, scopes and first activity appear in the MCP screen.</span></span></div>
+<div style="display:flex;gap:14px;margin-left:13px;position:relative"><span style="position:absolute;left:-14px;top:0;width:26px;height:26px;border-radius:99px;background:#FFFFFF;border:2px solid #E9ECE4;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Open Runde',sans-serif;color:#6E7864">6</span><span style="padding-left:26px"><span style="display:block;font:600 14px 'Open Runde',sans-serif;color:#5A6352">Let the agent configure PostDeploy</span><span style="font:500 12.5px/19px 'Open Runde',sans-serif;color:#6E7864">Monitors, analytics, error tracking, status page, changelog.</span></span></div>
+<div style="margin-top:22px;border:1px solid #E9ECE4;border-radius:12px;background:#FBFBF9;padding:14px 16px"><p style="margin:0 0 5px;font:600 12px 'Open Runde',sans-serif;color:#5A6352">A good first prompt for your agent</p><p style="margin:0;font:400 12px/19px 'Geist Mono',monospace;color:#171B12">"Set up uptime checks, cookieless analytics and a public status page for postdeploy.dev"</p></div>
+</div>
+<div style="border:1px solid #E9ECE4;border-radius:18px;background:#FFFFFF;box-shadow:0 16px 50px rgba(23,27,18,.07);overflow:hidden">
+<div style="padding:22px 26px;border-bottom:1px solid #F0F2EC;display:flex;align-items:center;gap:12px">
+<span style="width:34px;height:34px;border-radius:10px;background:#171B12;color:#F4FADC;display:inline-flex;align-items:center;justify-content:center;font:600 11.5px 'Geist Mono',monospace">cc</span>
+<span style="font:600 15px 'Open Runde',sans-serif;color:#6E7864">→</span>
+<svg width="32" height="32" viewBox="0 0 512 512"><path d="M96 190C60 150 90 105 150 80C230 42 345 25 408 60C458 88 452 141 394 176C328 216 198 240 140 228C112 222 104 208 96 190Z" fill="#C0DF16"></path><path d="M258 234C330 226 400 292 434 370C462 434 428 466 350 471C268 476 162 474 116 455C72 437 66 396 96 342C126 289 192 241 258 234Z" fill="#171B12"></path></svg>
+<span style="flex:1"><span style="display:block;font:700 15px 'Open Runde',sans-serif">claude-code wants to access postdeploy</span><span style="font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">Org-scoped token · expires in 90 days · revoke anytime</span></span>
+</div>
+<div style="padding:8px 26px">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F5F6F1"><span style="flex:1"><span style="display:block;font:400 12.5px 'Geist Mono',monospace">monitor:write</span><span style="font:500 12px 'Open Runde',sans-serif;color:#6E7864">Create and edit monitors and heartbeats</span></span><span style="width:34px;height:20px;border-radius:999px;background:#C0DF16;position:relative"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F5F6F1"><span style="flex:1"><span style="display:block;font:400 12.5px 'Geist Mono',monospace">observe:read · measure:write</span><span style="font:500 12px 'Open Runde',sans-serif;color:#6E7864">Read issues, configure analytics and events</span></span><span style="width:34px;height:20px;border-radius:999px;background:#C0DF16;position:relative"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F5F6F1"><span style="flex:1"><span style="display:block;font:400 12.5px 'Geist Mono',monospace">status:write · changelog:write</span><span style="font:500 12px 'Open Runde',sans-serif;color:#6E7864">Manage status pages, publish changelog entries</span></span><span style="width:34px;height:20px;border-radius:999px;background:#C0DF16;position:relative"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 0"><span style="flex:1"><span style="display:block;font:400 12.5px 'Geist Mono',monospace;color:#A9B0A0">admin:billing</span><span style="font:500 12px 'Open Runde',sans-serif;color:#A9B0A0">Off by default — plan changes stay human-only</span></span><span style="width:34px;height:20px;border-radius:999px;background:#E9ECE4;position:relative"><span style="position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+</div>
+<div style="padding:18px 26px 22px;border-top:1px solid #F0F2EC;display:flex;align-items:center;gap:12px">
+<span style="font:600 13.5px 'Open Runde',sans-serif;color:#6E7864">Cancel</span>
+<span style="margin-left:auto;background:#171B12;color:#FFFFFF;font:700 14px 'Open Runde',sans-serif;padding:12px 24px;border-radius:999px">Authorize claude-code</span>
+</div>
+<div style="padding:14px 26px;background:#EAF9F0;display:flex;align-items:center;gap:10px"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="font:600 13px 'Open Runde',sans-serif;color:#00753B">After authorizing: connected in the dashboard, first tool calls visible within seconds.</span></div>
+</div>
+</div>
+</section>
+
+<!-- ============ 07 CHART LIBRARY ============ -->
+<section id="s07c" data-screen-label="07 Chart library" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:40px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">07 — CHART LIBRARY</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">One visual language for every number.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:600px">The shared contract: titles state the insight, value axes start at zero, deploys and incidents draw as labeled annotations that never obscure data, series are labeled directly (legend only when multi-series), tooltips repeat x/y plus release context, related charts share time range and filters, and every chart offers "view as table". Chartreuse = emphasis, green/amber/red = state, gray = context — never color alone.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-family:'Geist',system-ui,sans-serif">
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">UPTIME TIMELINE</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">36 hours clean since the last blip</p>
+<div style="display:flex;gap:2px;align-items:flex-end;height:56px"><sc-for list="{{upTicks}}" as="t" hint-placeholder-count="36"><span style="flex:1;height:{{t.h}};border-radius:2px;background:{{t.c}}"></span></sc-for></div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-36h</span><span>one tick = one check window</span><span>now</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: is it up, and when wasn't it? Monitor detail + hero. Hover/tap a tick: window, checks, latency, incident link. Compact variant: 14 ticks, no axis.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">RESPONSE TIME + THRESHOLD</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">p95 stepped up at v2.4.1, still under the 400ms alert line</p>
+<div style="position:relative">
+<div style="position:absolute;left:0;right:0;top:6px;border-top:1px dashed #D9A249"></div><span style="position:absolute;right:0;top:-8px;font:400 10px 'Geist Mono',monospace;color:#9A5B07">alert 400ms</span>
+<div style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#171B12;opacity:.2"></div><span style="position:absolute;left:60%;top:-8px;transform:translateX(4px);font:400 10px 'Geist Mono',monospace;color:#454D3E">▲ v2.4.1</span>
+<div style="display:flex;gap:2px;align-items:flex-end;height:72px;padding-top:10px"><sc-for list="{{dashBars}}" as="b" hint-placeholder-count="28"><span style="flex:1;height:{{b.h}};border-radius:2px 2px 1px 1px;background:{{b.c}};transform:scaleY(.72);transform-origin:bottom"></span></sc-for></div>
+</div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-24h</span><span>ms · zero-based</span><span>now</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: how slow, versus what we promised? Bars for bucketed checks; threshold always labeled with its value; bars past it turn amber (position + color).</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">LATENCY PERCENTILES</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">p99 doubled after v2.4.1 while p50 held</p>
+<div style="position:relative">
+<div style="position:absolute;left:57%;top:0;bottom:0;width:1px;background:#171B12;opacity:.2"></div>
+<span style="position:absolute;right:2px;top:0;font:500 10px 'Geist Mono',monospace;color:#171B12">p99</span><span style="position:absolute;right:2px;top:26px;font:500 10px 'Geist Mono',monospace;color:#5A6352">p95</span><span style="position:absolute;right:2px;bottom:6px;font:500 10px 'Geist Mono',monospace;color:#98A18D">p50</span>
+<svg width="100%" height="84" viewBox="0 0 100 40" preserveAspectRatio="none" style="display:block">
+<path d="{{p50}}" fill="none" stroke="#B7C46E" stroke-width="1.3" vector-effect="non-scaling-stroke"></path>
+<path d="{{p95}}" fill="none" stroke="#78826C" stroke-width="1.3" vector-effect="non-scaling-stroke"></path>
+<path d="{{p99}}" fill="none" stroke="#171B12" stroke-width="1.6" vector-effect="non-scaling-stroke"></path>
+</svg>
+</div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-24h</span><span>direct end labels, no legend</span><span>now</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: who is latency hurting? Ordered ramp light→dark = p50→p99, heaviest stroke on the tail. Tooltip: all three values + active release.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">ERROR VOLUME · DEPLOY-ANCHORED</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">All 3 events arrived after the deploy</p>
+<div style="position:relative">
+<div style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#171B12;opacity:.2"></div><span style="position:absolute;left:60%;top:-2px;transform:translateX(4px);font:400 10px 'Geist Mono',monospace;color:#454D3E">▲ v2.4.1</span>
+<div style="display:flex;gap:2px;align-items:flex-end;height:64px;padding-top:10px"><sc-for list="{{errBars}}" as="b" hint-placeholder-count="28"><span style="flex:1;height:{{b.h}};border-radius:2px;background:{{b.c}}"></span></sc-for></div>
+</div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-24h</span><span style="color:#B42318">errors red · context gray</span><span>now</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: did the release break it? "Find the deploy that broke it" as a chart. Event volume uses the same form with chartreuse bars.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">TRAFFIC TREND + COMPARISON PERIOD</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">Up 12% on the previous 14 days</p>
+<svg width="100%" height="84" viewBox="0 0 100 40" preserveAspectRatio="none" style="display:block">
+<path d="{{waveArea}}" fill="rgba(192,223,22,.20)"></path>
+<path d="{{wavePrev}}" fill="none" stroke="#C9D0BD" stroke-width="1.2" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"></path>
+<path d="{{wavePath}}" fill="none" stroke="#8FA80E" stroke-width="1.6" vector-effect="non-scaling-stroke"></path>
+</svg>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-14d</span><span>dashed gray = previous period</span><span>today</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: trending up or down, versus when? Waves only for densely-sampled series — a curve may never interpolate unmeasured data. Visitors + pageviews share this form.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">RANKED BARS</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">/ and /pricing carry two thirds of traffic</p>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{topPages}}" as="p" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:88px 1fr 48px;gap:10px;align-items:center"><span style="font:400 11px 'Geist Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{p.path}}</span><span><span style="display:block;height:10px;border-radius:999px;background:#F1F2EC"><span style="display:block;height:10px;border-radius:999px;background:#C0DF16;width:{{p.w}}"></span></span></span><span style="font:400 11px 'Geist Mono',monospace;text-align:right;color:#5A6352">{{p.n}}</span></div>
+</sc-for>
+</div>
+<p style="margin:12px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: which items dominate? Pages, referrers, countries, devices, endpoints, error culprits. Sorted, zero-based, value at row end — no axis, no legend. Top 5–10 then "view as table".</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">STACKED STATUS COMPOSITION</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">5xx drove yesterday's failures, not timeouts</p>
+<div style="display:flex;gap:3px;align-items:flex-end;height:60px"><sc-for list="{{comp}}" as="b" hint-placeholder-count="12"><span style="flex:1;display:flex;flex-direction:column-reverse"><span style="height:{{b.a}};background:#B7C46E;border-radius:2px 2px 0 0"></span><span style="height:{{b.b}};background:#E8960C"></span><span style="height:{{b.c}};background:#D92D20"></span><span style="height:{{b.d}};background:#C9D0BD"></span></span></sc-for></div>
+<div style="display:flex;gap:14px;margin-top:8px;font:400 10.5px 'Geist Mono',monospace;color:#5A6352"><span><span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#B7C46E"></span> 2xx–3xx</span><span><span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#E8960C"></span> 4xx</span><span><span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#D92D20"></span> 5xx</span><span><span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#C9D0BD"></span> timeout</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: what kind of failure? Success stacks from the baseline; semantic colors only; legend mandatory (multi-series); ≤5 classes or use a table.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">DISTRIBUTION HISTOGRAM</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">Most requests finish under 200ms; the tail runs to 1.4s</p>
+<div style="position:relative">
+<div style="position:absolute;left:70%;top:0;bottom:0;border-left:1px dashed #D9A249"></div><span style="position:absolute;left:70%;top:-2px;transform:translateX(4px);font:400 10px 'Geist Mono',monospace;color:#9A5B07">p95 · 480ms</span>
+<div style="display:flex;gap:2px;align-items:flex-end;height:64px;padding-top:10px"><sc-for list="{{hist}}" as="b" hint-placeholder-count="20"><span style="flex:1;height:{{b.h}};border-radius:2px;background:{{b.c}}"></span></sc-for></div>
+</div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>0ms</span><span>requests per bucket</span><span>1.4s</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: is the average hiding a long tail? X-axis is value, not time. Tail past the labeled percentile turns amber. Tooltip: bucket range + count + share.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">SPARSE-COUNT STEP LINE</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">Weekly error totals, falling since June</p>
+<svg width="100%" height="72" viewBox="0 0 100 40" preserveAspectRatio="none" style="display:block">
+<path d="{{stepPath}}" fill="none" stroke="#454D3E" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+</svg>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-12w</span><span>value holds until the next sample</span><span>now</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: how is a sampled count moving? Steps, never slopes — a slope between weekly samples invents data. Daily uptime %, weekly totals, monthly costs.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">INCIDENT TIMELINE</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">One 4-minute incident in 7 days, deploy-adjacent</p>
+<div style="position:relative;height:34px;background:#F5F6F1;border-radius:6px;overflow:hidden">
+<span style="position:absolute;left:38%;top:0;bottom:0;width:1.2%;background:#D92D20"></span>
+<span style="position:absolute;left:64%;top:0;bottom:0;width:3%;background:#E8960C;opacity:.85"></span>
+<span style="position:absolute;left:60%;top:0;bottom:0;width:1px;background:#171B12;opacity:.35"></span>
+</div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>-7d</span><span><span style="color:#B42318">■ down 4m</span> · <span style="color:#9A5B07">■ degraded 2h</span> · ▲ deploy</span><span>now</span></div>
+<p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: when were we not fine? Bands on a shared time axis; click a band → incident page with affected monitors, related errors, deploy context and status updates.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">BEFORE / AFTER DEPLOY</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">v2.4.1 added 38ms at p95</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div><div style="display:flex;gap:3px;align-items:flex-end;height:48px"><sc-for list="{{cmpA}}" as="b" hint-placeholder-count="8"><span style="flex:1;height:{{b.h}};border-radius:2px;background:#C9D0BD"></span></sc-for></div><p style="margin:5px 0 0;font:400 10.5px 'Geist Mono',monospace;color:#6E7864">before · p95 142ms</p></div>
+<div><div style="display:flex;gap:3px;align-items:flex-end;height:48px"><sc-for list="{{cmpB}}" as="b" hint-placeholder-count="8"><span style="flex:1;height:{{b.h}};border-radius:2px;background:#78826C"></span></sc-for></div><p style="margin:5px 0 0;font:400 10.5px 'Geist Mono',monospace;color:#6E7864">after · p95 180ms <span style="color:#9A5B07">▲ +38ms</span></p></div>
+</div>
+<p style="margin:12px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Q: did the release change the metric? Small multiples on one zero-based scale; delta stated in text, amber when worse, green when better. Correlation stated, causation never implied.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">SPARKLINES · IN TABLES</p>
+<p style="margin:3px 0 12px;font:600 13.5px 'Geist',sans-serif">Trend beside the number, no axis</p>
+<div style="border:1px solid #F0F2EC;border-radius:8px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #F5F6F1"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:400 12px 'Geist Mono',monospace">api.postdeploy.dev</span><span style="display:flex;gap:2px;align-items:flex-end;height:18px"><sc-for list="{{sparkA}}" as="s" hint-placeholder-count="12"><span style="width:4px;height:{{s.h}};border-radius:1px;background:#C0DF16"></span></sc-for></span><span style="font:500 12px 'Geist Mono',monospace;width:56px;text-align:right">2,381</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:10px 14px"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:400 12px 'Geist Mono',monospace">ingest.postdeploy.dev</span><span style="display:flex;gap:2px;align-items:flex-end;height:18px"><sc-for list="{{sparkB}}" as="s" hint-placeholder-count="12"><span style="width:4px;height:{{s.h}};border-radius:1px;background:#78826C"></span></sc-for></span><span style="font:500 12px 'Geist Mono',monospace;width:56px;text-align:right">196ms</span></div>
+</div>
+<p style="margin:12px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">18px tall, 4px bars, value carries the number. Chartreuse = volume, gray-green = latency. The compact variant of every chart above.</p>
+</div>
+
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px;font-family:'Geist',system-ui,sans-serif">
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF"><p style="margin:0 0 10px;font:500 11px 'Geist Mono',monospace;color:#6E7864">LOADING</p><div style="display:flex;gap:2px;align-items:flex-end;height:56px"><sc-for list="{{skel}}" as="b" hint-placeholder-count="16"><span style="flex:1;height:{{b.h}};border-radius:2px;background:#EEF0E9"></span></sc-for></div><p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Static skeleton at final geometry — axes drawn, no shimmer, no layout shift.</p></div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF"><p style="margin:0 0 10px;font:500 11px 'Geist Mono',monospace;color:#6E7864">EMPTY</p><div style="height:56px;border:1.5px dashed #D3D9C9;border-radius:8px;display:flex;align-items:center;justify-content:center;font:500 12px 'Geist',sans-serif;color:#6E7864">No checks yet — your agent can create the first one</div><p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Dashed frame, plain sentence, one action. Never a fake chart.</p></div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:16px 18px;background:#FFFFFF"><p style="margin:0 0 10px;font:500 11px 'Geist Mono',monospace;color:#6E7864">ERROR</p><div style="height:56px;border-radius:8px;background:#FDECEA;display:flex;align-items:center;justify-content:center;gap:10px;font:500 12px 'Geist',sans-serif;color:#B42318">Couldn't load this chart <span style="border:1px solid #F3D2CE;border-radius:8px;padding:3px 10px;font:500 11.5px 'Geist',sans-serif">Retry</span></div><p style="margin:10px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Says what failed, offers retry, keeps the slot — surrounding charts stay put.</p></div>
+</div>
+</section>
+
+<!-- ============ 08 PUBLIC STATUS + CHANGELOG ============ -->
+<section id="s08" data-screen-label="08 Status + changelog" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:40px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">08 — PUBLIC · STATUS PAGE + CHANGELOG</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Answer in seconds, for someone else's users.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">Every customer project gets these, hosted — shown here for a fictional customer, "Acme". Public expression, agent-publishable, deep-linkable.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
+
+<div style="border:1px solid #E9ECE4;border-radius:22px;overflow:hidden;background:#FFFFFF;box-shadow:0 16px 50px rgba(23,27,18,.06)">
+<div style="display:flex;align-items:center;gap:10px;padding:18px 26px;border-bottom:1px solid #F0F2EC"><span style="width:22px;height:22px;border-radius:7px;background:#171B12;display:inline-flex;align-items:center;justify-content:center;font:700 10px 'Open Runde',sans-serif;color:#FFFFFF">A</span><span style="font:700 15px 'Open Runde',sans-serif">Acme status</span><span style="margin-left:auto;border:1px solid #E9ECE4;border-radius:999px;padding:6px 14px;font:600 12px 'Open Runde',sans-serif;color:#454D3E">Subscribe</span></div>
+<div style="padding:26px;display:flex;align-items:center;gap:12px;background:#EAF9F0"><span style="width:11px;height:11px;border-radius:99px;background:#00B140"></span><span style="font:700 19px 'Open Runde',sans-serif;color:#00753B">All systems operational</span><span style="margin-left:auto;font:400 11px 'Geist Mono',monospace;color:#00753B">checked 30s ago</span></div>
+<div style="padding:20px 26px;display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:76px 1fr 56px;gap:12px;align-items:center"><span style="font:600 13px 'Open Runde',sans-serif">API</span><span style="display:flex;gap:1.5px"><sc-for list="{{days90a}}" as="d" hint-placeholder-count="45"><span style="flex:1;height:16px;border-radius:2px;background:{{d.c}}"></span></sc-for></span><span style="font:500 11.5px 'Geist Mono',monospace;color:#5A6352;text-align:right">99.98%</span></div>
+<div style="display:grid;grid-template-columns:76px 1fr 56px;gap:12px;align-items:center"><span style="font:600 13px 'Open Runde',sans-serif">Website</span><span style="display:flex;gap:1.5px"><sc-for list="{{days90b}}" as="d" hint-placeholder-count="45"><span style="flex:1;height:16px;border-radius:2px;background:{{d.c}}"></span></sc-for></span><span style="font:500 11.5px 'Geist Mono',monospace;color:#5A6352;text-align:right">100%</span></div>
+<div style="display:grid;grid-template-columns:76px 1fr 56px;gap:12px;align-items:center"><span style="font:600 13px 'Open Runde',sans-serif">Ingest</span><span style="display:flex;gap:1.5px"><sc-for list="{{days90c}}" as="d" hint-placeholder-count="45"><span style="flex:1;height:16px;border-radius:2px;background:{{d.c}}"></span></sc-for></span><span style="font:500 11.5px 'Geist Mono',monospace;color:#5A6352;text-align:right">99.99%</span></div>
+<p style="margin:0;font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">90 days · one square per day · squares link to that day's incidents</p>
+</div>
+<div style="padding:18px 26px;border-top:1px solid #F0F2EC">
+<p style="margin:0 0 12px;font:700 13px 'Open Runde',sans-serif">Past incidents</p>
+<div style="display:flex;gap:12px;padding:0 0 12px"><span style="font:400 11px 'Geist Mono',monospace;color:#6E7864;width:70px;flex:none">Aug 14</span><span><span style="display:block;font:600 13px 'Open Runde',sans-serif">API degraded response times</span><span style="font:500 12px/18px 'Open Runde',sans-serif;color:#6E7864">Resolved in 4m · post-mortem published · deploy rolled back</span></span></div>
+<div style="display:flex;gap:12px"><span style="font:400 11px 'Geist Mono',monospace;color:#6E7864;width:70px;flex:none">Jul 26</span><span><span style="display:block;font:600 13px 'Open Runde',sans-serif">Ingest delayed by upstream DNS</span><span style="font:500 12px/18px 'Open Runde',sans-serif;color:#6E7864">Resolved in 22m · no data lost</span></span></div>
+</div>
+<div style="padding:14px 26px;border-top:1px solid #F0F2EC;display:flex;justify-content:space-between;font:500 11.5px 'Open Runde',sans-serif;color:#6E7864"><span>status.acme.dev</span><span>Powered by PostDeploy</span></div>
+</div>
+
+<div style="border:1px solid #E9ECE4;border-radius:22px;overflow:hidden;background:#FFFFFF;box-shadow:0 16px 50px rgba(23,27,18,.06)">
+<div style="display:flex;align-items:center;gap:10px;padding:18px 26px;border-bottom:1px solid #F0F2EC"><span style="width:22px;height:22px;border-radius:7px;background:#171B12;display:inline-flex;align-items:center;justify-content:center;font:700 10px 'Open Runde',sans-serif;color:#FFFFFF">A</span><span style="font:700 15px 'Open Runde',sans-serif">Acme changelog</span><span style="margin-left:auto;font:500 11.5px 'Geist Mono',monospace;color:#6E7864">RSS · JSON</span></div>
+<div style="padding:26px;border-bottom:1px solid #F0F2EC">
+<div style="display:flex;gap:10px;align-items:center;margin-bottom:10px"><span style="background:#F4FADC;color:#69790D;font:700 11px 'Open Runde',sans-serif;padding:4px 11px;border-radius:999px">New</span><span style="font:400 11px 'Geist Mono',monospace;color:#6E7864">2026-08-24 · v3.2 · published via MCP</span></div>
+<h4 style="margin:0 0 8px;font:600 22px/1.2 'Bricolage Grotesque',serif;letter-spacing:-.015em">Exports now stream, so big reports don't time out</h4>
+<p style="margin:0 0 14px;font:500 13.5px/22px 'Open Runde',sans-serif;color:#5A6352">Reports over 50k rows used to fail at the gateway. Exports now stream as they generate — the 30-second ceiling is gone, and progress shows in the UI.</p>
+<div style="height:110px;border-radius:12px;background:repeating-linear-gradient(45deg,#F7F8F3 0 10px,#F1F2EC 10px 20px);display:flex;align-items:center;justify-content:center;font:400 11px 'Geist Mono',monospace;color:#6E7864">product screenshot · 16:9 · drops in here</div>
+</div>
+<div style="padding:16px 26px;border-bottom:1px solid #F0F2EC;display:flex;gap:12px;align-items:baseline"><span style="font:400 11px 'Geist Mono',monospace;color:#6E7864;width:86px;flex:none">2026-08-11</span><span style="flex:1"><span style="display:block;font:600 14px 'Open Runde',sans-serif">Team roles: viewer and editor</span><span style="font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">Invite teammates without granting settings access.</span></span><span style="font:500 13px 'Open Runde',sans-serif;color:#6E7864">→</span></div>
+<div style="padding:16px 26px;border-bottom:1px solid #F0F2EC;display:flex;gap:12px;align-items:baseline"><span style="font:400 11px 'Geist Mono',monospace;color:#6E7864;width:86px;flex:none">2026-07-30</span><span style="flex:1"><span style="display:block;font:600 14px 'Open Runde',sans-serif">Dark mode for embedded dashboards</span><span style="font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">Matches your site automatically via prefers-color-scheme.</span></span><span style="font:500 13px 'Open Runde',sans-serif;color:#6E7864">→</span></div>
+<div style="padding:14px 26px;display:flex;justify-content:space-between;font:500 12px 'Open Runde',sans-serif;color:#6E7864"><span>← Newer</span><span style="font-family:'Geist Mono',monospace;font-size:11px">page 1 of 9</span><span>Older →</span></div>
+</div>
+</div>
+</section>
+
+<!-- ============ 09 COMPONENTS ============ -->
+<section id="s09" data-screen-label="09 Component library" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:40px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">09 — COMPONENT LIBRARY</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">The working set, both expressions.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">Public components are pill-shaped and roomy; dashboard components are compact and rectangular. Same tokens, same states, same focus ring.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-family:'Geist',system-ui,sans-serif">
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 14px;font:500 11px 'Geist Mono',monospace;color:#6E7864">ACTIONS — PUBLIC / DASHBOARD</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+<span style="background:#C0DF16;color:#171B12;font:700 14px 'Open Runde',sans-serif;padding:11px 22px;border-radius:999px">Primary</span>
+<span style="border:1px solid #E9ECE4;font:600 14px 'Open Runde',sans-serif;padding:10px 22px;border-radius:999px">Secondary</span>
+<span style="font:600 14px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16;padding-bottom:1px">Tertiary link</span>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid #F5F6F1;padding-top:12px">
+<button style="background:#171B12;color:#FFFFFF;font:500 12.5px 'Geist',sans-serif;padding:7px 14px;border:none;border-radius:8px;cursor:pointer" style-hover="background:#2A3023">Save changes</button>
+<button style="background:#FFFFFF;color:#171B12;font:500 12.5px 'Geist',sans-serif;padding:6px 14px;border:1px solid #E1E4D9;border-radius:8px;cursor:pointer" style-hover="background:#F7F8F3">Cancel</button>
+<button style="background:#FFFFFF;color:#B42318;font:500 12.5px 'Geist',sans-serif;padding:6px 14px;border:1px solid #F3D2CE;border-radius:8px;cursor:pointer" style-hover="background:#FDECEA">Delete monitor</button>
+<button style="background:#F1F2EC;color:#A9B0A0;font:500 12.5px 'Geist',sans-serif;padding:7px 14px;border:none;border-radius:8px" disabled>Disabled</button>
+<span style="width:30px;height:30px;border:1px solid #E1E4D9;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font:500 13px 'Geist',sans-serif;color:#454D3E">…</span>
+</div>
+<p style="margin:12px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">One primary per view. Chartreuse primary is public-only; the dashboard primary is ink. Destructive is bordered until hover, and always confirms.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 14px;font:500 11px 'Geist Mono',monospace;color:#6E7864">BADGES · STATUS · KEY/VALUE</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+<span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ECEEE8;border-radius:999px;padding:4px 11px;font:500 11.5px 'Geist',sans-serif;color:#00753B"><span style="width:6px;height:6px;border-radius:99px;background:#00B140"></span>Operational</span>
+<span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ECEEE8;border-radius:999px;padding:4px 11px;font:500 11.5px 'Geist',sans-serif;color:#9A5B07"><span style="width:6px;height:6px;border-radius:99px;background:#E8960C"></span>Degraded</span>
+<span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #ECEEE8;border-radius:999px;padding:4px 11px;font:500 11.5px 'Geist',sans-serif;color:#B42318"><span style="width:6px;height:6px;border-radius:99px;background:#D92D20"></span>Down</span>
+<span style="background:#F4FADC;color:#69790D;font:600 11px 'Geist',sans-serif;padding:4px 10px;border-radius:999px">New</span>
+<span style="background:#F1F2EC;color:#5A6352;font:500 11px 'Geist Mono',monospace;padding:4px 10px;border-radius:6px">v2.4.1</span>
+<span style="background:#F1F2EC;color:#5A6352;font:500 11px 'Geist Mono',monospace;padding:4px 10px;border-radius:6px">mon_9f2c</span>
+</div>
+<div style="border-top:1px solid #F5F6F1;padding-top:10px;display:grid;grid-template-columns:auto 1fr;gap:5px 20px;font:400 12px 'Geist',sans-serif">
+<span style="color:#6E7864">Endpoint</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">https://api.postdeploy.dev/health</span>
+<span style="color:#6E7864">Method · interval</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">GET · 60s · 2 regions</span>
+<span style="color:#6E7864">Created by</span><span>claude-code via MCP · Aug 26</span>
+</div>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 14px;font:500 11px 'Geist Mono',monospace;color:#6E7864">FORMS — STATES</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+<div><p style="margin:0 0 5px;font:500 12px 'Geist',sans-serif">Monitor name</p><div style="border:1px solid #E1E4D9;border-radius:8px;padding:8px 12px;font:400 13px 'Geist',sans-serif">api-health</div><p style="margin:4px 0 0;font:400 11px 'Geist',sans-serif;color:#6E7864">Shown in alerts and on the status page.</p></div>
+<div><p style="margin:0 0 5px;font:500 12px 'Geist',sans-serif">Check interval</p><div style="border:2px solid #2E62E8;border-radius:8px;padding:7px 11px;font:400 13px 'Geist',sans-serif;display:flex">60 seconds<span style="margin-left:auto;color:#6E7864">⌄</span></div><p style="margin:4px 0 0;font:400 11px 'Geist',sans-serif;color:#2E62E8">Focused — visible ring, 2px offset.</p></div>
+<div><p style="margin:0 0 5px;font:500 12px 'Geist',sans-serif;color:#B42318">Endpoint URL</p><div style="border:1.5px solid #D92D20;border-radius:8px;padding:8px 12px;font:400 13px 'Geist Mono',monospace;color:#171B12">htp://api.postdeploy</div><p style="margin:4px 0 0;font:500 11px 'Geist',sans-serif;color:#B42318">✕ Not a valid URL — did you mean https:// ?</p></div>
+<div><p style="margin:0 0 5px;font:500 12px 'Geist',sans-serif;color:#A9B0A0">Region</p><div style="border:1px solid #ECEEE8;border-radius:8px;padding:8px 12px;font:400 13px 'Geist',sans-serif;color:#A9B0A0;background:#F7F8F3">Auto (plan-managed)</div><p style="margin:4px 0 0;font:400 11px 'Geist',sans-serif;color:#A9B0A0">Disabled — set by your plan.</p></div>
+</div>
+<div style="display:flex;gap:20px;align-items:center;border-top:1px solid #F5F6F1;margin-top:14px;padding-top:12px;font:400 12.5px 'Geist',sans-serif">
+<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:15px;height:15px;border-radius:4px;background:#171B12;display:inline-flex;align-items:center;justify-content:center;color:#C0DF16;font:700 10px 'Geist',sans-serif">✓</span>Email alerts</span>
+<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:15px;height:15px;border-radius:4px;border:1.5px solid #C9D0BD"></span>SMS</span>
+<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:15px;height:15px;border-radius:99px;border:4.5px solid #171B12"></span>Production</span>
+<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:15px;height:15px;border-radius:99px;border:1.5px solid #C9D0BD"></span>Staging</span>
+<span style="display:inline-flex;align-items:center;gap:7px;margin-left:auto"><span style="width:30px;height:17px;border-radius:999px;background:#00B140;position:relative"><span style="position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:99px;background:#FFFFFF"></span></span>Active</span>
+</div>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 14px;font:500 11px 'Geist Mono',monospace;color:#6E7864">FEEDBACK — ALERT · TOAST · BANNER</p>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="border:1px solid #F3D2CE;border-left:3px solid #D92D20;border-radius:8px;padding:11px 14px;display:flex;gap:10px;align-items:baseline"><span style="font:600 12.5px 'Geist',sans-serif;color:#B42318">Check failing</span><span style="font:400 12px 'Geist',sans-serif;color:#5A6352">api-health has failed 2 consecutive checks. Alert sent to #ops.</span><span style="margin-left:auto;font:500 12px 'Geist',sans-serif;color:#454D3E">View</span></div>
+<div style="border:1px solid #F0E2C0;border-left:3px solid #E8960C;border-radius:8px;padding:11px 14px;display:flex;gap:10px;align-items:baseline"><span style="font:600 12.5px 'Geist',sans-serif;color:#9A5B07">Heartbeat late</span><span style="font:400 12px 'Geist',sans-serif;color:#5A6352">nightly-backup is 6 minutes past its window.</span></div>
+<div style="border:1px solid #CFE7D9;border-left:3px solid #00B140;border-radius:8px;padding:11px 14px;display:flex;gap:10px;align-items:baseline"><span style="font:600 12.5px 'Geist',sans-serif;color:#00753B">Monitor created</span><span style="font:400 12px 'Geist',sans-serif;color:#5A6352">dns · postdeploy.dev — first check passed.</span></div>
+<div style="border:1px solid #ECEEE8;border-radius:10px;padding:11px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 20px rgba(23,27,18,.10);max-width:340px"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span><span style="font:500 12.5px 'Geist',sans-serif">Changelog published</span><span style="margin-left:auto;font:500 11.5px 'Geist',sans-serif;color:#6E7864">Undo</span></div>
+</div>
+<p style="margin:12px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Alerts are bordered with a 3px semantic edge, never filled walls of color. Toasts float bottom-right, auto-dismiss, always undoable when the action is.</p>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 14px;font:500 11px 'Geist Mono',monospace;color:#6E7864">OVERLAYS — CONFIRMATION · MENU · TOOLTIP</p>
+<div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start">
+<div style="border:1px solid #ECEEE8;border-radius:12px;box-shadow:0 16px 44px rgba(23,27,18,.14);padding:18px 20px">
+<p style="margin:0 0 4px;font:600 14px 'Geist',sans-serif">Delete monitor "api-health"?</p>
+<p style="margin:0 0 14px;font:400 12.5px/19px 'Geist',sans-serif;color:#5A6352">90 days of check history go with it. The status page entry is removed. This can't be undone.</p>
+<div style="display:flex;gap:8px;justify-content:flex-end"><span style="border:1px solid #E1E4D9;border-radius:8px;padding:6px 14px;font:500 12.5px 'Geist',sans-serif">Cancel</span><span style="background:#D92D20;color:#FFFFFF;border-radius:8px;padding:7px 14px;font:500 12.5px 'Geist',sans-serif">Delete</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="border:1px solid #ECEEE8;border-radius:10px;box-shadow:0 8px 24px rgba(23,27,18,.10);padding:5px;width:150px;font:400 12.5px 'Geist',sans-serif">
+<div style="padding:6px 10px;border-radius:6px" style-hover="background:#F7F8F3">Edit</div>
+<div style="padding:6px 10px;border-radius:6px" style-hover="background:#F7F8F3">Pause</div>
+<div style="padding:6px 10px;border-radius:6px" style-hover="background:#F7F8F3">Duplicate</div>
+<div style="height:1px;background:#F0F2EC;margin:4px 0"></div>
+<div style="padding:6px 10px;border-radius:6px;color:#B42318" style-hover="background:#FDECEA">Delete…</div>
+</div>
+<span style="background:#171B12;color:#FFFFFF;font:400 11px 'Geist',sans-serif;padding:5px 10px;border-radius:6px;align-self:flex-start">p95 · 480ms · 2 regions</span>
+</div>
+</div>
+</div>
+
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 14px;font:500 11px 'Geist Mono',monospace;color:#6E7864">NAVIGATION — TABS · BREADCRUMB · PAGINATION</p>
+<div style="display:flex;gap:2px;border-bottom:1px solid #ECEEE8;margin-bottom:14px;font:500 13px 'Geist',sans-serif">
+<span style="padding:8px 14px;color:#171B12;box-shadow:inset 0 -2px 0 #C0DF16;font-weight:600">Monitors</span>
+<span style="padding:8px 14px;color:#5A6352">Heartbeats</span>
+<span style="padding:8px 14px;color:#5A6352">Incidents <span style="background:#FDECEA;color:#B42318;font:600 10.5px 'Geist',sans-serif;padding:1px 7px;border-radius:999px">1</span></span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;font:500 12.5px 'Geist',sans-serif;color:#6E7864;margin-bottom:14px"><span>postdeploy</span><span style="color:#D7DCCE">/</span><span>postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="color:#171B12">api-health</span></div>
+<div style="display:flex;align-items:center;gap:6px;font:400 12px 'Geist Mono',monospace;color:#5A6352"><span style="border:1px solid #ECEEE8;border-radius:7px;padding:4px 10px">←</span><span style="border:1px solid #171B12;border-radius:7px;padding:4px 10px;color:#171B12;font-weight:500">1</span><span style="border:1px solid #ECEEE8;border-radius:7px;padding:4px 10px">2</span><span style="border:1px solid #ECEEE8;border-radius:7px;padding:4px 10px">3</span><span>…</span><span style="border:1px solid #ECEEE8;border-radius:7px;padding:4px 10px">9</span><span style="border:1px solid #ECEEE8;border-radius:7px;padding:4px 10px">→</span></div>
+<p style="margin:12px 0 0;font:400 11.5px/17px 'Geist',sans-serif;color:#6E7864">Active tab carries the chartreuse underline — the one place brand color appears in dashboard chrome besides selection. Org/project switchers are shown in the 04 sidebar.</p>
+</div>
+
+</div>
+</section>
+
+<!-- ============ 10 WIDGETS ============ -->
+<section id="s10" data-screen-label="10 Embeddable widgets" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:40px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">10 — EMBEDDABLE WIDGETS</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Quiet guests on someone else's site.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">One script tag each. Light and dark, compact and expanded, fluid width. Restrained enough to sit in a stranger's footer.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">
+<div style="border:1px solid #E9ECE4;border-radius:18px;background:#F5F6F1;padding:28px;display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#6E7864">LIGHT · on a customer's site</p>
+<span style="display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;border:1px solid #E9ECE4;border-radius:999px;padding:8px 15px;font:600 12.5px 'Open Runde',sans-serif;color:#00753B"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span>All systems operational</span>
+<div style="width:100%;background:#FFFFFF;border:1px solid #E9ECE4;border-radius:14px;padding:14px 18px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span><span style="font:600 13px 'Open Runde',sans-serif">acme.dev uptime</span><span style="margin-left:auto;font:500 12px 'Geist Mono',monospace;color:#5A6352">99.98%</span></div>
+<div style="display:flex;gap:2px"><sc-for list="{{wTicks}}" as="t" hint-placeholder-count="14"><span style="flex:1;height:14px;border-radius:2px;background:{{t.c}}"></span></sc-for></div>
+<p style="margin:8px 0 0;font:500 10.5px 'Open Runde',sans-serif;color:#6E7864">14 days · status.acme.dev</p>
+</div>
+<div style="width:100%;background:#FFFFFF;border:1px solid #E9ECE4;border-radius:14px;padding:14px 18px;display:flex;gap:12px;align-items:baseline"><span style="background:#F4FADC;color:#69790D;font:700 10.5px 'Open Runde',sans-serif;padding:3px 9px;border-radius:999px">v3.2</span><span style="flex:1"><span style="display:block;font:600 13px 'Open Runde',sans-serif">Exports now stream</span><span style="font:500 11.5px 'Open Runde',sans-serif;color:#6E7864">Aug 24 · from the changelog</span></span><span style="font:500 12px 'Open Runde',sans-serif;color:#6E7864">→</span></div>
+</div>
+<div style="border:1px solid #2A3023;border-radius:18px;background:#171B12;padding:28px;display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+<p style="margin:0;font:500 11px 'Geist Mono',monospace;color:#A9B49B">DARK · prefers-color-scheme aware</p>
+<span style="display:inline-flex;align-items:center;gap:8px;background:#20261B;border:1px solid #333B2B;border-radius:999px;padding:8px 15px;font:600 12.5px 'Open Runde',sans-serif;color:#7BD99B"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span>All systems operational</span>
+<div style="width:100%;background:#20261B;border:1px solid #333B2B;border-radius:14px;padding:14px 18px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span><span style="font:600 13px 'Open Runde',sans-serif;color:#F2F4EC">acme.dev uptime</span><span style="margin-left:auto;font:500 12px 'Geist Mono',monospace;color:#A9B49B">99.98%</span></div>
+<div style="display:flex;gap:2px"><sc-for list="{{wTicks}}" as="t" hint-placeholder-count="14"><span style="flex:1;height:14px;border-radius:2px;background:{{t.c}}"></span></sc-for></div>
+<p style="margin:8px 0 0;font:500 10.5px 'Open Runde',sans-serif;color:#A9B49B">14 days · status.acme.dev</p>
+</div>
+<div style="width:100%;background:#20261B;border:1px solid #333B2B;border-radius:14px;padding:14px 18px;display:flex;gap:14px;align-items:center"><span style="display:inline-flex;align-items:center;gap:7px;font:600 12.5px 'Open Runde',sans-serif;color:#7BD99B"><span style="width:7px;height:7px;border-radius:99px;background:#00B140"></span>Operational</span><span style="font:500 12px 'Geist Mono',monospace;color:#A9B49B">99.98% · 90d</span><span style="margin-left:auto;flex:1;max-width:180px"><span style="display:block;font:600 12.5px 'Open Runde',sans-serif;color:#F2F4EC;text-align:right">v3.2 · Exports now stream</span></span></div>
+</div>
+</div>
+<p style="margin:18px 0 0;text-align:center;font:500 12.5px 'Open Runde',sans-serif;color:#6E7864">Status badge · uptime widget · changelog widget · combined (dark, bottom right). The red day stays red in both themes — state never adapts to taste.</p>
+</section>
+
+<!-- ============ 11 RESPONSIVE + ACCESSIBILITY ============ -->
+<section id="s11r" data-screen-label="11 Responsive + accessibility" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:40px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">11 — RESPONSIVE · ACCESSIBILITY</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Small screens and strict contrast, by rule.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:560px">The mobile homepage as designed (not collapsed), and the WCAG AA audit of every token pair in this file — including one fix the audit forced.</p>
+</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;justify-content:center">
+
+<div style="width:340px;border:1px solid #E9ECE4;border-radius:32px;box-shadow:0 24px 70px rgba(23,27,18,.10);overflow:hidden;background:#FFFFFF">
+<div style="display:flex;align-items:center;padding:14px 18px">
+<span style="display:inline-flex;align-items:center;gap:7px;font:700 14px 'Open Runde',sans-serif"><svg width="19" height="19" viewBox="0 0 512 512"><path d="M96 190C60 150 90 105 150 80C230 42 345 25 408 60C458 88 452 141 394 176C328 216 198 240 140 228C112 222 104 208 96 190Z" fill="#C0DF16"></path><path d="M258 234C330 226 400 292 434 370C462 434 428 466 350 471C268 476 162 474 116 455C72 437 66 396 96 342C126 289 192 241 258 234Z" fill="#171B12"></path></svg><span>postdeploy<span style="color:#8FA80E">.</span></span></span>
+<span style="margin-left:auto;display:inline-flex;flex-direction:column;gap:4px;padding:12px 4px"><span style="width:20px;height:2px;background:#171B12;border-radius:2px"></span><span style="width:20px;height:2px;background:#171B12;border-radius:2px"></span></span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:26px 20px 22px">
+<span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E9ECE4;font:600 11px 'Open Runde',sans-serif;color:#00753B;padding:7px 12px;border-radius:999px"><span style="width:6px;height:6px;border-radius:99px;background:#00B140"></span>all systems operational</span>
+<h4 style="margin:0;font:600 31px/1.08 'Bricolage Grotesque',serif;letter-spacing:-.02em">Your agent sets it up. You see everything.</h4>
+<p style="margin:0;font:500 13.5px/21px 'Open Runde',sans-serif;color:#5A6352">Uptime, errors, analytics, status and changelogs — configured over MCP by the agent you already use.</p>
+<span style="width:100%;background:#C0DF16;color:#171B12;font:700 14.5px 'Open Runde',sans-serif;padding:14px 0;border-radius:999px">Start free trial</span>
+<span style="font:600 13.5px 'Open Runde',sans-serif;color:#171B12;border-bottom:2px solid #C0DF16;padding-bottom:1px">See how MCP works</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#F0F2EC;border-top:1px solid #F0F2EC;border-bottom:1px solid #F0F2EC">
+<div style="background:#FFFFFF;padding:12px 16px"><p style="margin:0;font:600 10.5px 'Open Runde',sans-serif;color:#6E7864">Uptime</p><p style="margin:3px 0 0;font:600 17px 'Geist',sans-serif">99.98%</p></div>
+<div style="background:#FFFFFF;padding:12px 16px"><p style="margin:0;font:600 10.5px 'Open Runde',sans-serif;color:#6E7864">Response</p><p style="margin:3px 0 0;font:600 17px 'Geist',sans-serif">186ms</p></div>
+<div style="background:#FFFFFF;padding:12px 16px"><p style="margin:0;font:600 10.5px 'Open Runde',sans-serif;color:#6E7864">Traffic · 7d</p><p style="margin:3px 0 0;font:600 17px 'Geist',sans-serif">3,412</p></div>
+<div style="background:#FFFFFF;padding:12px 16px"><p style="margin:0;font:600 10.5px 'Open Runde',sans-serif;color:#6E7864">Errors</p><p style="margin:3px 0 0;font:600 17px 'Geist',sans-serif;color:#B42318">3</p></div>
+</div>
+<div style="padding:16px 18px 20px">
+<div style="display:flex;gap:2px;align-items:flex-end;height:52px"><sc-for list="{{upTicks}}" as="t" hint-placeholder-count="36"><span style="flex:1;height:{{t.h}};border-radius:2px;background:{{t.c}}"></span></sc-for></div>
+<div style="display:flex;justify-content:space-between;font:400 10px 'Geist Mono',monospace;color:#6E7864;margin-top:6px"><span>{{rangeStart}}</span><span>now</span></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:16px;max-width:560px;font-family:'Geist',system-ui,sans-serif">
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 12px;font:500 11px 'Geist Mono',monospace;color:#6E7864">CONTRAST LEDGER — WCAG AA</p>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:7px 18px;font:400 12.5px 'Geist',sans-serif;align-items:center">
+<span>Headlines #171B12 on white</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">16.4:1</span><span style="color:#00753B;font-weight:500">pass</span>
+<span>Body #5A6352 on white</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">6.3:1</span><span style="color:#00753B;font-weight:500">pass</span>
+<span>Muted metadata #6E7864 on white</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">4.6:1</span><span style="color:#00753B;font-weight:500">pass</span>
+<span>Ink on chartreuse (primary button)</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">11.9:1</span><span style="color:#00753B;font-weight:500">pass</span>
+<span>Brand-deep #69790D on brand-wash</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">4.7:1</span><span style="color:#00753B;font-weight:500">pass</span>
+<span>Status text: #00753B · #9A5B07 · #B42318 on white</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">≥5.3:1</span><span style="color:#00753B;font-weight:500">pass</span>
+<span>Dark widgets #A9B49B on #20261B</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px">7.0:1</span><span style="color:#00753B;font-weight:500">pass</span>
+</div>
+<p style="margin:12px 0 0;font:400 12px/18px 'Geist',sans-serif;color:#9A5B07;background:#FCF0DD;border-radius:8px;padding:9px 12px"><strong style="font-weight:600">Fixed in this audit:</strong> the muted-text token shipped at 8A9284 (3.4:1 — fail) and has been darkened to 6E7864 (4.6:1) across every surface in this file. Chartreuse remains a fill and highlight only, never a text color on white.</p>
+</div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 10px;font:500 11px 'Geist Mono',monospace;color:#6E7864">FOCUS · KEYBOARD · MOTION</p>
+<p style="margin:0;font:400 12.5px/20px 'Geist',sans-serif;color:#454D3E">Focus is a 2px #2E62E8 ring at 2px offset on every interactive element, including chart ticks and widget links — shown live on the sign-in password field in 06. Tab order follows reading order; menus are arrow-keyed; dialogs trap focus and close on Esc. Every chart offers "view as table". State is always dot + word, never color alone. <code style="font-family:'Geist Mono',monospace;font-size:11.5px">prefers-reduced-motion</code> collapses all transitions to opacity; nothing loops except the live-status pulse, and even that stops.</p>
+</div>
+<div style="border:1px solid #ECEEE8;border-radius:12px;padding:18px 20px;background:#FFFFFF">
+<p style="margin:0 0 10px;font:500 11px 'Geist Mono',monospace;color:#6E7864">RULES THAT SURVIVE BREAKPOINTS</p>
+<p style="margin:0;font:400 12.5px/20px 'Geist',sans-serif;color:#454D3E">Nav becomes a full-screen sheet with 48px rows. Hero metrics reflow 4→2×2; charts go full-bleed with x-labels reduced to endpoints while thresholds and deploy markers keep their labels. Tables pivot to key/value stacks; the comparison table gets a sticky plan switcher. The OAuth consent screen becomes a full-height sheet. Widgets are fluid to 240px. Copy never drops below 15px, targets never below 44px, and the display face steps 60→31px rather than shrinking line-length past ~34ch.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 12 DASHBOARD SCREENS ============ -->
+<section id="s12d" data-screen-label="12 Dashboard screens" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:40px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">12 — DASHBOARD SCREENS</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">The rest of the app, same vocabulary.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:580px">Each screen is the main content area and slots into the 04 shell beside the sidebar. Full-width layouts, 13 to 14px working text, nothing below 12px.</p>
+</div>
+<div style="font-family:'Geist',system-ui,sans-serif;text-align:left">
+
+<div data-screen-label="Observe, Issues" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Issues</span><span style="margin-left:auto;display:flex;gap:2px;font:500 13px 'Geist',sans-serif"><span style="padding:6px 14px;border-radius:8px;background:#F1F2EC;color:#171B12;font-weight:600">Open 1</span><span style="padding:6px 14px;color:#5A6352">Resolved 12</span><span style="padding:6px 14px;color:#5A6352">Ignored 2</span></span></div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:0">
+<div style="padding:18px 24px;border-right:1px solid #F0F2EC">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="width:9px;height:9px;border-radius:99px;background:#D92D20"></span><span style="font:500 15px 'Geist Mono',monospace">TypeError: fetch failed</span><span style="background:#F4FADC;color:#69790D;font:600 11.5px 'Geist',sans-serif;padding:3px 10px;border-radius:999px">New</span><span style="background:#F1F2EC;color:#5A6352;font:500 11.5px 'Geist Mono',monospace;padding:3px 10px;border-radius:6px">v2.4.1</span><span style="margin-left:auto;font:400 12.5px 'Geist Mono',monospace;color:#6E7864">3 events, first seen 2h ago</span></div>
+<pre style="margin:14px 0;padding:16px 18px;border-radius:10px;background:#171B12;font:400 12.5px/20px 'Geist Mono',monospace;color:#E8ECDF;overflow-x:auto">at chargeCustomer (worker/api/billing.ts:214:11)
+at processOrder  (worker/api/orders.ts:88:9)
+<span style="color:#A9B49B">symbolicated from sourcemap, release v2.4.1</span></pre>
+<div style="display:flex;gap:10px;align-items:center"><span style="background:#171B12;color:#FFFFFF;font:500 13px 'Geist',sans-serif;padding:8px 16px;border-radius:8px">Resolve</span><span style="border:1px solid #E1E4D9;font:500 13px 'Geist',sans-serif;padding:7px 16px;border-radius:8px">Ignore</span><span style="border:1px solid #E1E4D9;font:500 13px 'Geist',sans-serif;padding:7px 16px;border-radius:8px">Assign</span></div>
+</div>
+<div style="padding:18px 24px;display:flex;flex-direction:column;gap:14px;background:#FBFBF9">
+<p style="margin:0;font:600 13.5px 'Geist',sans-serif">Release context</p>
+<div style="display:flex;align-items:center;gap:10px;font:400 13px 'Geist',sans-serif"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span>v2.4.0 <span style="margin-left:auto;color:#00753B;font-weight:500">clean</span></div>
+<div style="display:flex;align-items:center;gap:10px;font:400 13px 'Geist',sans-serif"><span style="width:8px;height:8px;border-radius:99px;background:#D92D20"></span>v2.4.1 <span style="margin-left:auto;color:#B42318;font-weight:500">introduced this issue</span></div>
+<p style="margin:0;font:400 12.5px/19px 'Geist',sans-serif;color:#5A6352">Deployed 2h ago by claude-code via MCP. Latency at p95 rose 38ms in the same window.</p>
+<span style="border:1px solid #E1E4D9;border-radius:8px;padding:8px 0;text-align:center;font:500 13px 'Geist',sans-serif;color:#171B12;background:#FFFFFF">View deploy v2.4.1</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:13px 24px;border-top:1px solid #F0F2EC"><span style="width:8px;height:8px;border-radius:99px;background:#C9D0BD"></span><span style="font:400 13px 'Geist Mono',monospace;color:#5A6352">RateLimitError: 429 from upstream</span><span style="margin-left:auto;font:400 12px 'Geist Mono',monospace;color:#6E7864">resolved, 41 events, Aug 12</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:13px 24px;border-top:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#C9D0BD"></span><span style="font:400 13px 'Geist Mono',monospace;color:#5A6352">TimeoutError: db pool exhausted</span><span style="margin-left:auto;font:400 12px 'Geist Mono',monospace;color:#6E7864">resolved, 7 events, Jul 30</span></div>
+</div>
+
+<div data-screen-label="Measure, Traffic" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Traffic</span>
+<span style="margin-left:auto;display:inline-flex;background:#F1F2EC;border-radius:999px;padding:3px"><sc-for list="{{tRanges}}" as="r" hint-placeholder-count="3"><span onClick="{{r.onClick}}" style="cursor:pointer;font:600 12.5px 'Geist',sans-serif;color:{{r.fg}};background:{{r.bg}};padding:6px 14px;border-radius:999px;box-shadow:{{r.sh}}">{{r.label}}</span></sc-for></span>
+</div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:0">
+<div style="padding:20px 24px 12px;border-right:1px solid #F0F2EC">
+<p style="margin:0 0 14px"><span style="font:600 30px/1 'Geist',sans-serif;letter-spacing:-.02em">{{trafTotal}}</span> <span style="font:400 13px 'Geist',sans-serif;color:#6E7864">pageviews from {{trafVis}} visitors</span> <span style="font:500 13px 'Geist',sans-serif;color:#00753B">+12% on the previous period</span></p>
+<div style="display:flex;gap:3px;align-items:flex-end;height:120px"><sc-for list="{{trafBars}}" as="b" hint-placeholder-count="14"><span style="flex:1;height:{{b.h}};border-radius:3px 3px 1px 1px;background:{{b.c}}"></span></sc-for></div>
+<div style="display:flex;justify-content:space-between;font:400 12px 'Geist Mono',monospace;color:#6E7864;margin-top:8px"><span>{{tRangeStart}}</span><span>today</span></div>
+</div>
+<div style="display:grid;grid-template-rows:1fr 1fr">
+<div style="padding:18px 24px;border-bottom:1px solid #F0F2EC">
+<p style="margin:0 0 10px;font:600 13.5px 'Geist',sans-serif">Top pages</p>
+<sc-for list="{{topPages}}" as="p" hint-placeholder-count="4"><div style="display:flex;gap:10px;align-items:baseline;padding:4px 0;font:400 12.5px 'Geist Mono',monospace"><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{p.path}}</span><span style="color:#5A6352">{{p.n}}</span></div></sc-for>
+</div>
+<div style="padding:18px 24px">
+<p style="margin:0 0 10px;font:600 13.5px 'Geist',sans-serif">Referrers</p>
+<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0;font:400 12.5px 'Geist Mono',monospace"><span style="flex:1">direct</span><span style="color:#5A6352">1,921</span></div>
+<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0;font:400 12.5px 'Geist Mono',monospace"><span style="flex:1">news.ycombinator.com</span><span style="color:#5A6352">612</span></div>
+<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0;font:400 12.5px 'Geist Mono',monospace"><span style="flex:1">github.com</span><span style="color:#5A6352">344</span></div>
+</div>
+</div>
+</div>
+<div style="padding:12px 24px;border-top:1px solid #F0F2EC;font:400 12.5px 'Geist',sans-serif;color:#6E7864">No cookies, no raw IPs, and the visitor salt rotates daily. Deploy markers overlay the chart on hover.</div>
+</div>
+
+<div data-screen-label="Incidents" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Incidents</span><span style="margin-left:auto;background:#FDECEA;color:#B42318;font:600 12px 'Geist',sans-serif;padding:4px 12px;border-radius:999px">1 open</span></div>
+<div style="margin:18px 24px;border:1px solid #F3D2CE;border-radius:12px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px;background:#FDECEA"><span style="width:9px;height:9px;border-radius:99px;background:#D92D20"></span><span style="font:600 15px 'Geist',sans-serif;color:#B42318">nightly-backup missed its heartbeat</span><span style="margin-left:auto;font:400 12.5px 'Geist Mono',monospace;color:#B42318">open for 22 minutes</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+<div style="padding:16px 20px;border-right:1px solid #F5F6F1"><p style="margin:0 0 6px;font:600 13px 'Geist',sans-serif">What happened</p><p style="margin:0;font:400 13px/20px 'Geist',sans-serif;color:#5A6352">Expected a ping at 03:00 UTC. Nothing arrived within the 15 minute grace window, so the incident opened and alerts went to #ops and email.</p></div>
+<div style="padding:16px 20px;border-right:1px solid #F5F6F1"><p style="margin:0 0 6px;font:600 13px 'Geist',sans-serif">Context</p><p style="margin:0;font:400 13px/20px 'Geist',sans-serif;color:#5A6352">No related errors in Observe. Last deploy was v2.4.1, 2 hours earlier. The previous 89 nights all pinged on time.</p></div>
+<div style="padding:16px 20px;display:flex;flex-direction:column;gap:8px"><p style="margin:0;font:600 13px 'Geist',sans-serif">Actions</p><span style="border:1px solid #E1E4D9;border-radius:8px;padding:7px 0;text-align:center;font:500 13px 'Geist',sans-serif;background:#FFFFFF">Post to status page</span><span style="border:1px solid #E1E4D9;border-radius:8px;padding:7px 0;text-align:center;font:500 13px 'Geist',sans-serif;background:#FFFFFF">Resolve manually</span></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr;gap:16px;padding:12px 24px;border-top:1px solid #ECEEE8;background:#FBFBF9;font:600 12px 'Geist',sans-serif;color:#6E7864"><span>PAST INCIDENTS</span><span>OPENED</span><span>DURATION</span><span>CAUSE</span></div>
+<div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr;gap:16px;padding:13px 24px;border-top:1px solid #F5F6F1;font:400 13px 'Geist',sans-serif;align-items:center"><span style="display:flex;align-items:center;gap:10px"><span style="width:8px;height:8px;border-radius:99px;background:#C9D0BD"></span>api-health failed 2 checks</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Aug 25, 11:28</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">4 minutes</span><span style="color:#5A6352">deploy, rolled back</span></div>
+<div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr;gap:16px;padding:13px 24px;border-top:1px solid #F5F6F1;font:400 13px 'Geist',sans-serif;align-items:center"><span style="display:flex;align-items:center;gap:10px"><span style="width:8px;height:8px;border-radius:99px;background:#C9D0BD"></span>ingest delayed by upstream DNS</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Jul 26, 09:02</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">22 minutes</span><span style="color:#5A6352">provider</span></div>
+</div>
+
+<div data-screen-label="Deployments" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Deployments</span><span style="margin-left:auto;font:400 12.5px 'Geist Mono',monospace;color:#6E7864">tracked from GitHub</span></div>
+<div style="display:grid;grid-template-columns:1fr 1.4fr 1fr 2fr;gap:16px;padding:12px 24px;background:#FBFBF9;font:600 12px 'Geist',sans-serif;color:#6E7864"><span>RELEASE</span><span>DEPLOYED</span><span>BY</span><span>IMPACT AFTER 2 HOURS</span></div>
+<div style="display:grid;grid-template-columns:1fr 1.4fr 1fr 2fr;gap:16px;padding:14px 24px;border-top:1px solid #F5F6F1;font:400 13px 'Geist',sans-serif;align-items:center">
+<span style="font-family:'Geist Mono',monospace;font-size:13px;font-weight:500">v2.4.1</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">today, 09:10 UTC</span><span style="color:#5A6352">claude-code via MCP</span>
+<span style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#FDECEA;color:#B42318;font:500 12px 'Geist',sans-serif;padding:3px 10px;border-radius:999px">errors +3</span><span style="background:#FCF0DD;color:#9A5B07;font:500 12px 'Geist',sans-serif;padding:3px 10px;border-radius:999px">p95 +38ms</span><span style="background:#EAF9F0;color:#00753B;font:500 12px 'Geist',sans-serif;padding:3px 10px;border-radius:999px">traffic +6%</span></span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1.4fr 1fr 2fr;gap:16px;padding:14px 24px;border-top:1px solid #F5F6F1;font:400 13px 'Geist',sans-serif;align-items:center">
+<span style="font-family:'Geist Mono',monospace;font-size:13px">v2.4.0</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Aug 22, 15:44 UTC</span><span style="color:#5A6352">Paul</span><span style="color:#00753B;font-weight:500">clean, no regressions observed</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1.4fr 1fr 2fr;gap:16px;padding:14px 24px;border-top:1px solid #F5F6F1;font:400 13px 'Geist',sans-serif;align-items:center">
+<span style="font-family:'Geist Mono',monospace;font-size:13px">v2.3.9</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Aug 14, 10:02 UTC</span><span style="color:#5A6352">Paul</span><span style="color:#00753B;font-weight:500">clean, one incident unrelated</span>
+</div>
+<div style="padding:12px 24px;border-top:1px solid #F0F2EC;font:400 12.5px 'Geist',sans-serif;color:#6E7864">Impact compares the 2 hours after a deploy with the 2 hours before it. Correlation is stated, causation is yours to judge.</div>
+</div>
+<div data-screen-label="Status page management" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Status page</span><span style="margin-left:auto;border:1px solid #E1E4D9;border-radius:8px;padding:6px 14px;font:500 13px 'Geist',sans-serif;color:#171B12">Open public page</span></div>
+<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:0">
+<div style="padding:18px 24px;border-right:1px solid #F0F2EC">
+<p style="margin:0 0 12px;font:600 13.5px 'Geist',sans-serif">Components shown to your users</p>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:400 13.5px 'Geist',sans-serif">API</span><span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">linked to api-health</span><span style="width:34px;height:20px;border-radius:999px;background:#00B140;position:relative"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #F5F6F1"><span style="width:8px;height:8px;border-radius:99px;background:#00B140"></span><span style="flex:1;font:400 13.5px 'Geist',sans-serif">Website</span><span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">linked to postdeploy.dev</span><span style="width:34px;height:20px;border-radius:999px;background:#00B140;position:relative"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 0"><span style="width:8px;height:8px;border-radius:99px;background:#8A9691"></span><span style="flex:1;font:400 13.5px 'Geist',sans-serif;color:#5A6352">Ingest</span><span style="font:400 12px 'Geist Mono',monospace;color:#6E7864">hidden from public</span><span style="width:34px;height:20px;border-radius:999px;background:#E9ECE4;position:relative"><span style="position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:99px;background:#FFFFFF"></span></span></div>
+</div>
+<div style="padding:18px 24px;display:flex;flex-direction:column;gap:12px;background:#FBFBF9">
+<p style="margin:0;font:600 13.5px 'Geist',sans-serif">Page settings</p>
+<div><p style="margin:0 0 5px;font:500 12.5px 'Geist',sans-serif;color:#5A6352">Custom domain</p><div style="border:1px solid #E1E4D9;border-radius:8px;padding:9px 13px;font:400 13px 'Geist Mono',monospace;background:#FFFFFF">status.postdeploy.dev</div></div>
+<div style="display:flex;align-items:center;gap:10px;font:400 13px 'Geist',sans-serif"><span style="width:15px;height:15px;border-radius:4px;background:#171B12;display:inline-flex;align-items:center;justify-content:center;color:#C0DF16;font:700 10px 'Geist',sans-serif">✓</span>Show 90 days of uptime history</div>
+<div style="display:flex;align-items:center;gap:10px;font:400 13px 'Geist',sans-serif"><span style="width:15px;height:15px;border-radius:4px;background:#171B12;display:inline-flex;align-items:center;justify-content:center;color:#C0DF16;font:700 10px 'Geist',sans-serif">✓</span>Show the changelog on the page</div>
+<div style="display:flex;align-items:center;gap:10px;font:400 13px 'Geist',sans-serif"><span style="width:15px;height:15px;border-radius:4px;border:1.5px solid #C9D0BD"></span>Require email to subscribe</div>
+</div>
+</div>
+</div>
+
+<div data-screen-label="Changelog management" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy.dev</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Changelog</span><span style="margin-left:auto;background:#171B12;color:#FFFFFF;font:500 13px 'Geist',sans-serif;padding:7px 16px;border-radius:8px">New entry</span></div>
+<div style="margin:18px 24px;border:1px solid #F0E2C0;border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:14px;background:#FCF6E8">
+<span style="background:#FCF0DD;color:#9A5B07;font:600 12px 'Geist',sans-serif;padding:4px 12px;border-radius:999px">Draft</span>
+<span style="flex:1"><span style="display:block;font:600 14px 'Geist',sans-serif">v2.4.1: DNS checks with CDN awareness</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">Drafted by claude-code via MCP, 2 hours ago. Waiting for your review before it goes public.</span></span>
+<span style="border:1px solid #E1E4D9;border-radius:8px;padding:7px 16px;font:500 13px 'Geist',sans-serif;background:#FFFFFF">Edit</span>
+<span style="background:#171B12;color:#FFFFFF;border-radius:8px;padding:8px 16px;font:500 13px 'Geist',sans-serif">Review and publish</span>
+</div>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;padding:12px 24px;background:#FBFBF9;font:600 12px 'Geist',sans-serif;color:#6E7864"><span>PUBLISHED ENTRIES</span><span>DATE</span><span>AREA</span><span>VIEWS</span></div>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;padding:13px 24px;border-top:1px solid #F5F6F1;font:400 13.5px 'Geist',sans-serif;align-items:center"><span>Exports now stream</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Aug 24</span><span style="color:#5A6352">Platform</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">1,204</span></div>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;padding:13px 24px;border-top:1px solid #F5F6F1;font:400 13.5px 'Geist',sans-serif;align-items:center"><span>Team roles: viewer and editor</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Aug 11</span><span style="color:#5A6352">Platform</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">867</span></div>
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;padding:13px 24px;border-top:1px solid #F5F6F1;font:400 13.5px 'Geist',sans-serif;align-items:center"><span>Dark mode for embedded dashboards</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">Jul 30</span><span style="color:#5A6352">Measure</span><span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:#5A6352">641</span></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+<div data-screen-label="Integrations" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05)">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Integrations</span></div>
+<div style="display:flex;align-items:center;gap:14px;padding:15px 24px;border-bottom:1px solid #F5F6F1"><span style="width:34px;height:34px;border-radius:9px;background:#F1F2EC;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Geist',sans-serif;color:#454D3E">Sl</span><span style="flex:1"><span style="display:block;font:600 13.5px 'Geist',sans-serif">Slack</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">Alerts post to #ops as they happen</span></span><span style="background:#EAF9F0;color:#00753B;font:600 12px 'Geist',sans-serif;padding:4px 12px;border-radius:999px">Connected</span></div>
+<div style="display:flex;align-items:center;gap:14px;padding:15px 24px;border-bottom:1px solid #F5F6F1"><span style="width:34px;height:34px;border-radius:9px;background:#F1F2EC;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Geist',sans-serif;color:#454D3E">Gh</span><span style="flex:1"><span style="display:block;font:600 13.5px 'Geist',sans-serif">GitHub</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">Deploys tracked from the main branch</span></span><span style="background:#EAF9F0;color:#00753B;font:600 12px 'Geist',sans-serif;padding:4px 12px;border-radius:999px">Connected</span></div>
+<div style="display:flex;align-items:center;gap:14px;padding:15px 24px;border-bottom:1px solid #F5F6F1"><span style="width:34px;height:34px;border-radius:9px;background:#F1F2EC;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Geist',sans-serif;color:#454D3E">Em</span><span style="flex:1"><span style="display:block;font:600 13.5px 'Geist',sans-serif">Email</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">paul@postdeploy.dev receives every alert</span></span><span style="background:#EAF9F0;color:#00753B;font:600 12px 'Geist',sans-serif;padding:4px 12px;border-radius:999px">Connected</span></div>
+<div style="display:flex;align-items:center;gap:14px;padding:15px 24px"><span style="width:34px;height:34px;border-radius:9px;background:#F1F2EC;display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Geist',sans-serif;color:#454D3E">Wh</span><span style="flex:1"><span style="display:block;font:600 13.5px 'Geist',sans-serif">Webhook</span><span style="font:400 12.5px 'Geist',sans-serif;color:#5A6352">Send alert payloads to your own endpoint</span></span><span style="border:1px solid #E1E4D9;font:500 12.5px 'Geist',sans-serif;padding:5px 14px;border-radius:8px">Configure</span></div>
+</div>
+<div data-screen-label="Settings" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05)">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Settings</span></div>
+<div style="padding:18px 24px;display:flex;flex-direction:column;gap:14px">
+<div><p style="margin:0 0 5px;font:500 12.5px 'Geist',sans-serif;color:#5A6352">Organization name</p><div style="border:1px solid #E1E4D9;border-radius:8px;padding:9px 13px;font:400 13.5px 'Geist',sans-serif">postdeploy</div></div>
+<div><p style="margin:0 0 5px;font:500 12.5px 'Geist',sans-serif;color:#5A6352">Timezone for alerts and reports</p><div style="border:1px solid #E1E4D9;border-radius:8px;padding:9px 13px;font:400 13.5px 'Geist',sans-serif;display:flex">UTC<span style="margin-left:auto;color:#6E7864">⌄</span></div></div>
+<div><p style="margin:0 0 8px;font:500 12.5px 'Geist',sans-serif;color:#5A6352">Members</p>
+<div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #F5F6F1;font:400 13.5px 'Geist',sans-serif"><span style="width:26px;height:26px;border-radius:99px;background:#E7EBDC;display:inline-flex;align-items:center;justify-content:center;font:600 11px 'Geist',sans-serif;color:#454D3E">P</span>Paul<span style="margin-left:auto;font:500 12px 'Geist',sans-serif;color:#6E7864">Owner</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:10px 0;font:500 13px 'Geist',sans-serif;color:#171B12"><span style="width:26px;height:26px;border-radius:99px;border:1.5px dashed #C9D0BD;display:inline-flex;align-items:center;justify-content:center;color:#6E7864">+</span>Invite a teammate</div>
+</div>
+<div style="border:1px solid #F3D2CE;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px"><span style="flex:1"><span style="display:block;font:600 13px 'Geist',sans-serif;color:#B42318">Delete this organization</span><span style="font:400 12px 'Geist',sans-serif;color:#5A6352">Removes every project, monitor and page. Asks twice.</span></span><span style="border:1px solid #F3D2CE;border-radius:8px;padding:6px 14px;font:500 12.5px 'Geist',sans-serif;color:#B42318">Delete</span></div>
+</div>
+</div>
+</div>
+
+<div data-screen-label="Billing" style="border:1px solid #ECEEE8;border-radius:14px;overflow:hidden;background:#FFFFFF;box-shadow:0 12px 36px rgba(23,27,18,.05);margin-top:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #ECEEE8"><span style="font:500 13px 'Geist',sans-serif;color:#6E7864">postdeploy</span><span style="color:#D7DCCE">/</span><span style="font:600 13.5px 'Geist',sans-serif">Billing</span><span style="margin-left:auto;font:400 12.5px 'Geist Mono',monospace;color:#6E7864">plan changes are human-only, never MCP</span></div>
+<div style="display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:0">
+<div style="padding:18px 24px;border-right:1px solid #F0F2EC">
+<p style="margin:0 0 4px;font:600 13.5px 'Geist',sans-serif">Indie plan</p>
+<p style="margin:0 0 10px"><span style="font:600 30px/1 'Geist',sans-serif;letter-spacing:-.02em">$15</span> <span style="font:400 13px 'Geist',sans-serif;color:#6E7864">per month, flat</span></p>
+<p style="margin:0 0 14px;font:400 12.5px/19px 'Geist',sans-serif;color:#5A6352">No seats, no metering surprises. The meters to the right are allowances, not charges.</p>
+<span style="display:inline-block;border:1px solid #E1E4D9;border-radius:8px;padding:7px 16px;font:500 13px 'Geist',sans-serif">Change plan</span>
+</div>
+<div style="padding:18px 24px;border-right:1px solid #F0F2EC;display:flex;flex-direction:column;gap:14px">
+<div><div style="display:flex;justify-content:space-between;font:400 12.5px 'Geist',sans-serif;margin-bottom:5px"><span>Monitors and heartbeats</span><span style="font-family:'Geist Mono',monospace;color:#5A6352">5 of 20</span></div><div style="height:8px;border-radius:999px;background:#F1F2EC"><div style="width:25%;height:8px;border-radius:999px;background:#C0DF16"></div></div></div>
+<div><div style="display:flex;justify-content:space-between;font:400 12.5px 'Geist',sans-serif;margin-bottom:5px"><span>Analytics events this month</span><span style="font-family:'Geist Mono',monospace;color:#5A6352">6,984 of 100k</span></div><div style="height:8px;border-radius:999px;background:#F1F2EC"><div style="width:7%;height:8px;border-radius:999px;background:#C0DF16"></div></div></div>
+<div><div style="display:flex;justify-content:space-between;font:400 12.5px 'Geist',sans-serif;margin-bottom:5px"><span>Error events this month</span><span style="font-family:'Geist Mono',monospace;color:#5A6352">3 of 10k</span></div><div style="height:8px;border-radius:999px;background:#F1F2EC"><div style="width:2%;height:8px;border-radius:999px;background:#C0DF16"></div></div></div>
+</div>
+<div style="padding:18px 24px">
+<p style="margin:0 0 10px;font:600 13.5px 'Geist',sans-serif">Invoices</p>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F5F6F1;font:400 12.5px 'Geist Mono',monospace"><span>Aug 2026</span><span>$15.00</span><span style="color:#00753B">paid</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F5F6F1;font:400 12.5px 'Geist Mono',monospace"><span>Jul 2026</span><span>$15.00</span><span style="color:#00753B">paid</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;font:400 12.5px 'Geist Mono',monospace"><span>Jun 2026</span><span>$15.00</span><span style="color:#00753B">paid</span></div>
+<p style="margin:12px 0 0;font:400 12.5px 'Geist',sans-serif;color:#5A6352">Visa ending 4242 <span style="color:#171B12;font-weight:500">Update</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ 13 COVERAGE ============ -->
+<section id="s13" data-screen-label="13 Coverage" style="padding:120px 0 0">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#6E7864">13 — COVERAGE</span>
+<h2 style="margin:0;font:600 40px/1.1 'Bricolage Grotesque',serif;letter-spacing:-.02em">Every surface in the brief, in one system.</h2>
+<p style="margin:0;font:500 15px/25px 'Open Runde',sans-serif;color:#5A6352;max-width:640px;text-wrap:pretty">Principles 01, tokens 02, homepage 03, dashboard shell 04, MCP connections 05, auth and onboarding 06, chart library 07, public status and changelog 08, component library 09, embeddable widgets 10, responsive and accessibility 11, and the full set of dashboard screens 12. New PostDeploy screens can now be assembled from this file without inventing a new visual language; deviations start by editing this document.</p>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280}}">
+class Component extends DCLogic {
+  state = { metric: "response", range: "24h", selMon: 0, showDeploy: false, tRange: "7d" };
+  renderVals() {
+    const OP = "#00B140", WARN = "#E8960C", FAIL = "#D92D20", BRAND = "#C0DF16", INK = "#171B12";
+    const mkWave = (pts) => {
+      const xs = pts.map((_, i) => i * (100 / (pts.length - 1)));
+      let d = "M0 " + pts[0];
+      for (let i = 1; i < pts.length - 1; i++) d += " Q " + xs[i].toFixed(1) + " " + pts[i] + " " + ((xs[i] + xs[i + 1]) / 2).toFixed(1) + " " + ((pts[i] + pts[i + 1]) / 2);
+      return d + " L 100 " + pts[pts.length - 1];
+    };
+    const st = this.state, mt = st.metric, rg = st.range;
+    const rangeSeed = { "24h": 3, "7d": 7, "30d": 11 }[rg];
+    const metrics = [
+      { id: "uptime", label: "Uptime", val: "99.98%", sub: "all monitors", valC: INK },
+      { id: "response", label: "Response", val: "186ms", sub: "p95 · api", valC: INK },
+      { id: "traffic", label: "Traffic", val: { "24h": "512", "7d": "3,412", "30d": "14,209" }[rg], sub: "pageviews", valC: INK },
+      { id: "errors", label: "Errors", val: "3", sub: "1 open issue", valC: "#B42318" }
+    ].map(m => ({ ...m, onClick: () => this.setState({ metric: m.id }), bg: mt === m.id ? "#FFFFFF" : "#FBFBF9", labC: mt === m.id ? "#171B12" : "#6E7864", sh: mt === m.id ? "inset 0 -2px 0 " + BRAND : "none" }));
+    const ranges = ["24h", "7d", "30d"].map(r => ({ label: r, onClick: () => this.setState({ range: r }), bg: r === rg ? "#FFFFFF" : "transparent", fg: r === rg ? INK : "#6E7864", sh: r === rg ? "0 1px 5px rgba(23,27,18,.12)" : "none" }));
+    const upTicks = Array.from({ length: 36 }, (_, i) => {
+      let c = OP;
+      if (rg !== "24h" && (i === 20 || i === 21)) c = FAIL;
+      if (rg === "30d" && i === 8) c = WARN;
+      return { c, h: (58 + ((i * 13 + rangeSeed) % 38)) + "%" };
+    });
+    const respBars = Array.from({ length: 28 }, (_, i) => {
+      const post = i >= 17;
+      const h = 34 + ((i * 19 + rangeSeed * 5) % 30) + (post ? 26 : 0);
+      return { h: h + "px", c: post ? WARN : BRAND };
+    });
+    const wave = mkWave([31, 29, 30, 26, 28, 24, 25, 21, 23, 18, 20, 15, 17, 11].map(v => v + (rangeSeed % 3)));
+    const errBars = Array.from({ length: 28 }, (_, i) => {
+      if (i === 17) return { h: "62px", c: FAIL }; if (i === 18) return { h: "44px", c: FAIL }; if (i === 19) return { h: "24px", c: FAIL };
+      return { h: (6 + ((i * 7 + rangeSeed) % 9)) + "px", c: "#E4E7DE" };
+    });
+    const caps = {
+      uptime: { "24h": "1,440 checks · every one passed", "7d": "one 4-minute incident, recovered", "30d": "one incident · one slow window" },
+      response: { "24h": "p95 stepped up 38ms at the v2.4.1 deploy", "7d": "weekly p95 · deploy-anchored", "30d": "monthly p95 · deploy-anchored" },
+      traffic: { "24h": "hourly pageviews · 0 cookies", "7d": "daily pageviews · 0 cookies", "30d": "daily pageviews · 0 cookies" },
+      errors: { "24h": "3 events, all TypeError, all after the deploy", "7d": "quiet week until v2.4.1", "30d": "one spike in 30 days" }
+    };
+    const mons = [
+      { name: "postdeploy.dev", type: "HTTP · 60s", up: "99.99%", ms: "112ms", dot: OP, st2: "Up", cap: "every check passed" },
+      { name: "api.postdeploy.dev", type: "HTTP · 60s", up: "99.98%", ms: "186ms", dot: OP, st2: "Up", cap: "one blip 20h ago · recovered in 4m" },
+      { name: "ingest.postdeploy.dev", type: "TCP · 30s", up: "100%", ms: "64ms", dot: OP, st2: "Up", cap: "every check passed" },
+      { name: "nightly-backup", type: "Heartbeat · daily 03:00", up: "99.90%", ms: "03:00 UTC", dot: WARN, st2: "Late", cap: "last ping 6 minutes late" }
+    ];
+    const sel = st.selMon, pat = { 1: { 20: FAIL, 21: FAIL }, 3: { 33: WARN, 34: WARN } };
+    const late = mons[sel].st2 === "Late";
+    const tRg = st.tRange, tCounts = { "7d": 7, "14d": 14, "30d": 30 };
+    const tData = { "7d": { total: "3,412", vis: "2,105" }, "14d": { total: "6,984", vis: "4,330" }, "30d": { total: "14,209", vis: "8,671" } };
+    const tn = tCounts[tRg];
+    return {
+      metrics, ranges,
+      isUptime: mt === "uptime", isResponse: mt === "response", isTraffic: mt === "traffic", isErrors: mt === "errors",
+      upTicks, respBars, errBars, wavePath: wave, waveArea: wave + " L 100 40 L 0 40 Z",
+      rangeStart: "-" + rg, chartCaption: caps[mt][rg],
+      showDeploy: st.showDeploy, toggleDeploy: () => this.setState(s => ({ showDeploy: !s.showDeploy })),
+      monRows: mons.map((m, i) => ({ ...m, onClick: () => this.setState({ selMon: i }), bg: i === sel ? "#F5F6F1" : "#FFFFFF" })),
+      selName: mons[sel].name, selType: mons[sel].type, selState: mons[sel].st2, selCap: mons[sel].cap,
+      selStateBg: late ? "#FCF0DD" : "#EAF9F0", selStateFg: late ? "#9A5B07" : "#00753B",
+      selUp: mons[sel].up, selMs: mons[sel].ms,
+      selTicks: Array.from({ length: 36 }, (_, i) => ({ c: (pat[sel] && pat[sel][i]) || OP, h: (55 + ((i * 17 + sel * 7) % 45)) + "%" })),
+      tRanges: ["7d", "14d", "30d"].map(r => ({ label: r, onClick: () => this.setState({ tRange: r }), bg: r === tRg ? "#FFFFFF" : "transparent", fg: r === tRg ? INK : "#6E7864", sh: r === tRg ? "0 1px 5px rgba(23,27,18,.12)" : "none" })),
+      trafTotal: tData[tRg].total, trafVis: tData[tRg].vis, tRangeStart: "-" + tRg,
+      trafBars: Array.from({ length: tn }, (_, i) => ({ h: (28 + ((i * 29) % 38) + Math.round(i * 44 / tn)) + "px", c: i === tn - 1 ? "#8FA80E" : BRAND })),
+      topPages: [["/", "2,412", "100%"], ["/pricing", "1,538", "64%"], ["/changelog", "984", "41%"], ["/help", "651", "27%"]].map(p => ({ path: p[0], n: p[1], w: p[2] })),
+      days90a: Array.from({ length: 45 }, (_, i) => ({ c: i === 17 ? FAIL : OP })),
+      days90b: Array.from({ length: 45 }, () => ({ c: OP })),
+      dashBars: [40, 46, 38, 52, 44, 58, 47, 42, 55, 49, 44, 57, 50, 46, 60, 52, 47, 74, 82, 78, 84, 79, 86, 81, 84, 80, 85, 82].map(h => ({ h: h + "px", c: h >= 74 ? WARN : "#B7C46E" })),
+      p50: mkWave([32,32,31,32,31,32,31,32,31,31,32,31,32,31]),
+      p95: mkWave([26,25,26,24,25,26,25,24,18,16,17,16,17,16]),
+      p99: mkWave([20,19,20,18,19,20,19,18,9,6,7,6,7,6]),
+      wavePrev: mkWave([34,33,34,31,33,30,31,28,30,26,28,24,26,21]),
+      comp: [{a:36,b:3,c:0,d:1},{a:40,b:2,c:0,d:0},{a:38,b:4,c:0,d:1},{a:42,b:2,c:0,d:0},{a:39,b:3,c:0,d:1},{a:41,b:2,c:0,d:0},{a:37,b:5,c:2,d:1},{a:30,b:6,c:10,d:3},{a:28,b:5,c:14,d:2},{a:36,b:4,c:3,d:1},{a:40,b:2,c:0,d:0},{a:41,b:2,c:0,d:1}].map(s=>({a:s.a+"px",b:s.b+"px",c:s.c+"px",d:s.d+"px"})),
+      hist: [5,12,26,42,54,48,36,27,19,14,10,8,6,5,4,4,3,3,2,2].map((h,i)=>({h:h+"px",c:i>=14?WARN:"#B7C46E"})),
+      stepPath: (()=>{const pts=[34,34,28,30,22,24,16,20,12,14,8,10];let d="M0 "+pts[0];for(let i=1;i<pts.length;i++)d+=" H "+(i*(100/pts.length)).toFixed(1)+" V "+pts[i];return d+" H 100";})(),
+      sparkA: [8,11,9,13,10,15,12,16,14,17,15,18].map(h=>({h:h+"px"})),
+      sparkB: [16,14,15,12,13,10,11,9,10,8,9,7].map(h=>({h:h+"px"})),
+      cmpA: [22,26,24,28,25,27,23,26].map(h=>({h:h+"px"})),
+      cmpB: [30,36,33,38,35,37,39,36].map(h=>({h:h+"px"})),
+      skel: [40,56,48,62,52,66,58,50,60,54,64,57,49,61,53,45].map(h=>({h:h+"px"})),
+      days90c: Array.from({length:45},(_,i)=>({c:i===30?WARN:OP})),
+      days90d: Array.from({length:45},()=>({c:OP})),
+      wTicks: Array.from({length:14},(_,i)=>({c:i===9?FAIL:OP}))
+    };
+  }
+}
+</script>
+</body>
+</html>

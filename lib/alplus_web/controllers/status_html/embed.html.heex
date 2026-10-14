@@ -1,0 +1,165 @@
+<article
+  id="status-embed"
+  role="region"
+  aria-labelledby="status-embed-title"
+  class="pd-embed"
+  style="box-sizing:border-box;width:100%;max-width:26rem;padding:1.125rem;color:var(--pd-ink);background:var(--pd-bg);border:1px solid var(--pd-border);border-radius:1rem;overflow-wrap:anywhere;font:.8125rem/1.5 'Open Runde',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"
+>
+  <style>
+    /* Self-contained, CSP-locked (default-src 'none'; style-src 'unsafe-inline'):
+       no app.css, so light/dark live entirely in this block. The failing
+       state's red never moves between themes; nothing else in here does
+       either, by design. */
+    #status-embed {
+      --pd-bg: #FFFFFF;
+      --pd-border: #E9ECE4;
+      --pd-ink: #171B12;
+      --pd-ink-secondary: #5A6352;
+      --pd-ink-tertiary: #6E7864;
+      --pd-rule: #F0F2EC;
+      --pd-tick-live: #00B140;
+      --pd-tick-late: #E8960C;
+      --pd-tick-neutral: #E1E4D9;
+      --pd-chip-live-ink: #00753B;
+      --pd-chip-live-bg: #EAF6EF;
+      --pd-chip-live-border: #CFE7D9;
+      --pd-chip-late-ink: #9A5B07;
+      --pd-chip-late-bg: #FCF0DD;
+      --pd-chip-late-border: #F0E2C0;
+      --pd-chip-info-ink: #1D4FC4;
+      --pd-chip-info-bg: #EDF2FE;
+      --pd-chip-info-border: #C9D8FA;
+      --pd-chip-neutral-ink: #5A6352;
+      --pd-chip-neutral-bg: #F1F2EC;
+      --pd-chip-neutral-border: #E1E4D9;
+    }
+    @media (prefers-color-scheme: dark) {
+      #status-embed {
+        --pd-bg: #171B12;
+        --pd-border: #333B2B;
+        --pd-ink: #F2F4EC;
+        --pd-ink-secondary: #A9B49B;
+        --pd-ink-tertiary: #A9B49B;
+        --pd-rule: #2A3023;
+        --pd-tick-neutral: #333B2B;
+        --pd-chip-live-ink: #7BD99B;
+        --pd-chip-live-bg: #20261B;
+        --pd-chip-live-border: #333B2B;
+        --pd-chip-late-ink: #F0C36B;
+        --pd-chip-late-bg: #20261B;
+        --pd-chip-late-border: #3B331F;
+        --pd-chip-info-ink: #9DB4F5;
+        --pd-chip-info-bg: #20261B;
+        --pd-chip-info-border: #2C3550;
+        --pd-chip-neutral-ink: #A9B49B;
+        --pd-chip-neutral-bg: #20261B;
+        --pd-chip-neutral-border: #333B2B;
+      }
+    }
+  </style>
+  <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem">
+    <h1
+      id="status-embed-title"
+      style="margin:0;font-size:.9375rem;line-height:1.3;font-weight:700;color:var(--pd-ink)"
+    >
+      {@snapshot.public_page.title}
+    </h1>
+    <span
+      id="status-embed-state"
+      role="status"
+      aria-live="polite"
+      style={embed_chip_style(state_class(@snapshot.status))}
+    >
+      <span
+        style={"width:.4375rem;height:.4375rem;flex:none;border-radius:999px;background:#{embed_dot_color(state_class(@snapshot.status))}"}
+        aria-hidden="true"
+      />
+      {status_label(@snapshot.status)}
+    </span>
+  </header>
+  <p style="margin:.55rem 0 0;color:var(--pd-ink-tertiary);font-size:.75rem">
+    Updated <.status_time at={@snapshot.generated_at} class="" />
+  </p>
+  <ul
+    id="status-embed-components"
+    aria-label="Services"
+    style="list-style:none;margin:.85rem 0 0;padding:0"
+  >
+    <li
+      :for={component <- @snapshot.components}
+      style="border-top:1px solid var(--pd-rule);padding:.6rem 0"
+    >
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem">
+        <span style="color:var(--pd-ink)">{component.name}</span>
+        <span style={embed_chip_style(state_class(component.status))}>
+          <span
+            style={"width:.375rem;height:.375rem;flex:none;border-radius:999px;background:#{embed_dot_color(state_class(component.status))}"}
+            aria-hidden="true"
+          />
+          {status_label(component.status)}
+        </span>
+      </div>
+      <div
+        :if={Map.get(component, :history) not in [nil, []]}
+        aria-hidden="true"
+        style="display:flex;gap:2px;margin-top:.5rem"
+      >
+        <span
+          :for={day <- embed_ticks(component.history)}
+          style={"flex:1;height:.875rem;border-radius:2px;background:#{embed_tick_color(day.state)}"}
+        />
+      </div>
+      <%!-- The strip's words: the same coverage the full page states, so the
+            compact card never looks more certain than the data it rests on. --%>
+      <p
+        :if={embed_coverage(component)}
+        style="margin:.35rem 0 0;color:var(--pd-ink-tertiary);font-size:.75rem"
+      >
+        {embed_coverage(component)}. {uptime_summary(component)}
+      </p>
+    </li>
+  </ul>
+  <div
+    :if={open_incidents(@snapshot) != []}
+    id="status-embed-incidents"
+    role="region"
+    aria-label="Open incidents"
+    style="margin-top:.85rem;padding:.7rem .8rem;border-radius:.625rem;border:1px solid #F3D2CE;background:#FDECEA;color:#B42318"
+  >
+    <strong>{if length(open_incidents(@snapshot)) == 1,
+      do: "1 incident is open",
+      else: "#{length(open_incidents(@snapshot))} incidents are open"}</strong>
+    <p :for={incident <- open_incidents(@snapshot)} style="margin:.25rem 0 0">
+      {incident.title}
+      <span style="display:block;color:#B42318;font-size:.75rem;opacity:.9">{embed_impact(
+        incident
+      )}</span>
+    </p>
+  </div>
+  <div
+    :if={@snapshot.announcements != []}
+    id="status-embed-announcements"
+    style="margin-top:.85rem;border-top:1px solid var(--pd-rule);padding-top:.7rem;color:var(--pd-ink)"
+  >
+    <strong>Latest announcement</strong>
+    <p :for={announcement <- Enum.take(@snapshot.announcements, 1)} style="margin:.25rem 0 0">
+      {announcement.title}
+    </p>
+  </div>
+  <div
+    :if={@snapshot.maintenances != []}
+    id="status-embed-maintenance"
+    style="margin-top:.85rem;border-top:1px solid var(--pd-rule);padding-top:.7rem;color:var(--pd-ink-secondary)"
+  >
+    <strong>Maintenance</strong>
+    <p :for={maintenance <- Enum.take(@snapshot.maintenances, 1)} style="margin:.25rem 0 0">
+      {maintenance.title}
+    </p>
+  </div>
+  <a
+    href={~p"/status/#{@snapshot.public_page.public_slug}"}
+    style="display:inline-flex;align-items:center;min-height:2.75rem;margin-top:.75rem;color:var(--pd-ink);font-weight:600;text-decoration:underline;text-underline-offset:2px"
+  >
+    View status page
+  </a>
+</article>

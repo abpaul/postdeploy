@@ -1,0 +1,159 @@
+# Every agent gets the same rules: the whole public site is open, and the
+# console and auth screens are not. Auth pages have no unique content to
+# rank for, and a sign-in form outranking a guide is a worse result for
+# everyone.
+#
+# Every AI agent is listed and allowed on purpose, in three kinds:
+#   search and answer: OAI-SearchBot, Claude-SearchBot, PerplexityBot
+#   fetch on a user's request: ChatGPT-User, Claude-User, Perplexity-User
+#   model training: GPTBot, ClaudeBot, Google-Extended, Applebot-Extended
+# Google-Extended and Applebot-Extended only limit AI model use. Google
+# Search and AI Overviews follow the Googlebot rules, which this file allows.
+# A crawler absent from this list still matches the `*` block.
+
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+# --- AI answer engines below, allowed deliberately ---
+
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /oauth/authorize
+Disallow: /share/
+Disallow: /invitations/
+Disallow: /sign-in
+Disallow: /register
+Disallow: /reset
+Disallow: /auth/
+
+Sitemap: https://postdeploy.dev/sitemap.xml

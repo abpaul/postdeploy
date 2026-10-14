@@ -1,0 +1,510 @@
+<.topbar current_path={@page_path} current_user={@current_user} />
+
+<main id="website-health-check" data-public-shell>
+  <section
+    id="health-check-hero"
+    class="mx-auto flex max-w-content flex-col items-center gap-6 px-6 pt-8 pb-14 text-center sm:px-11 md:pt-12"
+  >
+    <.breadcrumb_trail id="health-check-breadcrumbs" trail={@breadcrumbs} />
+
+    <span class="inline-flex items-center gap-2 rounded-dot border border-border-public px-[15px] py-2 text-caption font-semibold text-text-secondary">
+      <span class="size-[7px] shrink-0 rounded-dot bg-interactive-primary" aria-hidden="true"></span>
+      Free, and no account needed
+    </span>
+
+    <h1 class="max-w-[760px] text-type-display font-semibold tracking-[-0.025em] text-text-primary">
+      Is your site up right now?
+    </h1>
+    <p class="max-w-[540px] text-pretty text-body-long text-text-secondary">
+      Type a domain. PostDeploy requests it once from the current region and shows the status, the
+      redirect path, the response headers, and the certificate.
+    </p>
+
+    <form
+      id="website-health-check-form"
+      phx-submit="check"
+      class="mt-2 flex w-full max-w-[680px] flex-col items-center gap-4"
+    >
+      <div class={[
+        "flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:gap-2",
+        "sm:rounded-dot sm:border sm:bg-surface-raised sm:py-2 sm:pr-2 sm:pl-6 sm:shadow-frame",
+        if(@error && error_scope(@error) == :url,
+          do: "sm:border-status-error",
+          else: "sm:border-border-control"
+        )
+      ]}>
+        <label class="flex min-w-0 flex-1 flex-col gap-1.5 text-left" for="health-check-url">
+          <span class="text-label text-text-primary sm:sr-only">Website address</span>
+          <input
+            id="health-check-url"
+            name="target_url"
+            type="text"
+            required
+            maxlength="2048"
+            value={@target_url}
+            autocomplete="url"
+            inputmode="url"
+            spellcheck="false"
+            placeholder="example.com"
+            aria-invalid={@error && error_scope(@error) == :url && "true"}
+            aria-describedby={
+              (@error && error_scope(@error) == :url && "health-check-error") ||
+                "health-check-safety"
+            }
+            class={[
+              "h-control-lg w-full min-w-0 rounded-input border bg-surface-raised px-4",
+              "font-mono text-body text-text-primary placeholder:text-text-tertiary",
+              "sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:focus-visible:outline-none",
+              if(@error && error_scope(@error) == :url,
+                do: "border-[1.5px] border-status-error",
+                else: "border-border-control"
+              )
+            ]}
+          />
+        </label>
+        <.button
+          type="submit"
+          variant="primary"
+          id="health-check-submit"
+          class="w-full shrink-0 px-6 sm:w-auto"
+          phx-disable-with="Checking the URL"
+        >
+          Run the check
+        </.button>
+      </div>
+
+      <.health_turnstile />
+
+      <details
+        id="health-check-keyword-field"
+        open={@keyword != "" || (@error && error_scope(@error) == :keyword)}
+        class="w-full max-w-[520px] text-left"
+      >
+        <summary class="cursor-pointer text-center text-caption text-text-secondary underline decoration-interactive-primary decoration-2 underline-offset-4">
+          Also look for a keyword
+        </summary>
+        <label class="mt-3 flex flex-col gap-1.5" for="health-check-keyword">
+          <span class="text-label text-text-primary">Keyword</span>
+          <input
+            id="health-check-keyword"
+            name="keyword"
+            type="text"
+            maxlength="900"
+            value={@keyword}
+            placeholder="Text the page should contain"
+            aria-invalid={@error && error_scope(@error) == :keyword && "true"}
+            aria-describedby={
+              (@error && error_scope(@error) == :keyword && "health-check-error") ||
+                "health-check-keyword-help"
+            }
+            class={[
+              "h-control-md w-full rounded-input border bg-surface-raised px-3.5",
+              "text-body text-text-primary placeholder:text-text-tertiary",
+              if(@error && error_scope(@error) == :keyword,
+                do: "border-[1.5px] border-status-error",
+                else: "border-border-control"
+              )
+            ]}
+          />
+        </label>
+        <p id="health-check-keyword-help" class="mt-2 text-caption text-text-tertiary">
+          PostDeploy reports whether this exact text appears in the HTML it received.
+        </p>
+      </details>
+
+      <p
+        :if={@error && error_scope(@error) in [:url, :keyword]}
+        id="health-check-error"
+        role="alert"
+        class="text-label font-medium text-status-error-ink"
+      >
+        {outcome_sentence(@error)}
+      </p>
+      <p
+        :if={@error && error_scope(@error) == :form}
+        id="health-check-error"
+        role="alert"
+        class="flex items-center gap-2.5 rounded-frame border border-status-late-border bg-status-late-bg px-4 py-3 text-body text-status-late-ink"
+      >
+        <span aria-hidden="true" class="size-2 shrink-0 rounded-dot bg-status-late"></span>
+        {outcome_sentence(@error)}
+      </p>
+
+      <p id="health-check-safety" class="text-caption text-text-tertiary">
+        A domain without a scheme is checked over HTTPS. GET on port 80 or 443 only, up to 10
+        seconds. Never include passwords or secret query values.
+      </p>
+    </form>
+  </section>
+
+  <section
+    :if={@state == :running}
+    id="health-check-pending"
+    aria-live="polite"
+    class="border-y border-border-public bg-surface-sunken"
+  >
+    <div class="mx-auto flex max-w-content flex-col items-center gap-5 px-6 py-12 text-center sm:px-11">
+      <p class="flex items-center gap-2.5 text-label font-bold text-text-primary">
+        <span
+          class="pulse-live size-2 shrink-0 rounded-dot bg-interactive-primary"
+          aria-hidden="true"
+        ></span>
+        Requesting the URL now
+      </p>
+      <p class="font-mono text-data break-all text-text-secondary">{@checked_url}</p>
+      <%!-- The wait draws the shape the verdict is about to take: the four
+            readings, then the panel of response rows. --%>
+      <div class="w-full max-w-[760px]">
+        <div class="grid grid-cols-2 divide-x divide-y divide-border-subtle overflow-hidden rounded-frame border border-border-public bg-surface-raised sm:grid-cols-4 sm:divide-y-0">
+          <div :for={_tile <- 1..4} class="flex flex-col items-center gap-2.5 p-5">
+            <span class="h-2.5 w-16 rounded-dot bg-surface-sunken" aria-hidden="true"></span>
+            <span class="h-6 w-20 rounded-control-sm bg-surface-sunken" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="mt-6 rounded-frame border border-border-public bg-surface-raised p-5 text-left sm:p-6">
+          <.skeleton rows={4} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%= if @state == :done do %>
+    <% verdict = verdict(@result) %>
+    <% certificate = certificate_reading(@result.tls) %>
+
+    <section
+      id="health-check-result"
+      class="border-y border-border-public bg-surface-sunken"
+      phx-mounted={
+        JS.transition(
+          {"transition-[opacity,transform] duration-expressive ease-expressive",
+           "opacity-0 translate-y-3", "opacity-100 translate-y-0"},
+          time: 240
+        )
+      }
+    >
+      <div class="mx-auto max-w-content px-6 py-12 sm:px-11 md:py-16">
+        <div class="mx-auto flex max-w-[760px] flex-col items-center gap-4 text-center">
+          <span class={[
+            "inline-flex items-center gap-2 rounded-dot border px-4 py-1.5 text-label font-bold",
+            verdict_class(verdict.tone)
+          ]}>
+            <span
+              aria-hidden="true"
+              class={["size-2 shrink-0 rounded-dot", verdict_dot_class(verdict.tone)]}
+            ></span>
+            {verdict.label}
+          </span>
+          <h2
+            id="health-check-outcome"
+            class="max-w-[28ch] text-heading-01 tracking-[-0.02em] text-text-primary"
+          >
+            {verdict.sentence}
+          </h2>
+          <p class="font-mono text-data break-all text-text-secondary">{@checked_url}</p>
+        </div>
+
+        <dl
+          id="health-check-readings"
+          class="mx-auto mt-8 grid max-w-[760px] grid-cols-2 divide-x divide-y divide-border-subtle overflow-hidden rounded-frame border border-border-public bg-surface-raised sm:grid-cols-4 sm:divide-y-0"
+        >
+          <div class="p-5 text-center">
+            <dt class="text-label text-text-secondary">Final status</dt>
+            <dd class="mt-1.5 font-mono text-metric text-text-primary">
+              {status_value(@result.final_status)}
+            </dd>
+          </div>
+          <div class="p-5 text-center">
+            <dt class="text-label text-text-secondary">Elapsed</dt>
+            <dd class="mt-1.5 font-mono text-metric text-text-primary">
+              {@result.elapsed_ms} ms
+            </dd>
+          </div>
+          <div class="p-5 text-center">
+            <dt class="text-label text-text-secondary">Redirects</dt>
+            <dd class="mt-1.5 font-mono text-metric text-text-primary">
+              {redirect_count(@result)}
+            </dd>
+          </div>
+          <div class="p-5 text-center">
+            <dt class="text-label text-text-secondary">Certificate</dt>
+            <dd class="mt-1.5 font-mono text-metric text-text-primary">
+              {certificate || "No TLS"}
+            </dd>
+          </div>
+        </dl>
+
+        <div class="mx-auto mt-8 grid max-w-[1000px] gap-6 lg:grid-cols-2 lg:items-start">
+          <section
+            id="health-check-result-card"
+            class="rounded-frame border border-border-public bg-surface-raised p-5 sm:p-6"
+            aria-labelledby="health-check-result-heading"
+          >
+            <h3 id="health-check-result-heading" class="text-heading-03 text-text-primary">
+              How the site answered
+            </h3>
+            <dl class="mt-4 divide-y divide-border-default border-t border-border-default">
+              <div class="grid gap-1.5 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+                <dt class="text-label text-text-secondary">Request path</dt>
+                <dd class="text-body text-text-primary">
+                  <p :if={@result.hops == []}>No request reached a server.</p>
+                  <ol :if={@result.hops != []} class="space-y-1.5">
+                    <li
+                      :for={hop <- @result.hops}
+                      class="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-2"
+                    >
+                      <span class="font-mono text-data text-text-secondary">
+                        {hop.status || "none"}
+                      </span>
+                      <span class="font-mono text-data break-all">{hop.url}</span>
+                    </li>
+                  </ol>
+                </dd>
+              </div>
+              <div class="grid gap-1.5 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+                <dt class="text-label text-text-secondary">Served by</dt>
+                <dd class="text-body text-text-primary">
+                  <span
+                    :if={response_header(@result, "server")}
+                    class="font-mono text-data break-all"
+                  >
+                    {response_header(@result, "server")}
+                  </span>
+                  <span :if={!response_header(@result, "server")}>
+                    The server did not name itself.
+                  </span>
+                </dd>
+              </div>
+              <div class="grid gap-1.5 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+                <dt class="text-label text-text-secondary">Content type</dt>
+                <dd class="text-body text-text-primary">
+                  <span
+                    :if={response_header(@result, "content-type")}
+                    class="font-mono text-data break-all"
+                  >
+                    {response_header(@result, "content-type")}
+                  </span>
+                  <span :if={!response_header(@result, "content-type")}>Not sent.</span>
+                </dd>
+              </div>
+              <div class="grid gap-1.5 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+                <dt class="text-label text-text-secondary">Bytes read</dt>
+                <dd class="text-body text-text-primary">
+                  <span :if={@result.body_bytes} class="font-mono text-data">
+                    {format_bytes(@result.body_bytes)}
+                  </span>
+                  <span :if={!@result.body_bytes}>No body was read.</span>
+                </dd>
+              </div>
+              <div class="grid gap-1.5 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
+                <dt class="text-label text-text-secondary">Caching</dt>
+                <dd class="text-body text-text-primary">
+                  <span
+                    :if={response_header(@result, "cache-control")}
+                    class="font-mono text-data break-all"
+                  >
+                    {response_header(@result, "cache-control")}
+                  </span>
+                  <span :if={!response_header(@result, "cache-control")}>
+                    No cache rule was sent.
+                  </span>
+                </dd>
+              </div>
+              <div
+                :if={@result.keyword}
+                class="grid gap-1.5 py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6"
+              >
+                <dt class="text-label text-text-secondary">Keyword</dt>
+                <dd class="text-body text-text-primary">{keyword_sentence(@result.keyword)}</dd>
+              </div>
+            </dl>
+          </section>
+
+          <div class="flex flex-col gap-6">
+            <section
+              :if={@result.final_status}
+              id="health-check-security-headers"
+              class="rounded-frame border border-border-public bg-surface-raised p-5 sm:p-6"
+              aria-labelledby="health-check-security-heading"
+            >
+              <h3 id="health-check-security-heading" class="text-heading-03 text-text-primary">
+                Security headers
+              </h3>
+              <dl class="mt-4 divide-y divide-border-default border-t border-border-default">
+                <div
+                  :for={header <- security_headers(@result)}
+                  class="grid gap-1.5 py-4 sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-6"
+                >
+                  <dt class="flex items-center gap-2 text-label text-text-primary">
+                    <span
+                      aria-hidden="true"
+                      class={[
+                        "size-2 shrink-0 rounded-dot",
+                        if(header.value, do: "bg-status-live", else: "bg-status-neutral")
+                      ]}
+                    ></span>
+                    {header.label}
+                  </dt>
+                  <dd class="text-body text-text-secondary">
+                    <span
+                      :if={header.value}
+                      class="font-mono text-data break-all text-text-primary"
+                    >
+                      {header.value}
+                    </span>
+                    <span :if={!header.value}>Absent</span>
+                  </dd>
+                </div>
+              </dl>
+              <p class="mt-4 border-t border-border-default pt-4 text-caption text-text-tertiary">
+                An absent header is not a failure on its own. Each one matters only for what the
+                site actually serves.
+              </p>
+            </section>
+
+            <section
+              id="health-check-transport"
+              class="rounded-frame border border-border-public bg-surface-raised p-5 sm:p-6"
+              aria-labelledby="health-check-transport-heading"
+            >
+              <h3 id="health-check-transport-heading" class="text-heading-03 text-text-primary">
+                Name resolution and certificate
+              </h3>
+              <dl class="mt-4 divide-y divide-border-default border-t border-border-default">
+                <div class="py-4">
+                  <dt class="text-label text-text-secondary">DNS answers</dt>
+                  <dd class="mt-1.5 text-body text-text-primary">
+                    <p :if={@result.dns_answers == []}>No public DNS answers were used.</p>
+                    <ul :if={@result.dns_answers != []} class="space-y-1.5">
+                      <li
+                        :for={answer <- @result.dns_answers}
+                        class="font-mono text-data break-all"
+                      >
+                        {answer.host}: {Enum.join(answer.addresses, ", ")}
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+                <div class="py-4">
+                  <dt class="text-label text-text-secondary">Certificate</dt>
+                  <dd class="mt-1.5 text-body text-text-primary">{tls_sentence(@result.tls)}</dd>
+                </div>
+              </dl>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="health-check-convert" class="border-b border-border-public">
+      <div class="mx-auto flex max-w-content flex-col items-center gap-5 px-6 py-16 text-center sm:px-11 md:py-20">
+        <h2 class="max-w-[24ch] text-heading-01 tracking-[-0.02em] text-text-primary">
+          One check is a snapshot. A monitor is the alarm.
+        </h2>
+        <p class="max-w-measure text-body-long text-text-secondary">
+          PostDeploy repeats this exact check on a schedule, keeps every response, and tells you
+          when the URL stops answering.
+        </p>
+        <form
+          id="health-check-monitor-form"
+          action={~p"/tools/website-health-check/monitor"}
+          method="post"
+        >
+          <input type="hidden" name="_csrf_token" value={Phoenix.Controller.get_csrf_token()} />
+          <input type="hidden" name="target_url" value={@checked_url} />
+          <input type="hidden" name="keyword" value={@keyword} />
+          <input type="hidden" name="journey_id" value={@journey_id} />
+          <.button
+            type="submit"
+            variant="primary"
+            id="health-check-monitor"
+            class="px-7"
+            data-pending-submit
+            data-pending-label="Setting this up"
+          >
+            <span data-pending-text>Monitor this site continuously</span>
+            <.icon
+              name="hero-arrow-path"
+              class="size-4 motion-safe:animate-spin"
+              data-pending-spinner
+              hidden
+            />
+          </.button>
+        </form>
+        <p class="text-caption text-text-tertiary">{handoff_sentence(@current_user)}</p>
+        <button
+          type="button"
+          phx-click="reset"
+          class="min-h-target-min text-label font-semibold text-text-primary underline decoration-interactive-primary decoration-2 underline-offset-4 hover:bg-interactive-wash"
+        >
+          Check another address
+        </button>
+      </div>
+    </section>
+  <% end %>
+
+  <section
+    :if={@state != :done}
+    id="health-check-expect"
+    class="border-y border-border-public bg-surface-sunken"
+    aria-labelledby="health-check-expect-heading"
+  >
+    <div class="mx-auto max-w-content px-6 py-12 sm:px-11 md:py-16">
+      <h2
+        id="health-check-expect-heading"
+        class="mx-auto max-w-[24ch] text-center text-heading-01 tracking-[-0.02em] text-text-primary"
+      >
+        What comes back, every time
+      </h2>
+      <dl
+        id="health-check-returns"
+        class="mx-auto mt-8 grid max-w-[900px] gap-x-12 border-t border-border-default sm:grid-cols-2"
+      >
+        <div :for={item <- check_returns()} class="border-b border-border-default py-4">
+          <dt class="text-heading-03 text-text-primary">{item.term}</dt>
+          <dd class="mt-1 text-body text-text-secondary">{item.detail}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section
+    id="health-check-coverage"
+    class="mx-auto max-w-content px-6 py-12 sm:px-11 md:py-16"
+    aria-labelledby="health-check-limits"
+  >
+    <h2
+      id="health-check-limits"
+      class="mx-auto max-w-[26ch] text-center text-heading-02 text-text-primary"
+    >
+      What one request does not tell you
+    </h2>
+    <ul class="mx-auto mt-6 max-w-[720px] divide-y divide-border-default border-y border-border-default text-body text-text-secondary">
+      <li class="py-3.5">
+        This is one request from PostDeploy's current region, so it carries no uptime history.
+      </li>
+      <li class="py-3.5">
+        The check does not run page JavaScript, so it reads the HTML the server sent.
+      </li>
+      <li class="py-3.5">It does not prove that you own the address.</li>
+      <li class="py-3.5">
+        A successful response does not prove that every application function works.
+      </li>
+      <li class="py-3.5">
+        To watch the same URL on a schedule, read <a
+          href={~p"/monitoring/uptime"}
+          class="text-text-primary underline decoration-interactive-primary decoration-2 underline-offset-4 hover:bg-interactive-wash"
+        >how PostDeploy uptime monitoring works</a>.
+      </li>
+    </ul>
+  </section>
+
+  <.final_cta
+    :if={@state != :done}
+    current_user={@current_user}
+    heading="Check it once, or keep watching."
+    body="PostDeploy repeats the same check on a schedule, keeps every response, and tells you when the URL stops answering."
+  />
+</main>
+
+<.site_footer />

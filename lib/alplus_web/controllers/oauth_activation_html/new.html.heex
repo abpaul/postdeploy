@@ -1,0 +1,50 @@
+<Layouts.auth flash={@flash} title="Connect a device" width={:panel}>
+  <section
+    aria-labelledby="device-activation-heading"
+    class="mx-auto max-w-[480px] overflow-hidden rounded-frame border border-border-public bg-surface-page shadow-frame"
+  >
+    <div class="border-b border-border-subtle px-6 py-5">
+      <h2 id="device-activation-heading" class="text-heading-03 text-text-primary">
+        Connect a device
+      </h2>
+      <p class="mt-1 text-caption text-text-secondary">
+        Type the code your client printed. Then choose what it can do.
+      </p>
+    </div>
+
+    <form action={~p"/activate"} method="post">
+      <input type="hidden" name="_csrf_token" value={get_csrf_token()} />
+
+      <div class="px-6 py-5">
+        <label for="device-user-code" class="mb-1.5 block text-label text-text-primary">
+          Device code
+        </label>
+        <input
+          id="device-user-code"
+          type="text"
+          name="user_code"
+          value={@user_code}
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+          placeholder="XXXX-XXXX"
+          aria-describedby={if @error, do: "device-user-code-error"}
+          aria-invalid={if @error, do: "true"}
+          class="block h-control-md w-full rounded-input border border-border-control bg-surface-raised px-3 font-mono text-data uppercase tracking-[0.2em] text-text-primary"
+        />
+        <p
+          :if={@error}
+          id="device-user-code-error"
+          class="mt-2 text-label text-status-error-ink"
+          role="alert"
+        >
+          {@error}
+        </p>
+      </div>
+
+      <div class="flex items-center justify-end border-t border-border-subtle px-6 py-4">
+        <.button type="submit" variant="primary">Continue</.button>
+      </div>
+    </form>
+  </section>
+</Layouts.auth>

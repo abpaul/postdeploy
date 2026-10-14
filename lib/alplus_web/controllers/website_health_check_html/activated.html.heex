@@ -1,0 +1,60 @@
+<.topbar current_path="/tools/website-health-check" current_user={@current_user} />
+
+<main id="website-health-check-activated" data-public-shell>
+  <.leadspace
+    id="health-check-activated-leadspace"
+    title="Monitor created"
+    description={"#{@monitor.name} is checking #{@draft.url} on a schedule. PostDeploy keeps every response and tells you when the URL stops answering."}
+  />
+
+  <div class="mx-auto max-w-content px-6 py-10 sm:px-11 md:py-14">
+    <section
+      :if={@check}
+      id="health-check-first-check"
+      class="max-w-measure rounded-frame border border-border-public bg-surface-raised p-5 sm:p-6"
+      aria-labelledby="health-check-first-check-heading"
+    >
+      <h2 id="health-check-first-check-heading" class="text-heading-03 text-text-primary">
+        First check
+      </h2>
+      <dl class="mt-4 divide-y divide-border-default border-t border-border-default">
+        <div class="grid gap-1.5 py-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-6">
+          <dt class="text-label text-text-secondary">Status</dt>
+          <dd class="text-body text-text-primary">{@check.status}</dd>
+        </div>
+        <div
+          :if={@check.status_code}
+          class="grid gap-1.5 py-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-6"
+        >
+          <dt class="text-label text-text-secondary">HTTP status</dt>
+          <dd class="font-mono text-data text-text-primary">{@check.status_code}</dd>
+        </div>
+        <div
+          :if={@check.latency_ms}
+          class="grid gap-1.5 py-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-6"
+        >
+          <dt class="text-label text-text-secondary">Latency</dt>
+          <dd class="font-mono text-data text-text-primary">{@check.latency_ms} ms</dd>
+        </div>
+      </dl>
+    </section>
+
+    <p
+      :if={!@check}
+      id="health-check-first-check-pending"
+      class="max-w-measure text-body text-text-secondary"
+    >
+      The first check has not been stored yet. It appears on the monitor as soon as it finishes.
+    </p>
+
+    <.button
+      href={~p"/dashboard/orgs/#{@org.public_token}/projects/#{@project.public_token}/monitor"}
+      variant="primary"
+      class="mt-8"
+    >
+      Open monitor
+    </.button>
+  </div>
+</main>
+
+<.site_footer />

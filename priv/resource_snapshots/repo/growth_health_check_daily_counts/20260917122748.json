@@ -1,0 +1,96 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": true,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "id",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "day",
+      "type": "date"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "stage",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "0",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "count",
+      "type": "bigint"
+    }
+  ],
+  "base_filter": null,
+  "check_constraints": [],
+  "create_table_options": null,
+  "custom_indexes": [],
+  "custom_statements": [
+    {
+      "after_tables": [],
+      "code?": false,
+      "down": "ALTER TABLE growth_health_check_daily_counts DROP CONSTRAINT growth_health_check_daily_counts_stage_enum_check",
+      "global?": false,
+      "name": "stage_enum_check",
+      "up": "ALTER TABLE growth_health_check_daily_counts ADD CONSTRAINT growth_health_check_daily_counts_stage_enum_check CHECK (stage IN ('health_check_started', 'health_check_result_produced', 'signup', 'configured', 'activated'))"
+    }
+  ],
+  "has_create_action": true,
+  "hash": "0E3FD346D9C4A2E6B8687F20C53D155FFB2AE3D79924882E9AAA4CE41397AF39",
+  "identities": [
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "growth_health_check_daily_counts_unique_day_stage_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "day"
+        },
+        {
+          "type": "atom",
+          "value": "stage"
+        }
+      ],
+      "name": "unique_day_stage",
+      "nils_distinct?": true,
+      "where": null
+    }
+  ],
+  "multitenancy": {
+    "attribute": null,
+    "global": null,
+    "strategy": null
+  },
+  "repo": "Elixir.Alplus.Repo",
+  "schema": null,
+  "table": "growth_health_check_daily_counts"
+}

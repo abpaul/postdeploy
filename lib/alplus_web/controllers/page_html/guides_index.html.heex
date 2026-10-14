@@ -1,0 +1,86 @@
+<.topbar current_path="/guides" current_user={@current_user} />
+
+<main id="guides-index" data-public-shell>
+  <.resource_shell
+    docs={docs_categories(@docs)}
+    guide_groups={guide_groups(@guides)}
+    current_path="/guides"
+  >
+    <.resource_masthead
+      id="guides-masthead"
+      breadcrumbs={[{"Home", ~p"/"}, {"Guides", ~p"/guides"}]}
+      breadcrumbs_id="guides-breadcrumbs"
+      title={@page.hero_heading}
+      description={@page.hero_description}
+    />
+
+    <div class="space-y-14 pt-10">
+      <section
+        :for={group <- guide_groups(@guides)}
+        id={"guides-#{group.key}"}
+        class="scroll-mt-28"
+        aria-labelledby={"guides-#{group.key}-heading"}
+      >
+        <div class="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 id={"guides-#{group.key}-heading"} class="text-heading-02 text-text-primary">
+            {group.title}
+          </h2>
+          <span class="text-caption text-text-tertiary">
+            {length(group.guides)} {if length(group.guides) == 1, do: "guide", else: "guides"}
+          </span>
+        </div>
+        <ul class="mt-4 border-t border-border-default">
+          <li :for={guide <- group.guides} class="border-b border-border-default">
+            <a href={guide.path} class="group block py-4">
+              <span class="flex items-center justify-between gap-4 font-semibold text-text-primary transition-colors duration-productive group-hover:text-interactive-strong">
+                {guide.hero_heading}
+                <.icon
+                  name="hero-arrow-right"
+                  class="size-4 shrink-0 text-text-tertiary transition-transform duration-productive group-hover:translate-x-0.5"
+                />
+              </span>
+              <span class="mt-1 block max-w-[70ch] text-body text-text-secondary">{guide.summary}</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <section
+      class="mt-14 rounded-frame bg-surface-sunken p-6 sm:p-8"
+      aria-labelledby="guides-next-heading"
+    >
+      <h2 id="guides-next-heading" class="text-heading-02 text-text-primary">
+        New to PostDeploy?
+      </h2>
+      <p class="mt-2 max-w-[60ch] text-body-long text-text-secondary">
+        Start with one project and send a heartbeat before you follow a platform guide.
+      </p>
+      <.button href={~p"/docs/get-started"} variant="secondary" class="mt-5">
+        Get your first signal <.icon name="hero-arrow-right" class="size-4" />
+      </.button>
+      <p class="mt-5 max-w-[65ch] text-body text-text-secondary">
+        Learn how <a
+          href={~p"/monitoring/cron-jobs"}
+          class="text-text-primary underline decoration-interactive-primary decoration-2 underline-offset-4 hover:bg-interactive-wash"
+        >cron monitoring works</a>,
+        explore <a
+          href={~p"/free-cron-job-monitoring"}
+          class="text-text-primary underline decoration-interactive-primary decoration-2 underline-offset-4 hover:bg-interactive-wash"
+        >free cron job monitoring</a>,
+        or review <a
+          href={~p"/pricing"}
+          class="text-text-primary underline decoration-interactive-primary decoration-2 underline-offset-4 hover:bg-interactive-wash"
+        >pricing</a>.
+      </p>
+    </section>
+  </.resource_shell>
+
+  <.final_cta
+    current_user={@current_user}
+    heading="Try PostDeploy on a project you run."
+    body="Start with one project, then add the monitoring and analytics you need."
+  />
+</main>
+
+<.site_footer />
