@@ -26,7 +26,7 @@ COPY assets assets
 RUN mix compile --warnings-as-errors && mix sentry.package_source_code \
   && mix assets.deploy && mix release
 
-FROM debian:bookworm-20260803-slim AS app
+FROM debian:bookworm-20261005-slim AS app
 
 # ca-certificates: the mailer verifies the Cloudflare SMTP TLS chain at boot via
 # :public_key.cacerts_get(), which reads the OS CA bundle. The slim image ships
