@@ -36,7 +36,7 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Node 20 is the floor of engines.node that CI still exercises; testing
       # here is what caught the Promise.withResolvers breakage.
       - uses: actions/setup-node@v4
