@@ -82,7 +82,7 @@ defmodule Alplus.MixProject do
       # Changelog Markdown is user-authored. MDEx renders and sanitizes in one
       # maintained parser, so no caller can forget the safety pass. It is the
       # only path from stored Markdown to public HTML.
-      {:mdex, "~> 0.13.5"},
+      {:mdex, "~> 0.14.2"},
       # ExMCP serves the shared MCP endpoint. It replaced anubis_mcp because
       # anubis tops out at protocol 2025-11-25 while ExMCP negotiates
       # 2026-07-28 as well, and issue #73 requires both generations.
@@ -113,7 +113,7 @@ defmodule Alplus.MixProject do
       # Also available in :dev so `mix alplus.seo.audit` can parse the real
       # rendered HTML. Never a :prod dependency.
       {:lazy_html, ">= 0.1.0", only: [:dev, :test]},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_dashboard, "~> 0.9.1"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.5", runtime: Mix.env() == :dev},
       {:heroicons,
@@ -130,12 +130,12 @@ defmodule Alplus.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 1.0"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.2.0"},
+      {:dns_cluster, "~> 0.3.1"},
       {:bandit, "~> 1.5"},
       # Dogfooding: this app reports its own crashes with the official Sentry
       # SDK through the public `/api/:project_id/envelope` endpoint, the same
       # path a customer uses.
-      {:sentry, "~> 13.5"},
+      {:sentry, "~> 14.0"},
       # Drives test/alplus_web/e2e/sdk_ingest_e2e_test.exs through `/e/errors`.
       {:postdeploy_sdk, "~> 0.2.0", only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
