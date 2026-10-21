@@ -1,0 +1,45 @@
+{% extends "site/prose.html" %}
+{% block heading %}Privacy and data handling{% endblock heading %}
+{% block lede %}What PostDeploy stores, where it stores it, how long it keeps it, and what it removes before storage.{% endblock lede %}
+{% block body %}
+<h2 id="controller">Who is responsible</h2>
+<p>ALPLUS TECHNOLOGIES SRL, registered in Romania, is the controller for the data described on this page. Write to <a href="mailto:hello@alplustech.com">hello@alplustech.com</a> with any question about your data.</p>
+
+<h2 id="stored">What PostDeploy stores</h2>
+<ul>
+  <li>Your account: your email address, an optional name, and a hash of your password.</li>
+  <li>Error events that your application sends: messages, stack traces, breadcrumbs and any context your code attaches. If your code attaches personal data to an error, PostDeploy stores it.</li>
+  <li>Structured logs that your application sends, with their attributes.</li>
+  <li>Deployments that you or your CI record.</li>
+  <li>Source maps that you upload and reports that you or your agents publish.</li>
+  <li>Notification settings: which members get email notifications, and the webhook URLs you add with their signing secrets. Full webhook URLs and secrets are stored encrypted. The host of each URL is stored in plain text to label it.</li>
+  <li>Invitations: the invited email address and role.</li>
+  <li>OAuth clients that agents register: the client name, its redirect URLs and the scopes it requests.</li>
+  <li>Billing records from Stripe: the customer and subscription identifiers and the paid periods. Stripe processes payments. PostDeploy does not store card details.</li>
+</ul>
+
+<h2 id="redaction">What PostDeploy removes before storage</h2>
+<p>Built-in redaction runs before anything is stored. It replaces the values of credential fields, such as passwords, tokens, cookies, authorization headers and API keys, with <code>[Filtered]</code>. It also filters credentials in URLs and in common text patterns. Owners and admins can add more field names on the Data controls page.</p>
+<p>Redaction does not find other personal data in free text, such as names or addresses in a log message. Keep that data out of what your application sends.</p>
+
+<h2 id="location">Where data is stored</h2>
+<p>PostDeploy runs on one OVH server. Each organization has its own SQLite database on that server. Error payloads, archived log batches, uploaded source maps, the content of published reports and backup sets are stored in Cloudflare R2.</p>
+<p>Log entries are encrypted before they are written to the server's disk. Backup sets are encrypted before they are written to R2.</p>
+
+<h2 id="email">Email and webhooks</h2>
+<p>PostDeploy sends account email (address confirmation, password reset and invitations), usage alerts, and issue and report notifications through an email delivery provider. The provider receives each recipient address and the message content.</p>
+<p>Webhook notifications are sent to the URLs you add.</p>
+
+<h2 id="retention">How long data is kept</h2>
+<p>Errors are kept {{ plan.error_retention_days }} days and logs {{ plan.log_retention_days }} days from the time PostDeploy receives them. A scheduled job deletes expired data.</p>
+<p>An owner can delete an organization. PostDeploy then deletes its database, its stored errors and logs, and its API keys.</p>
+<p>Backup sets keep copies of deleted and expired data for {{ plan.backup_retention_days }} days. The first successful backup after that deletes them.</p>
+
+<h2 id="site">Cookies and scripts</h2>
+<p>PostDeploy sets cookies to keep you signed in and to protect its forms. It sets no advertising or analytics cookies.</p>
+<p>The public site and the dashboard load no third-party analytics, advertising or session-replay scripts. The sign-up, sign-in and password reset pages can load Cloudflare Turnstile to block automated requests.</p>
+
+<h2 id="limits">What this page does not claim</h2>
+<p>PostDeploy holds no SOC 2 report and no ISO certification, and has not commissioned an external penetration test.</p>
+<p>One person operates PostDeploy. Consider that when you decide what to depend on it for.</p>
+{% endblock body %}

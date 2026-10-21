@@ -1,0 +1,28 @@
+{% component ui.primary() %}inline-flex h-control-md w-fit cursor-pointer items-center justify-center gap-2 rounded-control border border-transparent bg-action-primary px-4 text-label text-action-primary-ink hover:bg-action-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:border-transparent disabled:bg-status-neutral-bg disabled:text-text-disabled{% endcomponent %}
+
+{% component ui.auth_primary() %}inline-flex min-h-target-min h-control-md w-full items-center justify-center gap-2 rounded-control border-2 border-interactive-primary bg-interactive-primary px-4 text-label font-bold text-interactive-ink hover:border-interactive-hover hover:bg-interactive-hover focus-visible:outline-none focus-visible:shadow-[var(--alp-focus-ring)] disabled:cursor-not-allowed disabled:opacity-45 mt-2{% endcomponent %}
+
+{% component ui.secondary() %}inline-flex h-control-md w-fit cursor-pointer items-center justify-center gap-2 rounded-control border border-border-control bg-surface-raised px-4 text-label text-text-primary hover:bg-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus disabled:cursor-not-allowed disabled:bg-status-neutral-bg disabled:text-text-disabled{% endcomponent %}
+
+{% component ui.destructive() %}inline-flex h-control-md w-fit cursor-pointer items-center justify-center gap-2 rounded-control border border-status-error-border bg-surface-raised px-4 text-label text-status-error-ink hover:bg-status-error-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus{% endcomponent %}
+
+{% component ui.nav_active() %}flex h-control-md items-center gap-2.5 rounded-control border border-border-default bg-surface-raised px-2.5 py-2 text-ui font-semibold text-text-primary shadow-nav-active{% endcomponent %}
+
+{% component ui.nav_idle() %}flex h-control-md items-center gap-2.5 rounded-control border border-transparent px-2.5 py-2 text-ui text-text-secondary hover:bg-hover hover:text-text-primary{% endcomponent %}
+
+{% component ui.menu_item() %}flex h-control-md w-full items-center rounded-control-sm px-2 py-1.5 text-left text-label text-text-secondary hover:bg-hover hover:text-text-primary{% endcomponent %}
+
+{% component ui.text(id, name, label, type, value, error, autocomplete, required, tone, autofocus=false, placeholder="") %}
+<div class="{% if tone == 'auth' %}mb-4{% else %}mb-3{% endif %}">
+  <label for="{{ id }}" class="block text-label {% if tone == 'auth' %}mb-1 font-semibold text-text-secondary{% elif error %}mb-1.5 {% if tone != 'register' %}font-medium {% endif %}text-status-error-ink{% else %}mb-1.5 text-text-primary{% endif %}">{{ label }}</label>
+  <input {% if autofocus %}autofocus{% endif %} id="{{ id }}" name="{{ name }}" type="{{ type }}" {% if placeholder %}placeholder="{{ placeholder }}"{% endif %} value="{{ value | default(value="") }}" {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %} {% if required %}required{% endif %} {% if error %}aria-invalid="true" aria-describedby="{{ id }}-error"{% endif %} class="{% if tone == 'auth' or tone == 'register' %}block min-h-target-min h-control-md w-full {% if tone == 'register' %}rounded-[12px]{% else %}rounded-input{% endif %} border bg-surface-raised px-3 text-body text-text-primary placeholder:text-text-tertiary focus-visible:outline-none focus-visible:shadow-[var(--alp-focus-ring)] {% if error %}border-status-error-border{% else %}border-border-control{% endif %}{% else %}block h-control-md w-full rounded-control border bg-surface-raised px-3 text-body text-text-primary placeholder:text-text-tertiary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus {% if error %}border-[1.5px] border-status-error{% else %}border-border-control{% endif %}{% endif %}">
+  {% if error %}
+  <p id="{{ id }}-error" role="alert" class="mt-1.5 text-body text-status-error-ink">{{ error }}</p>
+  {% endif %}
+</div>
+{% endcomponent %}
+
+
+{% component ui.csrf(@csrf_token) %}
+<input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+{% endcomponent %}

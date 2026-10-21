@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="sources-page" class="flex w-full min-w-0 flex-col gap-6">
+  <div class="flex flex-wrap items-end justify-between gap-3">
+    <h1 class="text-heading-01 text-text-primary">Sources</h1>
+  </div>
+  {% if can_manage %}
+  <section id="source-create" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">New source</h2>
+    <p class="mt-1 text-body text-text-secondary">A source accepts error and log envelopes for one environment. The DSN is shown once, after you create it.</p>
+    <form id="source-create-form" method="post" action="{{ form_action }}" class="mt-4 grid max-w-xl gap-2 sm:grid-cols-2">
+      {{ <ui.csrf  /> }}
+      {{ <ui.text id="source-name" name="name" label="Name" type="text" value={values.name} error={field_errors.name} autocomplete="off" required={true} tone="console" /> }}
+      {{ <ui.text id="source-environment" name="environment" label="Environment" type="text" value={values.environment | default(value="production")} error={field_errors.environment} autocomplete="off" required={true} tone="console" /> }}
+      <div class="sm:col-span-2">
+        <button type="submit" class="{{ <ui.primary  /> }}">Create source</button>
+      </div>
+    </form>
+  </section>
+  {% endif %}
+  <section id="sources-panel" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    {% if sources %}
+    <table class="w-full text-left text-body">
+      <thead>
+        <tr class="border-b border-border-default">
+          <th scope="col" class="px-4 py-2 font-medium text-text-secondary">Source</th>
+          <th scope="col" class="px-4 py-2 font-medium text-text-secondary">Environment</th>
+          <th scope="col" class="px-4 py-2 font-medium text-text-secondary">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border-default">
+        {% for item in sources %}
+        <tr>
+          <td class="px-4 py-3"><a href="{{ item.href }}" class="font-medium text-text-primary hover:text-interactive-strong">{{ item.name }}</a></td>
+          <td class="px-4 py-3 font-mono text-data">{{ item.environment }}</td>
+          <td class="px-4 py-3">{{ item.status_label }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="px-5 py-8 text-body text-text-secondary">No source yet. Create one to get a DSN for this project.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock content %}

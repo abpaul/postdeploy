@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block content %}
+{% set member_count = members | length %}
+{% set invitation_count = invitations | length %}
+<div id="team-page" class="flex w-full min-w-0 flex-col gap-4">
+  <section id="team-summary" class="rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="team-summary-title">
+        <div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
+          <div class="min-w-0">
+            <h1 id="team-summary-title" class="text-balance text-heading-02 text-text-primary">
+              {% if team_headline %}{{ team_headline }}{% elif member_count == 1 %}1 person has access.{% else %}{{ member_count }} people have access.{% endif %}
+            </h1>
+            <p class="mt-1 text-body text-text-secondary">
+              {% if team_subtitle %}{{ team_subtitle }}{% else %}{{ member_count }} {% if member_count == 1 %}member{% else %}members{% endif %}, {% if invitation_count == 0 %}no pending invitations{% elif invitation_count == 1 %}1 pending invitation{% else %}{{ invitation_count }} pending invitations{% endif %}.{% endif %}
+            </p>
+          </div>
+          <div class="flex flex-wrap items-start gap-x-6 gap-y-4">
+            {% if team_stats %}
+            <dl class="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
+              {% for stat in team_stats %}
+              <div>
+                <dt class="text-label text-text-tertiary">{{ stat.label }}</dt>
+                <dd class="text-heading-02 font-semibold tabular-nums text-text-primary">{{ stat.value }}</dd>
+              </div>
+              {% endfor %}
+            </dl>
+            {% endif %}
+            {% if can_manage and user.confirmed %}
+            <button id="invite-member-trigger" type="button" class="{{ <ui.primary  /> }}" aria-controls="invite-form" aria-expanded="{% if show_invite or field_errors.email %}true{% else %}false{% endif %}" data-reveal-target="invite-form">
+              {{ <icons.glyph name="users" class="size-4" /> }}
+              Invite member
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% if can_manage and user and not user.confirmed %}
+        <p id="invite-confirm-required" class="mt-4 text-body text-text-secondary">Confirm your email address to invite teammates. The banner above is the place to do that.</p>
+        {% elif not can_manage %}
+        <p id="invitations-permission" class="mt-4 text-body text-text-secondary">Only organization owners and administrators can invite people or change team access.</p>
+        {% endif %}
+  </section>
+
+  <section id="members-panel" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    {% if can_manage and user.confirmed %}
+    <form id="invite-form" method="post" action="{{ form_action }}" class="{% if show_invite or field_errors.email %}flex{% else %}hidden{% endif %} flex-wrap items-end gap-3 border-b border-border-default p-4" data-reveal-panel data-reveal-display="flex">
+      {{ <ui.csrf  /> }}
+      <div class="min-w-0 max-w-xs flex-1">
+        {{ <ui.text id="invite-email" name="email" label="Email" type="email" value={values.email} error={field_errors.email} autocomplete="email" required={true} tone="console" /> }}
+      </div>
+      <div class="mb-4 w-40">
+        <label for="invite-role" class="mb-1.5 block text-label text-text-primary">Role</label>
+        <select id="invite-role" name="role" class="block h-control-md w-full rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+          <option value="member" {% if values.role == "admin" %}{% else %}selected{% endif %}>Member</option>
+          <option value="admin" {% if values.role == "admin" %}selected{% endif %}>Admin</option>
+        </select>
+        {% if field_errors.role %}<p role="alert" class="mt-1.5 text-body text-status-error-ink">{{ field_errors.role }}</p>{% endif %}
+      </div>
+      <div class="mb-4 flex gap-2">
+        <button id="invite-submit" type="submit" class="{{ <ui.primary  /> }}">Send invite</button>
+        <button type="button" class="{{ <ui.secondary  /> }}" data-reveal-close>Cancel</button>
+      </div>
+    </form>
+    {% endif %}
+    {% if members %}
+    <div class="overflow-x-auto" data-density="dense">
+      <table id="members-table" class="w-full text-left text-body">
+        <caption class="sr-only">Members</caption>
+        <thead>
+          <tr class="border-b border-border-default">
+            <th scope="col" class="min-h-row px-4 py-2 font-medium text-text-secondary">Member</th>
+            <th scope="col" class="min-h-row px-4 py-2 font-medium text-text-secondary">Role</th>
+            <th scope="col" class="hidden min-h-row px-4 py-2 font-medium text-text-secondary sm:table-cell">Joined</th>
+            <th scope="col" class="min-h-row px-4 py-2 text-right font-medium text-text-secondary"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border-default">
+          {% for member in members %}
+          <tr>
+            <td class="min-h-row px-4 py-3">
+              <span class="font-medium text-text-primary">{% if member.name %}{{ member.name }}{% else %}{{ member.email }}{% endif %}</span>
+              {% if member.you %}<span class="ml-1.5 text-label text-text-tertiary">You</span>{% endif %}
+              {% if member.name %}<p class="text-label text-text-tertiary">{{ member.email }}</p>{% endif %}
+              <div class="mt-3 space-y-2 border-t border-border-default pt-3 sm:hidden">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-label font-semibold text-text-secondary">Role</span>
+                  <span role="status" class="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-dot border border-status-neutral-border bg-status-neutral-bg px-2.5 py-1 text-label font-medium text-status-neutral-ink">
+                    <span class="size-1.5 shrink-0 rounded-dot bg-status-neutral" aria-hidden="true"></span>
+                    {{ member.role_label | default(value=member.role) }}
+                  </span>
+                </div>
+                <p class="text-body text-text-secondary"><span class="font-medium text-text-primary">Joined</span> {{ member.joined }}</p>
+                {% if not member.remove_action and not member.transfer_action %}<p class="text-body text-text-secondary">Read only</p>{% endif %}
+              </div>
+            </td>
+            <td class="hidden min-h-row px-4 py-3 sm:table-cell">
+              {% if can_manage and member.role != "owner" and member.role_action %}
+              <form method="post" action="{{ member.role_action }}" class="flex flex-wrap items-center gap-2">
+                {{ <ui.csrf  /> }}
+                <label for="member-role-{{ member.id }}" class="sr-only">Role for {{ member.email }}</label>
+                <select id="member-role-{{ member.id }}" name="role" class="h-control-md rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+                  <option value="member" {% if member.role == "member" %}selected{% endif %}>Member</option>
+                  <option value="admin" {% if member.role == "admin" %}selected{% endif %}>Admin</option>
+                </select>
+                <button type="submit" class="{{ <ui.secondary  /> }}">Save role</button>
+              </form>
+              {% else %}
+              <span role="status" class="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-dot border border-status-neutral-border bg-status-neutral-bg px-2.5 py-1 text-label font-medium text-status-neutral-ink">
+                <span class="size-1.5 shrink-0 rounded-dot bg-status-neutral" aria-hidden="true"></span>
+                {{ member.role_label | default(value=member.role) }}
+              </span>
+              {% endif %}
+            </td>
+            <td class="hidden min-h-row px-4 py-3 text-text-secondary sm:table-cell">{{ member.joined }}</td>
+            <td class="hidden min-h-row px-4 py-3 text-right sm:table-cell">
+              <div class="flex flex-wrap justify-end gap-2">
+                {% if can_manage and member.role != "owner" and member.remove_action %}
+                <details class="text-left">
+                  <summary class="{{ <ui.destructive  /> }} cursor-pointer">Remove</summary>
+                  <form method="post" action="{{ member.remove_action }}" class="mt-2 w-72 rounded-control border border-border-default bg-surface-raised p-3">
+                    {{ <ui.csrf  /> }}
+                    <p class="mb-2 text-body text-text-secondary">This member immediately loses access. Type their email to confirm.</p>
+                    <label for="remove-email-{{ member.id }}" class="mb-1.5 block text-label text-text-primary">Email</label>
+                    <input id="remove-email-{{ member.id }}" name="confirm_email" type="email" required autocomplete="off" class="mb-3 block h-control-md w-full rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+                    <button type="submit" class="{{ <ui.destructive  /> }}">Confirm remove</button>
+                  </form>
+                </details>
+                {% endif %}
+                {% if member.transfer_action %}
+                <details class="text-left">
+                  <summary class="{{ <ui.secondary  /> }} cursor-pointer">Make owner</summary>
+                  <form method="post" action="{{ member.transfer_action }}" class="mt-2 w-72 rounded-control border border-border-default bg-surface-raised p-3">
+                    {{ <ui.csrf  /> }}
+                    <p class="mb-2 text-body text-text-secondary">You give up the owner role. Type their email to confirm.</p>
+                    <label for="transfer-email-{{ member.id }}" class="mb-1.5 block text-label text-text-primary">Email</label>
+                    <input id="transfer-email-{{ member.id }}" name="confirm_email" type="email" required autocomplete="off" class="mb-3 block h-control-md w-full rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+                    <button type="submit" class="{{ <ui.primary  /> }}">Confirm transfer</button>
+                  </form>
+                </details>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="px-4 py-8 text-center text-body text-text-secondary">No team members are available.</p>
+    {% endif %}
+  </section>
+
+  {% if can_manage %}
+  <section id="invitations-panel" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="invitations-panel-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 id="invitations-panel-title" class="text-heading-03 text-text-primary">Pending invitations</h2>
+    </div>
+    {% if invitations %}
+    <ul class="divide-y divide-border-subtle">
+      {% for invitation in invitations %}
+      <li class="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+        <div>
+          <p class="font-medium text-text-primary">{{ invitation.email }}</p>
+          <p class="text-label text-text-secondary">{{ invitation.role_label }} · {{ invitation.sent_at }}</p>
+        </div>
+        {% if invitation.revoke_action %}
+        <form method="post" action="{{ invitation.revoke_action }}">
+          {{ <ui.csrf  /> }}
+          <button type="submit" class="{{ <ui.secondary  /> }}">Revoke invite</button>
+        </form>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="p-4 text-body text-text-secondary" role="status">No pending invitations.</p>
+    {% endif %}
+  </section>
+  {% endif %}
+</div>
+{% endblock content %}

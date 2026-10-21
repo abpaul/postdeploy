@@ -1,0 +1,138 @@
+<nav id="{{ nav_id }}" class="{{ nav_class }}" aria-label="Primary" {% if drawer %}aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="{{ nav_id }}-title"{% endif %}>
+  <div class="flex min-h-target-min items-center justify-between border-b border-border-default px-4">
+    {{ <logo.lockup href="/dashboard" label="PostDeploy home" size="sm" word={true} /> }}
+    {% if drawer %}
+    <span id="{{ nav_id }}-title" class="sr-only">{{ title }}</span>
+    <button type="button" id="mobile-nav-close" class="flex min-h-target-min min-w-target-min cursor-pointer items-center justify-center rounded-control text-text-secondary hover:bg-interactive-tint hover:text-text-primary" aria-label="Close navigation">
+      {{ <icons.glyph name="x" class="size-5" /> }}
+    </button>
+    {% endif %}
+  </div>
+
+  {% if organization %}
+  <div class="px-3 pb-2 pt-3">
+    {% if organizations | length > 1 %}
+    <details class="relative">
+      <summary id="{{ nav_id }}-organization-switcher" class="flex h-control-md cursor-pointer items-center gap-2 rounded-control border border-border-default bg-surface-raised px-2 text-ui text-text-primary">
+        <span class="flex size-6 shrink-0 items-center justify-center rounded-dot bg-interactive-tint text-label font-semibold text-interactive-strong" aria-hidden="true">{{ organization.initial }}</span>
+        <span class="min-w-0 flex-1 truncate">{{ organization.name }}</span>
+        {{ <icons.glyph name="chevron-down" class="size-4 shrink-0 text-text-tertiary" /> }}
+      </summary>
+      <div class="absolute z-20 mt-1 w-full rounded-control border border-border-default bg-surface-raised p-1 shadow-overlay">
+        {% for item in organizations %}
+        <a href="{{ item.href }}" class="{{ <ui.menu_item  /> }}">{{ item.name }}</a>
+        {% endfor %}
+        <a href="/dashboard/orgs/new" class="{{ <ui.menu_item  /> }}">Create organization</a>
+      </div>
+    </details>
+    {% else %}
+    <div id="{{ nav_id }}-organization-identity" class="flex h-control-md items-center gap-2 px-2 text-ui font-semibold text-text-primary">
+      <span class="flex size-6 shrink-0 items-center justify-center rounded-dot bg-interactive-tint text-label font-semibold text-interactive-strong" aria-hidden="true">{{ organization.initial }}</span>
+      <span class="min-w-0 flex-1 truncate">{{ organization.name }}</span>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if organization and project_base %}
+  <div class="flex-1 overflow-y-auto px-3 py-2">
+    <div class="space-y-0.5">
+      <a href="{{ project_base }}" class="{% if active == 'report' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'report' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="layout-dashboard" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Report</span>
+      </a>
+      <a href="{{ project_base }}/observe" class="{% if active == 'issues' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'issues' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="circle-alert" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Issues</span>
+      </a>
+      <a href="{{ project_base }}/logs" class="{% if active == 'logs' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'logs' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="file-text" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Logs</span>
+      </a>
+      <a href="{{ project_base }}/deployments" class="{% if active == 'deployments' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'deployments' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="git-commit-horizontal" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Deployments</span>
+      </a>
+    </div>
+    <div class="mt-4 space-y-0.5 border-t border-border-default pt-3">
+      <a href="{{ project_base }}/sources" class="{% if active == 'source' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'source' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="plug" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Source</span>
+      </a>
+      <a href="{{ project_base }}/access" class="{% if active == 'access' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'access' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="settings-2" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Access</span>
+      </a>
+    </div>
+  </div>
+  {% elif organization and (not onboarding or projects) %}
+  <div class="flex-1 overflow-y-auto px-3 py-2">
+    <div class="space-y-0.5">
+      <a href="{{ org_base }}/projects" class="{% if active == 'projects' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'projects' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="layout-dashboard" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Projects</span>
+      </a>
+      <a href="{{ org_base }}/team" class="{% if active == 'team' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'team' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="users" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Team</span>
+      </a>
+      <a href="{{ org_base }}/settings" class="{% if active == 'settings' or active == 'notifications' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'settings' or active == 'notifications' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="settings-2" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Settings</span>
+      </a>
+      <a href="{{ org_base }}/billing" class="{% if active == 'billing' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'billing' %}aria-current="page"{% endif %}>
+        {{ <icons.glyph name="credit-card" class="size-4 shrink-0" /> }}
+        <span class="min-w-0 truncate">Billing</span>
+      </a>
+    </div>
+  </div>
+  {% elif not organization %}
+  <div class="flex-1 overflow-y-auto px-3 py-2">
+    <a href="/dashboard" class="{% if active == 'dashboard' %}{{ <ui.nav_active  /> }}{% else %}{{ <ui.nav_idle  /> }}{% endif %}" {% if active == 'dashboard' %}aria-current="page"{% endif %}>
+      {{ <icons.glyph name="layout-dashboard" class="size-4 shrink-0" /> }}
+      <span class="min-w-0 truncate">All organizations</span>
+    </a>
+    <p class="px-2.5 pb-1 pt-3 text-label font-medium text-text-tertiary">Organizations</p>
+    <div class="space-y-0.5">
+      {% for item in organizations %}
+      <a href="{{ item.href }}" class="{{ <ui.nav_idle  /> }}">
+        {{ <icons.glyph name="building-2" class="size-4 shrink-0 text-interactive-strong" /> }}
+        <span class="min-w-0 truncate">{{ item.name }}</span>
+      </a>
+      {% else %}
+      <p class="px-2.5 py-1 text-body text-text-secondary">None yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="flex-1"></div>
+  {% endif %}
+
+  {% if user %}
+  <div class="relative border-t border-border-default p-3">
+    <div class="flex items-center gap-1">
+      <a href="/dashboard/account" class="flex h-control-md min-w-0 flex-1 items-center gap-2.5 rounded-control px-2.5 py-2 {% if active == 'account' %}border border-border-default bg-surface-raised text-text-primary shadow-nav-active{% else %}border border-transparent hover:bg-hover{% endif %}" {% if active == 'account' %}aria-current="page"{% endif %}>
+        <span class="flex size-6 shrink-0 items-center justify-center rounded-dot bg-interactive-tint text-label font-semibold text-interactive-strong" aria-hidden="true">{{ user.initial }}</span>
+        <span class="min-w-0 flex-1 truncate text-ui text-text-primary {% if not user.name %}font-mono text-data{% endif %}" title="{{ user.email }}">{% if user.name %}{{ user.name }}{% else %}{{ user.email }}{% endif %}</span>
+      </a>
+      <button type="button" id="{{ nav_id }}-account-toggle" class="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-control text-text-tertiary hover:bg-hover hover:text-text-primary" aria-haspopup="menu" aria-expanded="false" aria-controls="{{ nav_id }}-account-menu" aria-label="More account options">
+        {{ <icons.glyph name="ellipsis" class="size-4" /> }}
+      </button>
+    </div>
+    <div id="{{ nav_id }}-account-menu" data-menu class="absolute bottom-full left-3 right-3 z-10 mb-1 hidden rounded-control border border-border-default bg-surface-raised p-1 shadow-overlay" role="menu" aria-hidden="true">
+      {% if organization %}
+      <a href="{{ org_base }}/team" role="menuitem" class="{{ <ui.menu_item  /> }}">Team</a>
+      <a href="{{ org_base }}/settings" role="menuitem" class="{{ <ui.menu_item  /> }}">Organization settings</a>
+      <a href="{{ org_base }}/billing" role="menuitem" class="{{ <ui.menu_item  /> }}">Billing</a>
+      <div class="my-1 border-t border-border-subtle"></div>
+      {% endif %}
+      <a href="/dashboard/orgs/new" role="menuitem" class="{{ <ui.menu_item  /> }}">Create organization</a>
+      <div class="my-1 border-t border-border-subtle"></div>
+      <form method="post" action="{{ sign_out_action }}">
+        {{ <ui.csrf  /> }}
+        <button type="submit" role="menuitem" class="{{ <ui.menu_item  /> }}">Sign out</button>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+</nav>

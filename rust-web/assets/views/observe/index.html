@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="observe-page" class="flex w-full min-w-0 flex-col gap-6">
+  <h1 class="text-heading-01 text-text-primary">{{ heading | default(value="Issues") }}</h1>
+
+  {% if load_error %}
+  <p id="observe-error" role="alert" class="text-body text-status-error-ink">{{ load_error }}</p>
+  {% endif %}
+
+  {% if not sources %}
+  <section id="observe-sources-empty" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">No errors reported yet</h2>
+    <p class="mt-2 max-w-prose text-body text-text-secondary">Grouped errors appear here once a source starts reporting.</p>
+    <a href="{{ project_base }}/sources" class="{{ <ui.primary  /> }} mt-4">Open sources</a>
+  </section>
+  {% else %}
+  <form id="observe-issues-filters" method="get" action="{{ form_action }}" class="flex min-w-0 max-w-full flex-wrap items-center gap-2">
+    <label for="observe-issues-search-input" class="sr-only">Search issues</label>
+    <input id="observe-issues-search-input" type="search" name="q" value="{{ issue_query.q }}" placeholder="Search issues" class="h-control-sm min-w-0 w-full rounded-input border border-border-control bg-surface-raised px-3 text-body text-text-primary sm:w-64">
+    <label for="observe-issues-level-filter" class="sr-only">Filter by severity</label>
+    <select id="observe-issues-level-filter" name="level" class="h-control-sm min-w-0 flex-1 rounded-input border border-border-control bg-surface-raised px-3 text-body text-text-primary sm:flex-none" onchange="this.form.requestSubmit()">
+        {% for level in issue_levels %}
+        <option value="{{ level.id }}" {% if level.current %}selected{% endif %}>{{ level.label }}</option>
+        {% endfor %}
+    </select>
+    <label for="observe-issues-status-filter" class="sr-only">Filter by status</label>
+    <select id="observe-issues-status-filter" name="status" class="h-control-sm min-w-0 flex-1 rounded-input border border-border-control bg-surface-raised px-3 text-body text-text-primary sm:flex-none" onchange="this.form.requestSubmit()">
+        {% for status in issue_statuses %}
+        <option value="{{ status.id }}" {% if status.current %}selected{% endif %}>{{ status.label }}</option>
+        {% endfor %}
+    </select>
+  </form>
+
+  {% if not issues %}
+  <div id="observe-issues-empty" class="border-y border-border-default py-12">
+    {% if filters_active %}
+    <p class="text-body text-text-secondary">No issues match this filter.</p>
+    {% if filter_reset_href %}
+    <a href="{{ filter_reset_href }}" class="mt-2 inline-flex min-h-target-min items-center text-body font-medium text-interactive-strong hover:underline">Clear filters</a>
+    {% endif %}
+    {% else %}
+    <p class="max-w-prose text-body text-text-secondary">{{ quiet_message | default(value="No open issues in this range.") }}</p>
+    <div class="mt-4 flex flex-wrap gap-4">
+      {% if resolved_href %}
+      <a href="{{ resolved_href }}" class="inline-flex min-h-target-min items-center text-body font-medium text-interactive-strong hover:underline">{{ resolved_label }}</a>
+      {% endif %}
+      {% if wider_href %}
+      <a href="{{ wider_href }}" class="inline-flex min-h-target-min items-center text-body font-medium text-interactive-strong hover:underline">{{ wider_label }}</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="min-w-0 overflow-x-auto border-y border-border-default">
+    <table id="observe-issues-table" class="w-full table-fixed border-collapse text-left">
+      <caption class="sr-only">Project issues</caption>
+      <thead class="bg-surface-sunken text-label font-semibold uppercase text-text-tertiary">
+        <tr class="h-11 [@media(pointer:coarse)]:h-12">
+          <th scope="col" class="hidden w-28 px-5 sm:table-cell">Severity</th>
+          <th scope="col" class="px-5">Issue</th>
+          <th scope="col" class="hidden w-44 px-5 lg:table-cell">Source</th>
+          <th scope="col" class="hidden w-20 px-5 text-right sm:table-cell">Events</th>
+          <th scope="col" class="w-28 px-5 text-right">Last seen</th>
+          {% if show_status_column %}
+          <th scope="col" class="hidden w-28 px-5 text-right sm:table-cell">Status</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border-subtle">
+        {% for issue in issues %}
+        <tr class="group transition-colors duration-productive hover:bg-interactive-wash focus-within:bg-interactive-wash">
+          <td class="hidden px-5 align-middle sm:table-cell">
+            <span class="inline-flex items-center gap-1.5 rounded-control text-label text-text-secondary" role="status" aria-label="{{ issue.level_label }}">
+              <span class="size-2 shrink-0 rounded-dot {% if issue.level_label == 'Error' or issue.level_label == 'Fatal' %}bg-status-error ring-2 ring-status-error-border{% else %}bg-status-neutral{% endif %}" aria-hidden="true"></span>
+              {{ issue.level_label }}
+            </span>
+          </td>
+          <td class="min-w-0 px-5 py-2 align-middle">
+            <a href="{{ issue.href }}" class="flex min-h-target-min min-w-0 items-center text-body font-semibold text-text-primary group-hover:text-interactive-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"><span class="line-clamp-2 min-w-0 break-words">{{ issue.title }}</span></a>
+            <p class="flex flex-wrap gap-x-2 text-caption text-text-secondary lg:hidden"><span class="sm:hidden">{{ issue.level_label }}</span><span>{{ issue.context }}</span></p>
+          </td>
+          <td class="hidden px-5 align-middle text-caption text-text-secondary lg:table-cell">{{ issue.context }}</td>
+          <td class="hidden px-5 text-right align-middle font-mono text-data tabular-nums text-text-secondary sm:table-cell">{{ issue.event_count }}</td>
+          <td class="whitespace-nowrap px-5 text-right align-middle font-mono text-data tabular-nums text-text-secondary"><time datetime="{{ issue.last_seen_iso }}" title="{{ issue.last_seen_title }}">{{ issue.last_seen }}</time></td>
+          {% if show_status_column %}
+          <td class="hidden px-5 text-right align-middle sm:table-cell">{{ issue.status_label }}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if issue_page %}
+  {% if issue_page.next_href or issue_page.prev_href %}
+  <nav aria-label="Issue pages" class="flex gap-3">
+    {% if issue_page.prev_href %}<a href="{{ issue_page.prev_href }}" class="{{ <ui.secondary  /> }}">Previous</a>{% endif %}
+    {% if issue_page.next_href %}<a href="{{ issue_page.next_href }}" class="{{ <ui.secondary  /> }}">Next</a>{% endif %}
+  </nav>
+  {% endif %}
+  {% endif %}
+  {% endif %}
+  {% endif %}
+</div>
+{% endblock content %}

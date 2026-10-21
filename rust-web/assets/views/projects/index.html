@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="projects-page" class="flex w-full min-w-0 flex-col gap-5 {% if onboarding %}max-w-7xl{% endif %}">
+  {% if onboarding %}
+  <section id="onboarding-intro" class="flex flex-col gap-3 rounded-structural bg-surface-sunken p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6" aria-labelledby="onboarding-title">
+    <div class="min-w-0">
+      <h1 id="onboarding-title" class="text-balance text-heading-01 text-text-primary">Set up your first project</h1>
+      <p class="mt-1 max-w-[65ch] text-body text-text-secondary">Create it yourself, or give your agent permission to set up the project and its first source.</p>
+    </div>
+    {% if checklist %}
+    <p class="shrink-0 text-label font-semibold text-text-secondary">{{ checklist_done }} of {{ checklist | length }} steps complete</p>
+    {% endif %}
+  </section>
+  <div id="onboarding-paths" class="pd-bento">
+    <section id="onboarding-path-agent" aria-labelledby="onboarding-path-agent-title" class="pd-span-8 flex min-w-0 flex-col gap-3 rounded-structural border border-border-default bg-surface-raised p-5 sm:p-6">
+      <div class="flex items-center gap-2">
+        <span class="size-2 shrink-0 rounded-dot bg-interactive-primary" aria-hidden="true"></span>
+        <h2 id="onboarding-path-agent-title" class="text-heading-02 text-text-primary">Let your agent create it</h2>
+      </div>
+      {% if not can_manage %}
+      <p class="text-body text-text-secondary">Only an organization owner or admin can let an agent create projects.</p>
+      {% elif agent_can_create %}
+      <p id="onboarding-agent-ready" class="text-body text-text-secondary">An agent is connected and can create projects and sources. Ask your agent:</p>
+      <p class="rounded-control bg-surface-sunken p-3 font-mono text-data text-text-primary">Set up PostDeploy for this repository.</p>
+      {% else %}
+      <p class="max-w-[65ch] text-body text-text-secondary">Add PostDeploy to your agent. It asks for permission to create projects and sources, which you approve in your browser.</p>
+      {% for client in agent_commands %}
+      <div class="flex min-w-0 flex-col gap-1">
+        <span class="text-label text-text-tertiary">{{ client.label }}</span>
+        <div class="relative">
+          <pre id="onboarding-{{ client.id }}-command" class="overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-3 pr-24 font-mono text-data text-text-primary">{{ client.command }}</pre>
+          <div class="absolute right-2 top-2">
+            <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="onboarding-{{ client.id }}-command"><span data-copy-label>Copy</span></button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="text-label text-text-tertiary">Other MCP clients</span>
+        <code id="onboarding-mcp-url" class="min-w-0 break-all font-mono text-data text-text-primary">{{ mcp_url }}</code>
+      </div>
+      <p class="text-body text-text-secondary">Then ask your agent: <span class="font-mono text-data text-text-primary">Set up PostDeploy for this repository.</span></p>
+      {% endif %}
+    </section>
+    <section id="onboarding-path-yourself" aria-labelledby="onboarding-path-yourself-title" class="pd-span-4 flex min-w-0 flex-col gap-3 rounded-structural border border-border-default bg-surface-raised p-5 sm:p-6">
+      <h2 id="onboarding-path-yourself-title" class="text-heading-03 text-text-primary">Create it yourself</h2>
+      <p class="text-body text-text-secondary">Name the project. Then create a source and copy its DSN into your Sentry SDK.</p>
+      {% if can_manage %}
+      <form id="first-project-form" method="post" action="{{ form_action }}" class="max-w-sm">
+        {{ <ui.csrf  /> }}
+        {{ <ui.text id="first-project-name" name="name" label="Project name" type="text" value={values.name} error={field_errors.name} autocomplete="off" required={true} tone="console" /> }}
+        <button type="submit" class="{{ <ui.primary  /> }}">Create project</button>
+      </form>
+      {% else %}
+      <p class="text-body text-text-secondary">Ask an organization owner or admin to create the first project.</p>
+      {% endif %}
+    </section>
+  </div>
+  {% endif %}
+
+  {% if checklist %}
+  <section id="onboarding-checklist" aria-labelledby="onboarding-checklist-title" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-border-default px-5 py-3.5">
+      <h2 id="onboarding-checklist-title" class="text-heading-03 text-text-primary">Get to first value</h2>
+      <p class="text-label font-semibold text-text-secondary">{{ checklist_done }} of {{ checklist | length }} complete</p>
+    </div>
+    <ol class="pd-onboarding-steps grid gap-px bg-border-subtle">
+      {% for step in checklist %}
+      <li id="onboarding-step-{{ step.key }}" data-state="{{ step.state }}" {% if step.state == "current" %}aria-current="step"{% endif %} class="flex min-w-0 items-start gap-2.5 px-4 py-3.5 {% if step.state == 'current' %}bg-interactive-tint{% else %}bg-surface-raised{% endif %}">
+        <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-control border text-label font-semibold {% if step.state == 'done' %}border-status-live-border bg-status-live-bg text-status-live-ink{% elif step.state == 'current' %}border-interactive-primary bg-interactive-primary text-interactive-ink{% else %}border-border-default bg-surface-raised text-text-tertiary{% endif %}">
+          {% if step.state == "done" %}<span class="hero-check size-3.5" aria-hidden="true"></span>{% elif step.state == "current" %}<span class="hero-arrow-right size-3.5" aria-hidden="true"></span>{% else %}<span class="block size-1.5 rounded-dot bg-current"></span>{% endif %}
+        </span>
+        <div class="min-w-0 flex-1">
+          <p class="text-ui font-semibold {% if step.state == 'todo' %}text-text-tertiary{% else %}text-text-primary{% endif %}">{% if step.href and step.state != "done" %}<a href="{{ step.href }}" class="hover:text-interactive-strong">{{ step.title }}</a>{% else %}{{ step.title }}{% endif %}</p>
+          {% if step.description and step.state == "current" %}<p class="mt-1 text-label text-text-secondary">{{ step.description }}</p>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  {% if not onboarding %}
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <h1 class="text-heading-01 text-text-primary">Projects</h1>
+  </div>
+  {% if can_manage %}
+  <details id="new-project-panel" class="rounded-structural border border-border-default bg-surface-raised p-5" {% if show_project_form or field_errors.name %}open{% endif %}>
+    <summary class="{{ <ui.primary  /> }} cursor-pointer">Create project</summary>
+    <form id="new-project-form" method="post" action="{{ form_action }}" class="mt-4 max-w-sm">
+      {{ <ui.csrf  /> }}
+      {{ <ui.text id="project-name" name="name" label="Project name" type="text" value={values.name} error={field_errors.name} autocomplete="off" required={true} tone="console" /> }}
+      <button type="submit" class="{{ <ui.primary  /> }}">Create project</button>
+    </form>
+  </details>
+  {% endif %}
+  <section id="projects-panel" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    {% if projects %}
+    <table class="w-full text-left text-body">
+      <thead>
+        <tr class="border-b border-border-default">
+          <th scope="col" class="px-4 py-2 font-medium text-text-secondary">Project</th>
+          <th scope="col" class="px-4 py-2 text-right font-medium text-text-secondary">Open issues</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border-default">
+        {% for item in projects %}
+        <tr>
+          <td class="px-4 py-3"><a href="{{ item.href }}" class="font-medium text-text-primary hover:text-interactive-strong">{{ item.name }}</a></td>
+          <td class="px-4 py-3 text-right tabular-nums">{{ item.open_issues }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="px-4 py-8 text-body text-text-secondary">No projects yet.</p>
+    {% endif %}
+  </section>
+  {% endif %}
+</div>
+{% endblock content %}

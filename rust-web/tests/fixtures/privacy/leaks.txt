@@ -1,0 +1,220 @@
+# Labelled credentials that must never be stored. One JSON value per line:
+# a string is sent as free text, an object as structured data. Every line
+# holds a marker: `zqmark` plus three digits, or `4242` plus three digits for
+# a secret that is a number. The corpus tests assert that no marker reaches an
+# API response, a stored object or a file.
+
+# Probe shapes: JSON, quoted, header, URL, query and pair-list credentials.
+"request failed {\"password\": \"zqmark001\"}"
+"bad config {\"api_key\":\"zqmark002\"}"
+"token=\"zqmark003\""
+"{'secret': 'zqmark004'}"
+"password=zqmark005"
+"{AWS_SECRET_ACCESS_KEY=zqmark006}"
+"Host: h\r\nAuthorization: zqmark007\r\nAccept: */*"
+"Host: h\r\nX-Session-Id: zqmark008\r\n"
+"Host: h\r\nCookie: a=b; c=zqmark009\r\n"
+"user[name]=a&user[password]=zqmark010"
+"a=1,session_id=zqmark011"
+"GET https://u:zqmark012@example.invalid/x"
+"GET https://u:p@example.invalid/x {'password': 'zqmark013'}"
+"https://example.invalid/?api_key=zqmark014"
+"Host=h;Password=zqmark015;"
+"redis://:pa/zqmark016@example.invalid:6379"
+"postgres://u:x#zqmark017@example.invalid/db"
+"amqp://u:x?zqmark018@example.invalid/v"
+"mongodb+srv://u:zqmark019@cluster0.example.invalid/db"
+"postgres://u:zqmark020@[::1]:5432/db"
+"redis://u:zqmark021:x@example.invalid"
+"https://example.invalid/cb?next=https%3A%2F%2Fu%3Azqmark022%40h"
+"jdbc:mysql://h:3306/db?user=u&password=zqmark023"
+"https://zqmark024@x@example.invalid/"
+"authorization: zqmark025"
+"Set-Cookie: sid=zqmark026; Path=/"
+"Sentry sentry_key=zqmark027"
+"Authorization: Basic zqmark028"
+"https://zqmark029@o1.ingest.example.invalid/1"
+"postgres://u:ab/zqmark030+d==@example.invalid:5432/x"
+"https://example.invalid/cb?next=https%3A%2F%2Fh%2Fcb%3Ftoken%3Dzqmark031"
+"token=zqmark032"
+"/reset?token=zqmark033"
+"payload {\"password\":\"zqmark034\"}"
+"auth=zqmark035"
+"dial postgres://u:x#zqmark036@h"
+"log line\nX-Session-Id: zqmark037"
+"rid?token=zqmark038"
+"{\"api_key\": \"zqmark039\"}"
+"Authorization: Digest username=\"u\", response=\"zqmark040\""
+"a=1,token=zqmark041"
+"q=1&pass=zqmark042"
+"{\\\"token\\\":\\\"zqmark043\\\"}"
+"request failed: Bearer zqmark044abcdef"
+"https://x.test/cb?%74oken=zqmark045&page=2"
+"login with password=zqmark046 ok"
+"retry db_password=zqmark047 now"
+"theme=dark; sessionid=zqmark048"
+"https://example.invalid/cb#access_token=zqmark049&state=ok"
+"connect postgresql://probe-user:zqmark050@example.invalid/probe-db failed"
+"session_id=zqmark051&page=2"
+"https://example.invalid/cb?session_id=zqmark052&page=2"
+"rid?token=zqmark053 next"
+{"secret_key": "zqmark054"}
+{"pwd": "zqmark055"}
+{"auth": "zqmark056"}
+{"pass": "zqmark057"}
+{"basicAuth": "zqmark058"}
+{"db.pass": "zqmark059"}
+{"Authorization": "zqmark060"}
+{"har": [{"name": "Authorization", "value": "zqmark061"}]}
+{"triple": [["Authorization", "zqmark062", "x"]]}
+{"headers": [["X-Api-Key", "zqmark063"]]}
+
+# Probe shapes: hash rockets, mid-line headers, value extents, split names.
+"bad params {\"password\"=>\"zqmark101\"}"
+"job args {\"password\" => \"zqmark102\"}"
+"{:api_key=>\"zqmark103\"}"
+"params %{\"token\" => \"zqmark104\"}"
+"Array ( [password] => zqmark105 )"
+"sent Cookie: theme=dark; PHPSESSID=zqmark106"
+"401 with Authorization: Bot zqmark107"
+"<login><password>zqmark108</password></login>"
+"bad config {\"Secret Key\": \"zqmark109\"}"
+"{\n  \"password\":\n    \"zqmark110\"\n}"
+"password := \"zqmark111\""
+"passphrase=zqmark112"
+"{privateKey: \"zqmark113\"}"
+"password: hunter zqmark114"
+"postgres://u:123/zqmark115@db/x"
+"jdbc:oracle:thin:scott/zqmark116@host:1521/svc"
+"hdr aUtHoRiZaTiOn: bEaReR zqmark117"
+"postgres://u:zqmark118\"q@h/db"
+"https://a@b:zqmark119@h/"
+"postgres://u:p/zqmark120@[::1]:5432/db"
+"mongodb+srv://u:zqmark121/x@cluster.example.invalid/db"
+"\"password\"\t :\t \"zqmark122\""
+"Authorization=Bearer%20zqmark123"
+"/cb/token%3Dzqmark124"
+"X-Api-Key:zqmark125"
+"User(password='zqmark126')"
+"UPDATE users SET password = 'zqmark127'"
+"via Proxy-Authorization: Negotiate zqmark128"
+"amqps://u:x?zqmark129@h:5671/v"
+"jdbc:postgresql://h:5432/db?user=u&password=zqmark130"
+"got Set-Cookie: lang=en; connect.sid=zqmark131"
+"Host: h\nCookie: a=1; sid=zqmark132\nAccept: */*"
+"cfg {\"tokens\": [\"zqmark133\"]}"
+"cfg {\"credentials\": {\"id\": \"u\", \"key\": \"zqmark134\"}}"
+{"key": "Authorization", "value": "zqmark135"}
+{"Name": "Authorization", "Value": "zqmark136"}
+{"property": "password", "value": "zqmark137", "constraints": {"minLength": "too short"}}
+{"privateKey": "zqmark138"}
+{"passphrase": "zqmark139"}
+
+# Grammar shapes: separators, quoting, value extents and header names.
+"password=>zqmark201"
+"{'password' => 'zqmark202'}"
+"`password`: `zqmark203`"
+"\"password\":\n\"zqmark204\""
+"{\"api_key\": [\n  \"zqmark205\",\n  \"x\"\n]}"
+"token: {\"a\": {\"b\": [\"zqmark206\"]}}"
+"Cookie: zqmark207"
+"X-Auth: zqmark208"
+"basicAuth=zqmark209"
+"db.pass: zqmark210"
+"\"private_key\": \"-----BEGIN KEY zqmark211-----\""
+"PRIVATE_KEY=zqmark212"
+"{\"passphrase\":\"zqmark213\"}"
+"{\"password\": \"zqmark214"
+"{\"password\": \"a\\\"zqmark215\"}"
+"{\"msg\":\"401 with Authorization: Bot zqmark216\"}"
+"<api_key>zqmark217</api_key>"
+"session=zqmark218"
+"csrf_token: zqmark219"
+"\"X-Api-Key\": \"zqmark220\""
+"mysql://root:zqmark221@localhost:3306/app"
+"#<User id: 1, password: \"zqmark222\">"
+"[password: \"zqmark223\", user: \"ada\"]"
+"{Password:zqmark224 User:ada}"
+"$password = 'zqmark225';"
+"User{name='ada', password='zqmark226'}"
+"SECRET_KEY_BASE=zqmark227"
+"--password=zqmark228"
+"@token = \"zqmark229\""
+"retry with token=zqmark230=="
+"password=a:zqmark231"
+"{\"token\": \"zqmark232\", \"user\": \"ada\"}"
+"{\"user\": \"ada\", \"session\": {\"id\": \"zqmark233\"}}"
+"Authorization: Bearer zqmark234\r\nAccept: */*"
+"{\\\"tokens\\\":[\\\"zqmark235\\\"]}"
+"x-api-key: zqmark236"
+"password: 1zqmark237"
+"otp_token=0zqmark238"
+"Authorization: Token zqmark239"
+"request headers: {\"cookie\": \"a=1; sid=zqmark240\"}"
+"redis://default:zqmark241@cache.internal:6379/0"
+"https://user:zqmark242@example.invalid:8443/path?q=1"
+"next %74oken=zqmark243"
+"{\"Secret Token\": \"zqmark244\"}"
+"session_token: \"zqmark245\""
+"api_key='zqmark246' user='ada'"
+"token = zqmark247"
+"{\"password\"=>\"zqmark248\", \"user\"=>\"ada\"}"
+"%{password: \"zqmark249\"}"
+"{:password=>\"zqmark250\"}"
+"  password: zqmark251"
+"Proxy-Authorization: Basic zqmark252"
+"url=postgres://u:zqmark253@db/x"
+"\"dsn\": \"postgres://u:zqmark254@db.internal:5432/app\""
+"{\"url\":\"redis://u:zqmark255@h:6379/0\",\"email\":\"a@b.example\"}"
+"X-Auth-Key: zqmark256"
+{"X-Auth-Key": "zqmark257"}
+
+# Review 3 shapes: values that start with digits, numbers under strong names,
+# auth names, `=` authorization values, elements with attributes and
+# percent-encoded structured names.
+"password: 2024-Summer!zqmark258"
+"  db_password: 5432!zqmark259"
+"password: 1!zqmark260"
+"secret: 0.5#zqmark261"
+"password: 12.zqmark262"
+"password: 123-zqmark263"
+"{\"password\": 4242264}"
+"  password: 4242265"
+"db_password: 4242266"
+"{\"api_key\":4242267}"
+"client_secret: 4242268"
+"credential: 4242269"
+"auth_code=zqmark271"
+"{\"auth_data\": \"zqmark272\"}"
+"oauth: zqmark273"
+"XAuth: zqmark274"
+{"auth_code": "zqmark275"}
+{"X-Auth-Data": "zqmark276"}
+{"auth_header": "zqmark277"}
+{"authValue": "zqmark278"}
+"code_verifier=zqmark279"
+{"codeVerifier": "zqmark280"}
+"GET https://b.s3.example/k?X-Amz-Expires=60&X-Amz-Signature=zqmark281&x=1"
+"GET https://maps.example/api/geocode?key=zqmark282&address=x"
+{"oauth": {"authCode": "zqmark283"}}
+"Authorization=Bearer zqmark284abcdef"
+"authorization=Basic zqmark285abcdef"
+"Authorization=Token zqmark286"
+"Proxy-Authorization=Digest zqmark287"
+"<wsse:Password Type=\"PasswordText\">zqmark288</wsse:Password>"
+"<password type=\"text\">zqmark289</password>"
+{"%70assword": "zqmark290"}
+{"query": [["%74oken", "zqmark291"]]}
+{"oauth": "zqmark292"}
+"{\"x-amz-signature\": \"zqmark293\"}"
+"OAuth: zqmark294"
+"key=zqmark295&alt=json"
+"key=zqmark296&page=2"
+{"logentry": {"message": "payload {} rejected for password=%s", "params": ["zqmark297"], "formatted": "payload {} rejected for password=zqmark297"}}
+{"logentry": {"message": "db %v login failed password=%s user=%s", "params": ["primary", "zqmark298", "app"], "formatted": "db primary login failed password=zqmark298 user=app"}}
+{"logentry": {"message": "attempt % d password=%s user=%s", "params": [3, "zqmark299", "app"], "formatted": "attempt  3 password=zqmark299 user=app"}}
+{"message": {"message": "GET /cb?next=%2Fhome failed, password: {}", "params": ["zqmark300"], "formatted": "GET /cb?next=%2Fhome failed, password: zqmark300"}}
+{"logentry": {"message": "auth failed for {:?}: token={} retry={}", "params": ["Request { id: 7 }", "zqmark301", "3"], "formatted": "auth failed for Request { id: 7 }: token=zqmark301 retry=3"}}
+{"t": {"message": "note %s", "params": [{"message": "user %s password=%s", "params": ["ada", "zqmark302"]}]}}
+{"logentry": {"message": "%s=%s", "params": ["password", ["zqmark303"]], "formatted": "password=['zqmark303']"}}
+{"logentry": {"message": "%s: %s", "params": ["password", {"v": "zqmark304"}], "formatted": "password: {'v': 'zqmark304'}"}}

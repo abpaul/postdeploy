@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="report-page" class="flex w-full min-w-0 flex-col gap-6">
+  <div class="pd-bento">
+    <section class="pd-span-8 rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="report-title">
+      {% if report %}
+      <h1 id="report-title" class="text-heading-01 text-text-primary">{{ report.title }}</h1>
+      <p class="mt-2 text-body text-text-secondary">{{ report.author_name }} · {{ report.published_at }}</p>
+      <div class="mt-4 max-w-prose space-y-3 text-body-long text-text-primary">
+        {% for paragraph in report.paragraphs %}
+        <p>{{ paragraph }}</p>
+        {% endfor %}
+      </div>
+      {% if report.evidence %}
+      <h2 class="mt-6 text-heading-03 text-text-primary">Evidence</h2>
+      <ul class="mt-2 divide-y divide-border-subtle">
+        {% for item in report.evidence %}
+        <li class="py-2"><a href="{{ item.href }}" class="text-body font-medium text-interactive-strong hover:underline">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% else %}
+      <h1 id="report-title" class="text-heading-01 text-text-primary">No report yet</h1>
+      <p class="mt-3 max-w-prose text-body-long text-text-secondary">Connect an agent to investigate this project and publish a report.</p>
+      <a href="{{ project_base }}/access" class="{{ <ui.primary  /> }} mt-4">Review agent access</a>
+      {% endif %}
+    </section>
+
+    <section class="pd-span-4 rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="report-counts">
+      <h2 id="report-counts" class="text-heading-03 text-text-primary">Counts</h2>
+      {% if metrics and metrics.counts %}
+      <dl class="mt-4 space-y-3">
+        {% for count in metrics.counts %}
+        <div>
+          <dt class="text-label text-text-tertiary">{{ count.label }}</dt>
+          <dd class="text-heading-02 font-semibold tabular-nums text-text-primary">{{ count.value }}</dd>
+          {% if count.hint %}<dd class="text-caption text-text-secondary">{{ count.hint }}</dd>{% endif %}
+        </div>
+        {% endfor %}
+      </dl>
+      {% else %}
+      <p class="mt-3 text-body text-text-secondary">No counts yet.</p>
+      {% endif %}
+    </section>
+
+    {% if metrics and metrics.charts %}
+    {% for chart in metrics.charts %}
+    {% include "partials/chart.html" %}
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

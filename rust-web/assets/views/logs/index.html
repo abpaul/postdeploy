@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="logs-page" class="flex w-full min-w-0 flex-col gap-4">
+  <h1 class="text-heading-01 text-text-primary">Logs</h1>
+  {% if log_query.trace_id %}<p class="break-all font-mono text-data text-text-secondary">Trace {{ log_query.trace_id }}</p>{% endif %}
+  {% if log_query.request_id %}<p class="break-all font-mono text-data text-text-secondary">Request {{ log_query.request_id }}</p>{% endif %}
+  <form id="logs-search" method="get" action="{{ form_action }}" class="flex min-w-0 flex-wrap items-end gap-2">
+    {% if log_query.trace_id %}<input type="hidden" name="trace_id" value="{{ log_query.trace_id }}">{% endif %}
+    {% if log_query.request_id %}<input type="hidden" name="request_id" value="{{ log_query.request_id }}">{% endif %}
+    <div class="min-w-0 w-full sm:w-72">
+      <label for="logs-q" class="mb-1.5 block text-label text-text-primary">Search</label>
+      <input id="logs-q" type="search" name="q" value="{{ log_query.q }}" class="h-control-md w-full rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+    </div>
+    <div>
+      <label for="logs-level" class="mb-1.5 block text-label text-text-primary">Level</label>
+      <select id="logs-level" name="level" class="h-control-md rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary" onchange="this.form.requestSubmit()">
+        {% for level in log_levels %}
+        <option value="{{ level.id }}" {% if level.current %}selected{% endif %}>{{ level.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="logs-from" class="mb-1.5 block text-label text-text-primary">From</label>
+      <input id="logs-from" type="text" name="from" value="{{ log_query.from }}" autocomplete="off" class="h-control-md w-44 rounded-control border border-border-control bg-surface-raised px-3 font-mono text-data text-text-primary">
+    </div>
+    <div>
+      <label for="logs-to" class="mb-1.5 block text-label text-text-primary">To</label>
+      <input id="logs-to" type="text" name="to" value="{{ log_query.to }}" autocomplete="off" class="h-control-md w-44 rounded-control border border-border-control bg-surface-raised px-3 font-mono text-data text-text-primary">
+    </div>
+    <button type="submit" class="{{ <ui.secondary  /> }}">Search</button>
+  </form>
+
+  {% if log_page.coverage_message %}
+  <p class="text-body text-text-secondary">{{ log_page.coverage_message }}</p>
+  {% endif %}
+  {% if log_page.gap %}
+  <p role="status" class="rounded-structural border border-status-late-border bg-status-late-bg px-4 py-3 text-body text-status-late-ink">{{ log_page.gap_message | default(value="This result has a gap. Narrow the search to fill it.") }}</p>
+  {% endif %}
+
+  {% if query_busy %}
+  <p id="logs-busy" role="status" class="rounded-structural border border-status-late-border bg-status-late-bg px-4 py-3 text-body text-status-late-ink">{{ query_busy }}</p>
+  {% elif log_events %}
+  <div class="overflow-x-auto rounded-structural border border-border-default">
+    <table class="pd-log-table w-full text-left">
+      <caption class="sr-only">Log lines</caption>
+      <thead class="bg-surface-sunken text-label font-semibold uppercase text-text-tertiary">
+        <tr>
+          <th scope="col" class="px-4 py-2">Time</th>
+          <th scope="col" class="px-4 py-2">Level</th>
+          <th scope="col" class="px-4 py-2">Message</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border-subtle">
+        {% for event in log_events %}
+        <tr>
+          <td class="whitespace-nowrap px-4 py-2 font-mono text-data text-text-secondary">{{ event.at }}</td>
+          <td class="px-4 py-2 font-mono text-data text-text-secondary">{{ event.level }}</td>
+          <td class="px-4 py-2 font-mono text-data text-text-primary">
+            {{ event.message }}
+            {% if event.issue_href %}<a href="{{ event.issue_href }}" class="ml-2 text-interactive-strong hover:underline">Issue</a>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-body text-text-secondary">{% if filters_active %}No log lines match this search.{% else %}No log lines in this range.{% endif %}</p>
+  {% endif %}
+
+  {% if log_page.next_href or log_page.prev_href %}
+  <nav aria-label="Log pages" class="flex flex-wrap items-center gap-3">
+    {% if log_page.prev_href %}<a href="{{ log_page.prev_href }}" class="{{ <ui.secondary  /> }}">Previous</a>{% endif %}
+    {% if log_page.next_href %}<a href="{{ log_page.next_href }}" class="{{ <ui.secondary  /> }}">Next</a>{% endif %}
+    {% if log_page.incomplete %}<p class="text-body text-text-secondary">This page does not cover the whole window.</p>{% endif %}
+  </nav>
+  {% endif %}
+
+  {% if tail_url %}
+  <section id="logs-tail" data-log-tail data-tail-url="{{ tail_url }}" class="rounded-structural border border-border-default bg-surface-raised" aria-labelledby="logs-tail-title">
+    <div class="border-b border-border-default px-4 py-3">
+      <h2 id="logs-tail-title" class="text-heading-03 text-text-primary">Live tail</h2>
+      <p class="mt-1 text-body text-text-secondary">New project logs appear here. Reload to start from now.</p>
+    </div>
+    <p data-tail-status hidden class="border-b border-status-late-border bg-status-late-bg px-4 py-3 text-body text-status-late-ink"></p>
+    <ol data-tail-list class="pd-tail-list"></ol>
+  </section>
+  {% elif tail_unavailable %}
+  <p class="text-body text-text-secondary">Live tail is not available.</p>
+  {% endif %}
+</div>
+{% endblock content %}

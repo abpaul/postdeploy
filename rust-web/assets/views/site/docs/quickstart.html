@@ -1,0 +1,60 @@
+{% extends "site/prose.html" %}
+{% block heading %}Send your first error{% endblock heading %}
+{% block lede %}PostDeploy accepts events from Sentry SDKs. You need an account, one project and one source. The source gives you a DSN for your SDK.{% endblock lede %}
+{% block body %}
+<h2 id="steps">Steps</h2>
+<ol>
+  <li><a href="/register">Create an account</a>, then create an organization. The {{ plan.trial_days }}-day trial starts when the organization is created.</li>
+  <li>Create a project. A project groups the errors and logs of one application.</li>
+  <li>Create a source for that project. A source is one environment, such as <code>production</code> or <code>staging</code>.</li>
+  <li>Copy the DSN from the source page. PostDeploy shows it once. If you lose it, rotate the key on the source page. Rotation gives a new DSN and stops the old one.</li>
+  <li>Add the DSN to your SDK with one of the examples below, then deploy or run your application.</li>
+  <li>Select <strong>Send test event</strong> on the source page to check the path to PostDeploy. The page then shows whether errors and logs have arrived.</li>
+</ol>
+
+<h2 id="tested-sdks">Tested SDK versions</h2>
+<p>We test these SDK versions against PostDeploy. Other SDKs and versions are not tested.</p>
+<table>
+  <thead>
+    <tr><th scope="col">Language</th><th scope="col">Package</th><th scope="col">Version</th><th scope="col">Tested data</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Node.js</td><td><code>@sentry/node</code></td><td>11.6.0</td><td>Errors and structured logs</td></tr>
+    <tr><td>Python</td><td><code>sentry-sdk</code></td><td>2.72.0</td><td>Errors</td></tr>
+    <tr><td>Ruby</td><td><code>sentry-ruby</code></td><td>7.1.0</td><td>Errors</td></tr>
+    <tr><td>Elixir</td><td><code>sentry</code></td><td>14.0.0</td><td>Errors</td></tr>
+  </tbody>
+</table>
+<p>For Python, Ruby and Elixir, logs are not tested. Send logs from Node.js, or check the result on the source page before you depend on it.</p>
+
+<h2 id="node">Node.js</h2>
+<pre><code>import * as Sentry from "@sentry/node";
+
+Sentry.init({
+  dsn: process.env.POSTDEPLOY_DSN,
+  enableLogs: true,
+});
+
+Sentry.logger.info("checkout started", { request_id: "req-123" });</code></pre>
+
+<h2 id="python">Python</h2>
+<pre><code>import os
+import sentry_sdk
+
+sentry_sdk.init(dsn=os.environ["POSTDEPLOY_DSN"])</code></pre>
+
+<h2 id="ruby">Ruby</h2>
+<pre><code>Sentry.init do |config|
+  config.dsn = ENV["POSTDEPLOY_DSN"]
+end</code></pre>
+
+<h2 id="elixir">Elixir</h2>
+<pre><code># config/runtime.exs
+config :sentry, dsn: System.fetch_env!("POSTDEPLOY_DSN")</code></pre>
+
+<h2 id="source-maps">Source maps</h2>
+<p>Owners and admins upload a JavaScript source map for a release with <code>POST /api/orgs/{org}/projects/{project}/artifacts?release=web@1.4.2&amp;name=~/app.js.map</code> and the map as the request body. Stack frames of events with that release then show the original file, line and function. Build-tool plugins are not tested.</p>
+
+<h2 id="postdeploy-sdks">PostDeploy SDK keys</h2>
+<p>The PostDeploy Elixir, Ruby and JavaScript SDKs send errors to <code>/e/errors</code> with their <code>obs_</code> key. These keys also work in a Sentry DSN whose project path is <code>/1</code>. Their errors go through the same pipeline as Sentry events.</p>
+{% endblock body %}

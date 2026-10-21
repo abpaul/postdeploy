@@ -1,0 +1,51 @@
+{% extends "site/prose.html" %}
+{% block heading %}HTTP API{% endblock heading %}
+{% block lede %}The HTTP API returns the same issues, logs, deployments and usage that the MCP server returns. Every request is for one organization.{% endblock lede %}
+{% block body %}
+<h2 id="authentication">Authentication</h2>
+<p>Send an API key or an OAuth access token as a bearer token. The key's scopes decide which endpoints answer.</p>
+<pre><code>curl -H "Authorization: Bearer $POSTDEPLOY_API_KEY" \
+  {{ plan.public_url }}/api/orgs/ORG_ID/issues</code></pre>
+<p>Some endpoints, such as creating and revoking API keys, need a signed-in browser session. The <a href="#endpoints">endpoint lists</a> show which. See <a href="/docs/agents#api-keys">API keys</a>.</p>
+
+<h2 id="deployments">Record a deployment</h2>
+<p>Call this from CI with a key that has <code>deployments:write</code>. That scope records deployments only.</p>
+<pre><code>curl -X POST "{{ plan.public_url }}/api/orgs/ORG_ID/projects/PROJECT_ID/deployments" \
+  -H "Authorization: Bearer $POSTDEPLOY_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"version": "web@1.4.2", "environment": "production", "commit_sha": "COMMIT_SHA"}'</code></pre>
+<p>Sending the same version, environment and <code>deployed_at</code> again returns the stored deployment. Without <code>deployed_at</code>, PostDeploy uses the time it receives the request.</p>
+
+<h2 id="pages">Lists and pages</h2>
+<p>Project and source lists return 25 items by default and 100 at most. Pass <code>limit</code> to change it, and pass the returned <code>next</code> as <code>after</code> for the next page. Issue, log and deployment lists return <code>next</code> for <code>before</code>.</p>
+
+<h2 id="errors">Errors and limits</h2>
+<p>Errors are JSON, for example <code>{"error": "invalid_pagination"}</code>. Log searches and error context share one query budget per organization. Over it, the API answers <code>429 rate_limited</code> with <code>Retry-After</code>.</p>
+
+<h2 id="endpoints">Endpoints</h2>
+<p>These lists come from the server's route table and its access rules.</p>
+<h3 id="bearer">With an API key or OAuth token</h3>
+<p>The token needs every scope listed for the endpoint.</p>
+<table id="bearer-endpoints">
+  <thead>
+    <tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Scopes</th></tr>
+  </thead>
+  <tbody>
+    {% for route in api_routes.bearer %}
+    <tr><td>{{ route.method }}</td><td><code>{{ route.path }}</code></td><td>{% for scope in route.scopes %}<code>{{ scope }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<h3 id="session">With a browser session only</h3>
+<p>The dashboard calls these endpoints. A bearer token gets <code>401</code> or <code>403</code>.</p>
+<table id="session-endpoints">
+  <thead>
+    <tr><th scope="col">Method</th><th scope="col">Path</th></tr>
+  </thead>
+  <tbody>
+    {% for route in api_routes.session %}
+    <tr><td>{{ route.method }}</td><td><code>{{ route.path }}</code></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock body %}

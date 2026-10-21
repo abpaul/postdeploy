@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="ingestion-page" class="flex w-full min-w-0 flex-col gap-4">
+  <section id="ingestion-policy" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="ingestion-policy-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h1 id="ingestion-policy-title" class="text-heading-03 text-text-primary">Data controls</h1>
+      <p class="mt-1 text-body text-text-secondary">These rules apply to every project in this organization before anything is stored. Passwords, tokens, cookies, authorization headers, session values and credentials in URLs are always replaced with [Filtered]. Filtered and sampled items are not stored and do not count toward your plan.</p>
+    </div>
+    <div class="p-5">
+      {% if policy_invalid %}<p id="ingestion-policy-invalid" role="alert" class="mb-4 rounded-control border border-status-error-border p-3 text-body text-status-error-ink">{{ policy_invalid }}</p>{% endif %}
+      {% if can_manage %}
+      <form id="ingestion-policy-form" method="post" action="{{ ingestion_action }}" class="grid max-w-2xl gap-5">
+        {{ <ui.csrf  /> }}
+        {% if policy_error %}<p id="ingestion-policy-error" role="alert" class="rounded-control border border-status-error-border p-3 text-body text-status-error-ink">{{ policy_error }}</p>{% endif %}
+        <div>
+          <label for="ingestion-sensitive-fields" class="mb-1.5 block text-label text-text-primary">Extra sensitive field names</label>
+          <p class="mb-1.5 text-caption text-text-secondary">One per line, up to {{ max_sensitive_fields }}. Any field, header, query parameter or log attribute whose name contains one of these is replaced with [Filtered]. Values in free text are not detected.</p>
+          <textarea id="ingestion-sensitive-fields" name="sensitive_fields" rows="4" class="block w-full rounded-control border border-border-control bg-surface-raised px-3 py-2 font-mono text-body text-text-primary">{{ values.sensitive_fields }}</textarea>
+        </div>
+        <fieldset>
+          <legend class="text-label text-text-primary">Log levels to keep</legend>
+          <div class="mt-2 flex flex-wrap gap-4">
+            {% for level in levels %}
+            <label class="flex items-center gap-2 text-body text-text-primary">
+              <input type="checkbox" name="log_levels" value="{{ level.id }}" {% if level.checked %}checked{% endif %}>
+              {{ level.label }}
+            </label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <div>
+          <label for="ingestion-excluded-types" class="mb-1.5 block text-label text-text-primary">Ignored exception types</label>
+          <p class="mb-1.5 text-caption text-text-secondary">One per line, up to {{ max_excluded_types }}. An error whose exception type matches one of these exactly is not stored.</p>
+          <textarea id="ingestion-excluded-types" name="excluded_exception_types" rows="3" class="block w-full rounded-control border border-border-control bg-surface-raised px-3 py-2 font-mono text-body text-text-primary">{{ values.excluded_exception_types }}</textarea>
+        </div>
+        <div class="flex flex-wrap gap-6">
+          <div>
+            <label for="ingestion-error-sample" class="mb-1.5 block text-label text-text-primary">Errors kept (%)</label>
+            <input id="ingestion-error-sample" name="error_sample_percent" type="number" min="0" max="100" step="1" value="{{ values.error_sample_percent }}" required class="h-control-md w-24 rounded-control border border-border-control bg-surface-raised px-2 text-body text-text-primary">
+            <p class="mt-1 text-caption text-text-secondary">The same error is always kept or always dropped, including retries.</p>
+          </div>
+          <div>
+            <label for="ingestion-log-sample" class="mb-1.5 block text-label text-text-primary">Logs kept (%)</label>
+            <input id="ingestion-log-sample" name="log_sample_percent" type="number" min="0" max="100" step="1" value="{{ values.log_sample_percent }}" required class="h-control-md w-24 rounded-control border border-border-control bg-surface-raised px-2 text-body text-text-primary">
+            <p class="mt-1 text-caption text-text-secondary">Each log entry is chosen at random.</p>
+          </div>
+        </div>
+        <button id="ingestion-policy-save" type="submit" class="{{ <ui.primary  /> }}">Save data controls</button>
+      </form>
+      {% else %}
+      <p class="text-body text-text-secondary">Only owners and administrators can change data controls.</p>
+      {% if not policy_invalid %}
+      <dl id="ingestion-policy-readonly" class="mt-4 min-w-0 divide-y divide-border-default">
+        <div class="flex min-h-row items-start justify-between gap-3 py-3">
+          <dt class="text-body text-text-secondary">Extra sensitive field names</dt>
+          <dd class="text-right font-mono text-data text-text-primary">{% for name in sensitive_field_list %}{{ name }}{% if not loop.last %}, {% endif %}{% else %}None{% endfor %}</dd>
+        </div>
+        <div class="flex min-h-row items-start justify-between gap-3 py-3">
+          <dt class="text-body text-text-secondary">Log levels kept</dt>
+          <dd class="text-right text-data text-text-primary">{% if enabled_levels %}{{ enabled_levels }}{% else %}None{% endif %}</dd>
+        </div>
+        <div class="flex min-h-row items-start justify-between gap-3 py-3">
+          <dt class="text-body text-text-secondary">Ignored exception types</dt>
+          <dd class="text-right font-mono text-data text-text-primary">{% for name in excluded_type_list %}{{ name }}{% if not loop.last %}, {% endif %}{% else %}None{% endfor %}</dd>
+        </div>
+        <div class="flex min-h-row items-start justify-between gap-3 py-3">
+          <dt class="text-body text-text-secondary">Errors kept</dt>
+          <dd class="text-right text-data tabular-nums text-text-primary">{{ error_sample_percent }}%</dd>
+        </div>
+        <div class="flex min-h-row items-start justify-between gap-3 py-3">
+          <dt class="text-body text-text-secondary">Logs kept</dt>
+          <dd class="text-right text-data tabular-nums text-text-primary">{{ log_sample_percent }}%</dd>
+        </div>
+      </dl>
+      {% endif %}
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% endblock content %}

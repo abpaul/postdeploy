@@ -1,0 +1,54 @@
+{% if grants %}
+<div class="relative min-w-0 max-w-full overflow-x-auto" data-density="dense">
+  <table class="w-full text-left text-data">
+    <caption class="sr-only">Connected agents</caption>
+    <thead>
+      <tr class="border-b border-border-default">
+        <th scope="col" class="px-4 py-2 font-medium text-text-tertiary">Client</th>
+        <th scope="col" class="hidden px-4 py-2 font-medium text-text-tertiary sm:table-cell">Account</th>
+        <th scope="col" class="hidden px-4 py-2 font-medium text-text-tertiary sm:table-cell">Access</th>
+        <th scope="col" class="hidden px-4 py-2 font-medium text-text-tertiary lg:table-cell">Last used</th>
+        <th scope="col" class="hidden px-4 py-2 text-right font-medium text-text-tertiary sm:table-cell"><span class="sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-border-default">
+      {% for grant in grants %}
+      <tr id="grant-{{ grant.id }}">
+        <td class="px-4 py-3">
+          <span class="block font-medium text-text-primary">{{ grant.client_name }}</span>
+          <span class="mt-1 block break-all text-text-secondary sm:hidden">{{ grant.account }}</span>
+          <span class="mt-1 block text-text-secondary sm:hidden">{{ grant.access }}</span>
+          {% if can_manage and grant.revoke_action %}
+          <details class="mt-3 text-left sm:hidden">
+            <summary class="{{ <ui.destructive  /> }} cursor-pointer">Revoke</summary>
+            <form method="post" action="{{ grant.revoke_action }}" class="mt-2 rounded-control border border-border-default bg-surface-raised p-3">
+              {{ <ui.csrf  /> }}
+              <p class="mb-2 text-body text-text-secondary">This client loses access immediately.</p>
+              <button type="submit" class="{{ <ui.destructive  /> }}">Confirm revoke</button>
+            </form>
+          </details>
+          {% endif %}
+        </td>
+        <td class="hidden px-4 py-3 text-text-secondary sm:table-cell">{{ grant.account }}</td>
+        <td class="hidden px-4 py-3 text-text-secondary sm:table-cell">{{ grant.access }}</td>
+        <td class="hidden px-4 py-3 text-text-secondary lg:table-cell">{{ grant.last_used_at }}</td>
+        <td class="hidden px-4 py-3 text-right sm:table-cell">
+          {% if can_manage and grant.revoke_action %}
+          <details class="inline-block text-left">
+            <summary class="{{ <ui.destructive  /> }} cursor-pointer">Revoke</summary>
+            <form method="post" action="{{ grant.revoke_action }}" class="mt-2 w-64 rounded-control border border-border-default bg-surface-raised p-3">
+              {{ <ui.csrf  /> }}
+              <p class="mb-2 text-body text-text-secondary">This client loses access immediately.</p>
+              <button type="submit" class="{{ <ui.destructive  /> }}">Confirm revoke</button>
+            </form>
+          </details>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="px-4 py-5 text-body text-text-secondary">No connected agents.</p>
+{% endif %}

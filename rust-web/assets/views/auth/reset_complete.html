@@ -1,0 +1,16 @@
+{% extends "auth_base.html" %}
+{% block cross %}<a href="/sign-in" class="border-b-2 border-interactive-primary pb-px font-semibold text-text-primary">Back to sign in</a>{% endblock cross %}
+{% block heading %}Choose a new password.{% endblock heading %}
+{% block subtitle %}Use at least 12 characters. This replaces the old password.{% endblock subtitle %}
+{% block form %}
+<form id="reset-complete-form" method="post" action="{{ form_action }}">
+  {{ <ui.csrf  /> }}
+  <input type="hidden" name="reset_token" value="{{ reset_token }}">
+  {% if field_errors.reset_token %}
+  <p role="alert" class="mb-4 text-body text-status-error-ink">{{ field_errors.reset_token }}</p>
+  {% endif %}
+  {{ <ui.text id="password" name="password" label="New password" type="password" value="" error={field_errors.password} autocomplete="new-password" required={true} tone="auth" /> }}
+  {{ <ui.text id="password-confirmation" name="password_confirmation" label="Confirm password" type="password" value="" error={field_errors.password_confirmation} autocomplete="new-password" required={true} tone="auth" /> }}
+  <button type="submit" data-loading-text="Changing password..." class="{{ <ui.primary  /> }} w-full font-bold">Save password</button>
+</form>
+{% endblock form %}

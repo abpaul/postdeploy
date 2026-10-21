@@ -1,0 +1,9 @@
+{
+  "name": "postdeploy-local-verification",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@sentry/node": "11.6.0",
+    "@modelcontextprotocol/sdk": "1.32.1"
+  }
+}

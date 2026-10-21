@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "partials/head.html" %}
+  </head>
+  <body class="bg-surface-raised font-sans text-body text-text-primary antialiased">
+    <main id="auth-main" data-public-shell tabindex="-1" aria-labelledby="auth-page-title" class="flex min-h-dvh w-full flex-col bg-surface-raised">
+      <div class="flex w-full flex-wrap items-center justify-between gap-3 border-b border-border-public px-5 py-4 sm:px-9 lg:px-16">
+        {{ <logo.lockup href="/" label="PostDeploy home" size="sm" word={true} /> }}
+        <p class="text-label text-text-secondary">{% block cross %}{% endblock cross %}</p>
+      </div>
+      <div class="flex flex-1 flex-col items-center justify-center gap-3 px-5 py-12 text-center sm:px-9">
+        <h1 id="auth-page-title" class="text-type-display text-text-primary">{% block heading %}{% endblock heading %}</h1>
+        <p class="max-w-md text-body text-text-secondary">{% block subtitle %}{% endblock subtitle %}</p>
+        <div class="mt-5 w-full max-w-[380px] text-left">
+          {% block form %}{% endblock form %}
+        </div>
+      </div>
+    </main>
+    {% include "partials/flash.html" %}
+    <script src="/js/auth.js" defer></script>
+    {% block scripts %}{% endblock scripts %}
+  </body>
+</html>

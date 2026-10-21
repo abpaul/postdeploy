@@ -1,0 +1,17 @@
+.git
+.audit
+target
+data
+logs
+**/*.key
+**/*.sqlite*
+**/*.db
+node_modules
+**/*.enc
+**/*.lock.tmp
+**/*.pdbk
+**/*.log
+**/__pycache__
+config/credentials
+**/.env*
+**/*.db-*

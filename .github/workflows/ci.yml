@@ -1,171 +1,33 @@
-name: CI
+name: Rust CI
 
 on:
   push:
     branches: [master]
-    # Two kinds of path are skipped. The SDKs have their own path-filtered
-    # workflows, so a change confined to one of them does not need the Phoenix
-    # suite; sdks/contract is not among them, because the server parser owns
-    # those fixtures. The rest is documentation or a rendered artefact, which
-    # changes nothing this suite can check — anything that compiles, including
-    # the docs seeded from `lib/alplus/content`, still runs the full suite.
-    paths-ignore:
-      - "sdks/elixir/**"
-      - "sdks/javascript/**"
-      - "sdks/ruby/**"
-      - "**/*.md"
-      - "docs/**"
-      - "spec/**"
-  workflow_dispatch:
   pull_request:
-    paths-ignore:
-      - "sdks/elixir/**"
-      - "sdks/javascript/**"
-      - "sdks/ruby/**"
-      - "**/*.md"
-      - "docs/**"
-      - "spec/**"
-
-# One in-flight run per ref; a new push cancels the previous run.
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 permissions:
   contents: read
 
-env:
-  MIX_ENV: test
-  # Keep in sync with .tool-versions.
-  OTP_VERSION: "29.0.5"
-  ELIXIR_VERSION: "1.20.3"
+concurrency:
+  group: rust-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deployment:
-    name: Deployment failure checks
+  check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - run: node --test assets/js/hooks/turnstile.test.mjs
-
-  test:
-    name: Test (${{ matrix.partition }}/2)
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      # Two partitions halve the wall clock of the longest job. ExUnit splits
-      # by test module, and config/test.exs already gives each partition its
-      # own database (`alplus_test<MIX_TEST_PARTITION>`), so they cannot
-      # collide.
-      matrix:
-        partition: [1, 2]
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: rust-web
     env:
-      MIX_TEST_PARTITION: ${{ matrix.partition }}
-    services:
-      db:
-        image: postgres:18.3-bookworm
-        env:
-          POSTGRES_USER: alplus_local
-          POSTGRES_PASSWORD: alplus_local_only_disposable
-          POSTGRES_DB: alplus_local
-          POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
-        ports:
-          # config/test.exs connects on 127.0.0.1:54329 (matches dev compose).
-          - 54329:5432
-        options: >-
-          --health-cmd "pg_isready -U alplus_local"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 10
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      CARGO_PROFILE_TEST_DEBUG: '0'
+      POSTDEPLOY_TEST_ROOT: ${{ runner.temp }}/postdeploy-tests
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
-        with:
-          otp-version: ${{ env.OTP_VERSION }}
-          elixir-version: ${{ env.ELIXIR_VERSION }}
-      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: |
-            deps
-            _build
-          key: mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-${{ github.sha }}
-          restore-keys: |
-            mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-
-            mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-
-      - run: mix deps.get
-      # Migrations must match the resources. One partition proves it; the
-      # check is repository-wide and does not need to run twice.
-      - if: matrix.partition == 1
-        run: mix ash.codegen --check
-      - run: mix compile --warnings-as-errors
-      # `mix test` runs `ash.setup --quiet` first (creates + migrates the
-      # partition's own database).
-      - run: mix test --partitions 2
-
-  static:
-    name: Format · Credo · Sobelow
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
-        with:
-          otp-version: ${{ env.OTP_VERSION }}
-          elixir-version: ${{ env.ELIXIR_VERSION }}
-      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        id: mix-cache
-        with:
-          path: |
-            deps
-            _build
-          key: mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-${{ github.sha }}
-          restore-keys: |
-            mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-
-            mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-
-      - run: mix deps.get
-      - run: mix compile --warnings-as-errors
-      - uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
-        if: steps.mix-cache.outputs.cache-hit != 'true'
-        with:
-          path: |
-            deps
-            _build
-          key: ${{ steps.mix-cache.outputs.cache-primary-key }}
-      - run: mix deps.unlock --check-unused
-      - run: mix format --check-formatted
-      - run: mix credo
-      - run: mix sobelow --strict --private --exit --threshold low --skip
-      - run: mix deps.audit
-      # Advisory only. hex.audit has no ignore list, and cowlib 2.19.0 (pulled in
-      # by plug_cowboy for ExMCP; the app serves on Bandit) carries advisories
-      # with no fixed release yet. deps.audit above stays the blocking check.
-      - run: mix hex.audit
-        continue-on-error: true
-
-  dialyzer:
-    name: Dialyzer
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
-        with:
-          otp-version: ${{ env.OTP_VERSION }}
-          elixir-version: ${{ env.ELIXIR_VERSION }}
-      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: |
-            deps
-            _build
-          key: mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-${{ github.sha }}
-          restore-keys: |
-            mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}-
-            mix-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-
-      # PLT build is slow; cache it separately and rebuild only on lock changes.
-      - uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: priv/plts
-          key: plt-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock') }}
-          restore-keys: |
-            plt-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-
-      - run: mix deps.get
-      - run: mix dialyzer
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - run: rustup toolchain install 1.99.0 --profile minimal --component clippy,rustfmt
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: python3 -B scripts/test_dev.py

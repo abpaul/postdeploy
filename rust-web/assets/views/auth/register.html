@@ -1,0 +1,21 @@
+{% extends "auth_base.html" %}
+{% block cross %}Already have an account? <a href="/sign-in" class="inline-flex items-center justify-center border-b-2 border-interactive-primary pb-px font-semibold text-text-primary">Sign in</a>{% endblock cross %}
+{% block heading %}Create your account.{% endblock heading %}
+{% block subtitle %}Create an account with your email and a password.{% endblock subtitle %}
+{% block form %}
+<form id="register-form" method="post" action="{{ form_action }}">
+  {{ <ui.csrf  /> }}
+  {{ <ui.text id="email" name="email" label="Email" type="email" value={values.email} error={field_errors.email} autocomplete="email" required={true} tone="register" /> }}
+  {{ <ui.text id="password" name="password" label="Password" type="password" value="" error={field_errors.password} autocomplete="new-password" required={true} tone="register" /> }}
+  {{ <ui.text id="password-confirmation" name="password_confirmation" label="Confirm password" type="password" value="" error={field_errors.password_confirmation} autocomplete="new-password" required={true} tone="register" /> }}
+  {% if turnstile_site_key %}
+  <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-size="flexible" role="group" aria-label="Security check"></div>
+  {% endif %}
+  <button type="submit" data-loading-text="Creating account..." class="{{ <ui.primary  /> }} w-full font-bold">Create account</button>
+</form>
+{% endblock form %}
+{% block scripts %}
+{% if turnstile_site_key %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endif %}
+{% endblock scripts %}

@@ -1,0 +1,15 @@
+{% extends "site/prose.html" %}
+{% block heading %}About PostDeploy{% endblock heading %}
+{% block lede %}PostDeploy is production debugging for teams that work with coding agents. Paul Bădărău builds it and runs the service.{% endblock lede %}
+{% block body %}
+<h2 id="for">Who it is for</h2>
+<p>PostDeploy is for developers and small teams who ship their own software and ask a coding agent to help when production breaks.</p>
+<p>Your application sends errors and logs with a Sentry SDK. Your CI records each deployment. Your agent then reads one error with its stack, the related logs and the deployment that was live, and reports what it found.</p>
+
+<h2 id="operator">Who runs it</h2>
+<p>ALPLUS TECHNOLOGIES SRL, a company registered in Romania, provides PostDeploy. One person operates it. Write to <a href="mailto:hello@alplustech.com">hello@alplustech.com</a>.</p>
+
+<h2 id="leaving">If you leave</h2>
+<p>Your SDKs send to a standard Sentry DSN. To move to another service, change the DSN in your configuration.</p>
+<p><a href="/register">Start a {{ plan.trial_days }}-day free trial</a>. No credit card.</p>
+{% endblock body %}

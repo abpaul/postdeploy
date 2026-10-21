@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="settings-page" class="flex w-full min-w-0 flex-col gap-4">
+  <section id="org-summary" class="rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="org-summary-title">
+    <div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
+      <div class="min-w-0">
+        <h1 id="org-summary-title" class="text-balance text-heading-02 text-text-primary">{{ organization.name }}</h1>
+        <p class="mt-1 text-body text-text-secondary">Organization settings apply to everyone in this org.</p>
+      </div>
+      <div class="flex flex-wrap items-start gap-x-6 gap-y-4">
+        <dl class="grid grid-cols-1 gap-x-6 gap-y-2">
+          <div id="org-stat-role">
+            <dt class="text-label text-text-tertiary">Your role</dt>
+            <dd class="text-heading-02 font-semibold tabular-nums text-text-primary">{{ scope_role }}</dd>
+          </div>
+        </dl>
+        <div class="flex flex-wrap items-center gap-2">
+          {% if can_manage and (agent_setup or mcp_endpoint) %}
+          <a id="org-connect-agent" href="#org-agent-connection" class="{{ <ui.primary  /> }}">Connect an agent</a>
+          {% endif %}
+          <a id="org-view-notifications" href="{{ org_base }}/settings/notifications" class="{{ <ui.secondary  /> }}">Notifications</a>
+          <a id="org-view-ingestion" href="{{ org_base }}/settings/ingestion" class="{{ <ui.secondary  /> }}">Data controls</a>
+          <a id="org-view-billing" href="{{ org_base }}/billing" class="{{ <ui.secondary  /> }}">Billing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="org-settings" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="org-settings-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 id="org-settings-title" class="text-heading-03 text-text-primary">Organization</h2>
+      <p class="mt-1 text-body text-text-secondary">The name shown across the dashboard.</p>
+    </div>
+    <div class="p-5">
+      <div class="grid gap-4 lg:grid-cols-[2fr_1fr]">
+        <div>
+          {% if can_manage %}
+          <form id="org-name-form" method="post" action="{{ name_action }}">
+            {{ <ui.csrf  /> }}
+            {{ <ui.text id="org-name" name="name" label="Name" type="text" value={values.name | default(value=organization.name)} error={field_errors.name} autocomplete="organization" required={true} tone="console" /> }}
+            <button id="save-org-name" type="submit" class="{{ <ui.primary  /> }}">Save name</button>
+          </form>
+          {% else %}
+          <p class="text-body text-text-secondary">You can view this organization. Only owners and administrators can change settings.</p>
+          <div class="mt-4">
+            <span class="mb-1 block text-label text-text-secondary">Name</span>
+            <p id="org-name-readonly" class="text-body text-text-primary">{{ organization.name }}</p>
+          </div>
+          {% endif %}
+        </div>
+        <div class="border-t border-border-subtle pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+          <dl class="min-w-0 divide-y divide-border-default">
+            <div class="flex min-h-row min-w-0 items-start justify-between gap-3 py-3">
+              <dt class="shrink-0 text-body text-text-secondary">Created</dt>
+              <dd class="min-w-0 break-words text-right font-semibold text-data text-text-primary">{{ organization.created_at }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div id="org-members-preview" class="mt-8 border-t border-border-subtle pt-6">
+        <p class="text-ui font-semibold text-text-primary">Members</p>
+        <ul class="mt-3 divide-y divide-border-subtle">
+          {% for member in members %}
+          <li id="org-member-preview-{{ member.id }}" class="flex items-center gap-3 py-2.5">
+            <span class="inline-flex size-[26px] shrink-0 items-center justify-center rounded-dot bg-interactive-tint text-label font-semibold text-text-secondary" aria-hidden="true">{{ member.initial }}</span>
+            <span class="min-w-0 flex-1 truncate text-body text-text-primary">{% if member.name %}{{ member.name }}{% else %}{{ member.email }}{% endif %}</span>
+            <span class="shrink-0 text-label text-text-tertiary">{{ member.role_label | default(value=member.role) }}</span>
+          </li>
+          {% else %}
+          <li class="py-2.5 text-body text-text-secondary">No members to show.</li>
+          {% endfor %}
+          <li>
+            <a id="org-members-invite" href="{{ org_base }}/team" class="flex min-h-target-min items-center gap-3 py-2.5 text-body font-medium text-text-primary hover:text-interactive-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+              <span class="inline-flex size-[26px] shrink-0 items-center justify-center rounded-dot border border-dashed border-border-control text-text-tertiary" aria-hidden="true">+</span>
+              Invite a teammate
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {% if owner and delete_action %}
+      <div id="org-danger-zone" class="mt-8 rounded-control border border-status-error-border bg-surface-raised p-4">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div class="min-w-0 flex-1">
+            <p class="font-semibold text-status-error-ink">Delete this organization</p>
+            <p class="mt-0.5 text-body text-text-secondary">Removes every project, source, issue, and report. Asks twice.</p>
+          </div>
+          <details id="org-delete" class="contents" {% if field_errors.confirmed_name %}open{% endif %}>
+            <summary id="org-delete-trigger" class="{{ <ui.destructive  /> }} cursor-pointer">Delete organization</summary>
+            <form method="post" action="{{ delete_action }}" class="flex w-full flex-wrap items-center gap-2 rounded-control border border-l-[3px] border-status-late-border border-l-status-late bg-surface-raised p-3" data-confirm-match="{{ organization.name }}">
+              {{ <ui.csrf  /> }}
+              <p class="w-full text-body text-text-secondary">Removes every project, source, issue, and report in this organization. This cannot be undone. Type <strong>{{ organization.name }}</strong> to confirm.</p>
+              <label for="org-delete-input" class="sr-only">Type {{ organization.name }} to confirm</label>
+              <input id="org-delete-input" name="confirmed_name" type="text" value="{{ values.confirmed_name | default(value="") }}" autocomplete="off" required {% if field_errors.confirmed_name %}aria-invalid="true" aria-describedby="org-delete-input-error"{% endif %} class="h-control-md w-48 rounded-control border bg-surface-raised px-2 text-body text-text-primary {% if field_errors.confirmed_name %}border-[1.5px] border-status-error{% else %}border-border-default{% endif %}" data-confirm-input>
+              <button id="org-delete-submit" type="submit" class="{{ <ui.destructive  /> }}" disabled data-confirm-submit>Confirm delete</button>
+              <button type="button" class="{{ <ui.secondary  /> }}" data-close-details>Cancel</button>
+              {% if field_errors.confirmed_name %}<p id="org-delete-input-error" role="alert" class="w-full text-body text-status-error-ink">{{ field_errors.confirmed_name }}</p>{% endif %}
+            </form>
+          </details>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if can_manage %}
+  {% include "partials/agent_setup.html" %}
+  <section id="connected-agents" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="connected-agents-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 id="connected-agents-title" class="text-heading-03 text-text-primary">Connected agents</h2>
+      <p class="mt-1 text-body text-text-secondary">OAuth clients that currently have access to this organization.</p>
+    </div>
+    {% include "partials/grants.html" %}
+  </section>
+  {% endif %}
+
+  <section id="api-keys" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="api-keys-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 id="api-keys-title" class="text-heading-03 text-text-primary">API keys</h2>
+      <p class="mt-1 text-body text-text-secondary">A key lets an agent or a CI job use the API and MCP as you, with the access you choose. Keys expire after 1 to 90 days.</p>
+    </div>
+    <div class="space-y-4 p-5">
+      {% if new_api_key %}
+      <div id="api-key-secret" class="rounded-structural bg-surface-sunken p-4">
+        <p class="text-label font-semibold text-text-primary">New key</p>
+        <p class="mt-1 text-body text-text-secondary">Shown once. Copy it now. It is not shown again.</p>
+        <p id="api-key-secret-value" class="mt-3 break-all font-mono text-data text-text-primary">{{ new_api_key }}</p>
+        <button type="button" class="{{ <ui.secondary  /> }} mt-3" data-copy-target="api-key-secret-value"><span data-copy-label>Copy key</span></button>
+      </div>
+      {% endif %}
+      <form id="api-key-form" method="post" action="{{ api_key_action }}">
+        {{ <ui.csrf  /> }}
+        {{ <ui.text id="api-key-name" name="key_name" label="Name" type="text" value={values.key_name} error={field_errors.key_name} autocomplete="off" required={true} tone="console" /> }}
+        <fieldset class="mt-4" {% if field_errors.key_scopes %}aria-describedby="api-key-scopes-error"{% endif %}>
+          <legend class="text-label text-text-secondary">Access</legend>
+          {% for scope in api_key_scopes %}
+          <label class="mt-2 flex items-start gap-2">
+            <input type="checkbox" name="scopes" value="{{ scope.id }}" {% if scope.checked %}checked{% endif %} class="mt-1">
+            <span>
+              <span class="block text-body font-medium text-text-primary">{{ scope.label }}</span>
+              <span class="block text-caption text-text-secondary">{{ scope.description }}</span>
+            </span>
+          </label>
+          {% endfor %}
+          {% if field_errors.key_scopes %}<p id="api-key-scopes-error" role="alert" class="mt-2 text-body text-status-error-ink">{{ field_errors.key_scopes }}</p>{% endif %}
+        </fieldset>
+        <div class="mt-4">
+          <label for="api-key-expiry" class="mb-1 block text-label text-text-secondary">Expires after (days)</label>
+          <input id="api-key-expiry" name="expires_in_days" type="number" min="1" max="90" value="{{ values.expires_in_days | default(value="30") }}" {% if field_errors.key_expiry %}aria-invalid="true" aria-describedby="api-key-expiry-error"{% endif %} class="h-control-md w-24 rounded-control border border-border-default bg-surface-raised px-2 text-body text-text-primary">
+          {% if field_errors.key_expiry %}<p id="api-key-expiry-error" role="alert" class="mt-1 text-body text-status-error-ink">{{ field_errors.key_expiry }}</p>{% endif %}
+        </div>
+        <button id="api-key-create" type="submit" class="{{ <ui.primary  /> }} mt-4">Create key</button>
+      </form>
+    </div>
+    {% if api_keys %}
+    <div class="relative min-w-0 max-w-full overflow-x-auto border-t border-border-default" data-density="dense">
+      <table class="w-full text-left text-data">
+        <caption class="sr-only">API keys</caption>
+        <thead>
+          <tr class="border-b border-border-default">
+            <th scope="col" class="px-4 py-2 font-medium text-text-tertiary">Name</th>
+            <th scope="col" class="hidden px-4 py-2 font-medium text-text-tertiary sm:table-cell">Account</th>
+            <th scope="col" class="hidden px-4 py-2 font-medium text-text-tertiary sm:table-cell">Access</th>
+            <th scope="col" class="hidden px-4 py-2 font-medium text-text-tertiary lg:table-cell">Last used</th>
+            <th scope="col" class="px-4 py-2 font-medium text-text-tertiary">Expires</th>
+            <th scope="col" class="px-4 py-2 text-right font-medium text-text-tertiary"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border-default">
+          {% for key in api_keys %}
+          <tr id="api-key-{{ key.id }}">
+            <td class="px-4 py-3"><span class="block font-medium text-text-primary">{{ key.name }}</span><span class="block font-mono text-text-secondary">ends in {{ key.hint }}</span></td>
+            <td class="hidden px-4 py-3 text-text-secondary sm:table-cell">{{ key.account }}</td>
+            <td class="hidden px-4 py-3 text-text-secondary sm:table-cell">{{ key.access }}</td>
+            <td class="hidden px-4 py-3 text-text-secondary lg:table-cell">{{ key.last_used_at }}</td>
+            <td class="px-4 py-3 text-text-secondary">{{ key.expires_at }}</td>
+            <td class="relative px-4 py-3 text-right">
+              <details class="text-left">
+                <summary class="{{ <ui.destructive  /> }} cursor-pointer">Revoke</summary>
+                <form method="post" action="{{ key.revoke_action }}" class="absolute inset-y-0 right-0 z-10 flex items-center gap-2 rounded-control border border-l-[3px] border-status-late-border border-l-status-late bg-surface-raised px-3">
+                  {{ <ui.csrf  /> }}
+                  <p class="hidden w-56 text-body text-text-secondary md:block">Anything using this key loses access immediately.</p>
+                  <button type="submit" class="{{ <ui.destructive  /> }}">Confirm revoke</button>
+                  <button type="button" class="{{ <ui.secondary  /> }}" data-close-details>Cancel</button>
+                </form>
+              </details>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="border-t border-border-default px-4 py-5 text-body text-text-secondary">No API keys.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock content %}

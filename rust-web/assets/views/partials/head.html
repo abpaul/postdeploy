@@ -1,0 +1,31 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% if csrf_token %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+{% endif %}
+<title>{{ title }}</title>
+{% if description %}
+<meta name="description" content="{{ description }}">
+{% endif %}
+{% if canonical %}
+<link rel="canonical" href="{{ canonical }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PostDeploy">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:url" content="{{ canonical }}">
+{% if description %}
+<meta property="og:description" content="{{ description }}">
+{% endif %}
+{% endif %}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="/css/layout.css">
+<script>
+  (() => {
+    const stored = localStorage.getItem("phx:theme") || "light";
+    const theme = stored === "system" && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : stored === "system" ? "light" : stored;
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>

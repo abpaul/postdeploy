@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="deployments-page" class="flex w-full min-w-0 flex-col gap-6">
+  <h1 class="text-heading-01 text-text-primary">Deployments</h1>
+
+  {% if not deployments %}
+  <section id="deployments-empty" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">No deployments recorded yet</h2>
+    <p class="mt-2 max-w-prose text-body text-text-secondary">Record each deployment from CI with its version, environment, and full commit SHA. Error counts before and after each deployment appear here.</p>
+    <pre class="mt-4 overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 font-mono text-data text-text-primary">POST {{ record_path }}
+{"version": "web@1.4.2", "environment": "production", "commit_sha": "&lt;40-character SHA&gt;"}</pre>
+  </section>
+  {% else %}
+
+  {% if comparison %}
+  <section id="deployments-comparison" aria-label="Comparison" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 class="break-words text-heading-03 text-text-primary">{{ comparison.version }}</h2>
+      <p class="mt-1 text-body text-text-secondary">{{ comparison.environment }} · {{ comparison.deployed_at }}{% if comparison.commit %} · <span class="font-mono">{{ comparison.commit }}</span>{% endif %}</p>
+      {% if comparison.previous %}<p class="mt-1 text-body text-text-secondary">Previous deployment: {{ comparison.previous }}</p>{% endif %}
+    </div>
+    <div class="p-5">
+      <p class="text-body text-text-secondary">Error events in the {{ comparison.window }} before and after this deployment.</p>
+      <dl class="mt-3 grid grid-cols-2 gap-px border-y border-border-default bg-border-subtle sm:grid-cols-4">
+        <div class="bg-surface-raised px-4 py-3">
+          <dt class="text-label font-medium text-text-tertiary">Before</dt>
+          <dd id="deployments-before" class="mt-1 text-data tabular-nums text-text-primary">{{ comparison.before.events }} {% if comparison.before.events == "1" %}event{% else %}events{% endif %} · {{ comparison.before.rate }}</dd>
+        </div>
+        <div class="bg-surface-raised px-4 py-3">
+          <dt class="text-label font-medium text-text-tertiary">After</dt>
+          <dd id="deployments-after" class="mt-1 text-data tabular-nums text-text-primary">{{ comparison.after.events }} {% if comparison.after.events == "1" %}event{% else %}events{% endif %} · {{ comparison.after.rate }}</dd>
+        </div>
+        <div class="bg-surface-raised px-4 py-3">
+          <dt class="text-label font-medium text-text-tertiary">First received after</dt>
+          <dd class="mt-1 text-data tabular-nums text-text-primary">{{ comparison.new_total }} {% if comparison.new_total == "1" %}issue{% else %}issues{% endif %}</dd>
+        </div>
+        <div class="bg-surface-raised px-4 py-3">
+          <dt class="text-label font-medium text-text-tertiary">Regressed after</dt>
+          <dd class="mt-1 text-data tabular-nums text-text-primary">{{ comparison.regressed_total }} {% if comparison.regressed_total == "1" %}issue{% else %}issues{% endif %}</dd>
+        </div>
+      </dl>
+      <p class="mt-3 max-w-prose text-body text-text-secondary">{{ comparison.interpretation }}</p>
+      {% if comparison.notes %}
+      <ul id="deployments-notes" class="mt-2 space-y-2 text-body text-text-primary">
+        {% for note in comparison.notes %}
+        <li>{{ note }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if comparison.new_issues %}
+      <section class="mt-4" aria-label="First received after this deployment">
+        <h3 class="text-heading-03 text-text-primary">First received after this deployment</h3>
+        <ol class="mt-2 divide-y divide-border-subtle">
+          {% for issue in comparison.new_issues %}
+          <li class="py-2">
+            <a href="{{ issue.href }}" class="break-words text-body font-medium text-interactive-strong hover:underline">{{ issue.title }}</a>
+            <p class="text-label text-text-tertiary">{{ issue.first_seen }}{% if issue.in_version %} · seen in {{ comparison.version }}{% endif %}</p>
+          </li>
+          {% endfor %}
+        </ol>
+      </section>
+      {% endif %}
+      {% if comparison.regressed %}
+      <section class="mt-4" aria-label="Regressed after this deployment">
+        <h3 class="text-heading-03 text-text-primary">Regressed after this deployment</h3>
+        <ol class="mt-2 divide-y divide-border-subtle">
+          {% for issue in comparison.regressed %}
+          <li class="py-2">
+            <a href="{{ issue.href }}" class="break-words text-body font-medium text-interactive-strong hover:underline">{{ issue.title }}</a>
+          </li>
+          {% endfor %}
+        </ol>
+      </section>
+      {% endif %}
+    </div>
+  </section>
+  {% elif query_busy %}
+  <p id="deployments-busy" role="status" class="rounded-structural border border-status-late-border bg-status-late-bg px-4 py-3 text-body text-status-late-ink">{{ query_busy }}</p>
+  {% endif %}
+
+  <div class="min-w-0 overflow-x-auto border-y border-border-default">
+    <table id="deployments-table" class="w-full table-fixed border-collapse text-left">
+      <caption class="sr-only">Recorded deployments</caption>
+      <thead class="bg-surface-sunken text-label font-semibold uppercase text-text-tertiary">
+        <tr class="h-11 [@media(pointer:coarse)]:h-12">
+          <th scope="col" class="px-5">Version</th>
+          <th scope="col" class="hidden w-44 px-5 sm:table-cell">Environment</th>
+          <th scope="col" class="hidden w-44 px-5 lg:table-cell">Commit</th>
+          <th scope="col" class="w-28 px-5 text-right sm:w-56">Deployed</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border-subtle">
+        {% for deployment in deployments %}
+        <tr class="group transition-colors duration-productive hover:bg-interactive-wash focus-within:bg-interactive-wash">
+          <td class="min-w-0 px-5 py-2 align-middle">
+            <a href="{{ deployment.href }}" {% if deployment.current %}aria-current="true"{% endif %} class="flex min-h-target-min min-w-0 items-center text-body font-semibold text-text-primary group-hover:text-interactive-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"><span class="line-clamp-2 min-w-0 break-words">{{ deployment.version }}</span></a>
+          </td>
+          <td class="hidden break-words px-5 align-middle text-body text-text-secondary sm:table-cell">{{ deployment.environment }}</td>
+          <td class="hidden px-5 align-middle font-mono text-data text-text-secondary lg:table-cell">{{ deployment.commit }}</td>
+          <td class="px-5 text-right align-middle text-data tabular-nums text-text-secondary">{{ deployment.deployed_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if next_href or prev_href %}
+  <div class="flex flex-wrap gap-2">
+    {% if prev_href %}<a href="{{ prev_href }}" class="{{ <ui.secondary  /> }}">Newest</a>{% endif %}
+    {% if next_href %}<a href="{{ next_href }}" class="{{ <ui.secondary  /> }}">Older</a>{% endif %}
+  </div>
+  {% endif %}
+  {% endif %}
+</div>
+{% endblock content %}

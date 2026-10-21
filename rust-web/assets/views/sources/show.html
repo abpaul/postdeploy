@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="source-page" class="flex w-full min-w-0 flex-col gap-4">
+  <h1 class="sr-only">Source {{ source.name }}</h1>
+  <section id="source-panel" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-label="{{ source.name }}">
+    <div class="flex flex-wrap items-start justify-between gap-4 border-b border-border-default px-4 py-4">
+      <div class="min-w-0">
+        <p id="source-name" class="text-heading-02 font-semibold text-text-primary">{{ source.name }}</p>
+        <p class="mt-1 text-body text-text-secondary">Environment: <span class="font-mono text-data">{{ source.environment }}</span></p>
+      </div>
+      <div class="min-w-0 lg:text-right">
+        <p id="source-status" class="text-label text-text-secondary">{{ source.status_label }}</p>
+        <p id="source-answer" data-arrival-answer class="mt-1.5 text-heading-01 font-semibold text-text-primary">{{ source.answer }}</p>
+      </div>
+    </div>
+    <div class="space-y-4 p-4">
+      {% if source.status == "revoked" %}
+      <p id="source-revoked" class="rounded-structural border border-status-late-border bg-status-late-bg p-4 text-body text-status-late-ink">This source is revoked. Historical errors remain available. New envelopes are not accepted.</p>
+      {% endif %}
+      {% if dsn %}
+      <div id="source-dsn" class="rounded-structural bg-surface-sunken p-4">
+        <p class="text-label font-semibold text-text-primary">DSN</p>
+        <p class="mt-1 text-body text-text-secondary">Shown once. Copy it into the Sentry SDK now. It is not shown again.</p>
+        <p id="source-dsn-value" class="mt-3 break-all font-mono text-data text-text-primary">{{ dsn }}</p>
+        <button type="button" class="{{ <ui.secondary  /> }} mt-3" data-copy-target="source-dsn-value"><span data-copy-label>Copy DSN</span></button>
+      </div>
+      <div id="source-sdk" class="space-y-2">
+        <p class="text-label font-semibold text-text-primary">Add the DSN to your SDK</p>
+        <p class="text-body text-text-secondary">These examples already contain the DSN. The <a href="/docs/quickstart" class="text-interactive-strong underline underline-offset-4">quickstart</a> lists the tested SDK versions.</p>
+        {% for sdk in [["node", "Node.js", "@sentry/node 11.6.0, errors and logs"], ["python", "Python", "sentry-sdk 2.72.0, errors"], ["ruby", "Ruby", "sentry-ruby 7.1.0, errors"], ["elixir", "Elixir", "sentry 14.0.0, errors"]] %}
+        <details class="rounded-structural border border-border-default" {% if loop.first %}open{% endif %}>
+          <summary class="flex min-h-target-min cursor-pointer flex-wrap items-center gap-x-3 px-4 text-label font-semibold text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">{{ sdk[1] }} <span class="font-normal text-text-secondary">{{ sdk[2] }}</span></summary>
+          <div class="relative border-t border-border-default">
+<pre id="sdk-{{ sdk[0] }}" class="overflow-x-auto p-4 pr-24 font-mono text-data leading-relaxed text-text-primary">{% if sdk[0] == "node" %}import * as Sentry from "@sentry/node";
+
+Sentry.init({
+  dsn: "{{ dsn }}",
+  enableLogs: true,
+});
+
+Sentry.logger.info("PostDeploy connected");{% elif sdk[0] == "python" %}import sentry_sdk
+
+sentry_sdk.init(dsn="{{ dsn }}"){% elif sdk[0] == "ruby" %}Sentry.init do |config|
+  config.dsn = "{{ dsn }}"
+end{% else %}# config/runtime.exs
+config :sentry, dsn: "{{ dsn }}"{% endif %}</pre>
+            <div class="absolute right-3 top-3">
+              <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="sdk-{{ sdk[0] }}"><span data-copy-label>Copy</span></button>
+            </div>
+          </div>
+        </details>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <details class="text-body text-text-secondary">
+        <summary class="inline-flex min-h-target-min cursor-pointer items-center text-label font-medium text-text-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Credential</summary>
+        <p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span>Key prefix</span>
+          <code id="source-secret-prefix" class="font-mono text-data text-text-primary">{{ source.secret_prefix | default(value="Not available") }}</code>
+        </p>
+      </details>
+    </div>
+  </section>
+
+  {% if source.status != "revoked" %}
+  <section id="source-arrival" data-arrival data-status-url="{{ status_url }}" data-errors-received="{{ arrival.errors_received }}" class="rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="source-arrival-title">
+    <h2 id="source-arrival-title" class="text-heading-03 text-text-primary">Event arrival</h2>
+    {% if not arrival.errors_received %}
+    <p data-arrival-waiting class="mt-1 text-body text-text-secondary">This page checks every 3 seconds for 10 minutes until the first error arrives.</p>
+    {% for stop in [["timeout", "after 10 minutes"], ["error", "because a status check failed"]] %}
+    <p data-arrival-stopped="{{ stop[0] }}" hidden class="mt-1 text-body text-text-secondary">This page stopped checking {{ stop[1] }}. <a href="{{ source_path }}" class="text-interactive-strong underline underline-offset-4">Reload the source page</a> to check again.{% if dsn %} Copy the DSN first. It is not shown again.{% endif %}</p>
+    {% endfor %}
+    {% endif %}
+    <dl class="mt-4 grid gap-3 sm:grid-cols-2">
+      <div class="rounded-structural bg-surface-sunken p-4">
+        <dt class="text-label text-text-secondary">Errors</dt>
+        <dd data-arrival-errors class="mt-1 text-body font-semibold text-text-primary">{% if arrival.errors_received %}Received{% else %}No error received yet{% endif %}</dd>
+        <dd><a href="{{ project_base }}/observe" data-arrival-errors-link class="mt-1 inline-flex min-h-target-min items-center text-label text-interactive-strong underline underline-offset-4" {% if not arrival.errors_received %}hidden{% endif %}>Open issues</a></dd>
+      </div>
+      <div class="rounded-structural bg-surface-sunken p-4">
+        <dt class="text-label text-text-secondary">Logs</dt>
+        <dd data-arrival-logs class="mt-1 text-body font-semibold text-text-primary">{% if arrival.logs_received %}Received{% else %}No log received yet{% endif %}</dd>
+        <dd><a href="{{ project_base }}/logs" data-arrival-logs-link class="mt-1 inline-flex min-h-target-min items-center text-label text-interactive-strong underline underline-offset-4" {% if not arrival.logs_received %}hidden{% endif %}>Open logs</a></dd>
+      </div>
+    </dl>
+    {% if test_event_action %}
+    <form method="post" action="{{ test_event_action }}" data-test-event class="mt-4 flex flex-wrap items-center gap-3">
+      {{ <ui.csrf  /> }}
+      <button type="submit" class="{{ <ui.secondary  /> }}">Send test event</button>
+      <p class="max-w-prose text-caption text-text-secondary">Stores one error named "PostDeploy test event" in this source and counts it as one error event. It checks that PostDeploy accepts events for this source. It does not check your SDK configuration.</p>
+    </form>
+    <p data-test-event-result role="status" class="mt-2 text-body text-text-secondary"></p>
+    {% endif %}
+    <p class="mt-4 text-caption text-text-secondary">Agents read the same data: <a href="/docs/agents" class="text-interactive-strong underline underline-offset-4">agent setup</a> and <a href="/docs/api" class="text-interactive-strong underline underline-offset-4">HTTP API</a>.</p>
+  </section>
+
+  <section id="source-agent" {% if not arrival.errors_received and not arrival.logs_received %}hidden{% endif %} class="rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="source-agent-title">
+    <h2 id="source-agent-title" class="text-heading-03 text-text-primary">Connect your agent</h2>
+    <p class="mt-1 text-body text-text-secondary">Your agent can now read these events. Run one of these commands, then approve the connection in your browser.</p>
+    <div class="relative mt-3">
+      <pre id="source-agent-claude" class="overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 pr-24 font-mono text-data text-text-primary">claude mcp add --transport http postdeploy {{ mcp_endpoint }}</pre>
+      <div class="absolute right-3 top-3">
+        <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="source-agent-claude"><span data-copy-label>Copy</span></button>
+      </div>
+    </div>
+    <div class="relative mt-3">
+      <pre id="source-agent-codex" class="overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 pr-24 font-mono text-data text-text-primary">codex mcp add postdeploy --url {{ mcp_endpoint }}</pre>
+      <div class="absolute right-3 top-3">
+        <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="source-agent-codex"><span data-copy-label>Copy</span></button>
+      </div>
+    </div>
+    <div class="mt-3 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+      <span class="text-label text-text-tertiary">Endpoint</span>
+      <code id="source-agent-endpoint" class="min-w-0 break-all font-mono text-data text-text-primary">{{ mcp_endpoint }}</code>
+      <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="source-agent-endpoint"><span data-copy-label>Copy</span></button>
+    </div>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a href="{{ org_base }}/settings" class="{{ <ui.primary  /> }}">Open organization settings</a>
+      <a href="/docs/agents" class="{{ <ui.secondary  /> }}">Agent setup guide</a>
+      {% if can_manage %}
+      <a id="source-api-key-link" href="{{ org_base }}/settings#api-keys" class="{{ <ui.secondary  /> }}">Create an API key</a>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section id="source-release" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">Release health</h2>
+    <p class="mt-1 text-body text-text-secondary">Error trend for this source.</p>
+    {% if release_note %}
+    <p class="mt-4 text-body text-text-secondary">{{ release_note }}</p>
+    {% else %}
+    <p class="mt-4 text-body text-text-secondary">No release data in this range yet.</p>
+    {% endif %}
+  </section>
+
+  {% if can_manage and source.status != "revoked" %}
+  <section id="source-actions" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">Credential actions</h2>
+    <div class="mt-4 flex flex-wrap gap-3">
+      {% if rotate_action %}
+      <form method="post" action="{{ rotate_action }}">
+        {{ <ui.csrf  /> }}
+        <button type="submit" class="{{ <ui.secondary  /> }}">Rotate key</button>
+      </form>
+      {% endif %}
+      {% if revoke_action %}
+      <details>
+        <summary class="{{ <ui.destructive  /> }} cursor-pointer">Revoke source</summary>
+        <form method="post" action="{{ revoke_action }}" class="mt-3 max-w-md">
+          {{ <ui.csrf  /> }}
+          <p class="mb-3 text-body text-text-secondary">New envelopes stop immediately. Stored errors stay until retention removes them.</p>
+          <button type="submit" class="{{ <ui.destructive  /> }}">Confirm revoke</button>
+        </form>
+      </details>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock content %}

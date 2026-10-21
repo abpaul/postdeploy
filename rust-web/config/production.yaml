@@ -1,0 +1,78 @@
+logger:
+  enable: true
+  pretty_backtrace: false
+  level: info
+  format: compact
+
+server:
+  binding: 0.0.0.0
+  port: 80
+  host: <%= get_env(name="POSTDEPLOY_PUBLIC_URL") %>
+  middlewares:
+    logger:
+      enable: false
+    limit_payload:
+      enable: true
+      body_limit: 2mb
+    fallback:
+      enable: false
+
+workers:
+  mode: ForegroundBlocking
+
+database:
+  uri: sqlite:///data/control.sqlite?mode=rwc
+  enable_logging: false
+  connect_timeout: 5000
+  idle_timeout: 60000
+  min_connections: 1
+  max_connections: 4
+  auto_migrate: false
+  dangerously_truncate: false
+  dangerously_recreate: false
+
+settings:
+  host_redirects:
+    - { host: alplus.dev, target: "https://postdeploy.dev", status: 301 }
+    - { host: www.alplus.dev, target: "https://postdeploy.dev", status: 301 }
+    - { host: aws.alplus.dev, target: "https://postdeploy.dev", status: 301 }
+    - { host: www.postdeploy.dev, target: "https://postdeploy.dev", status: 301 }
+    - { host: ingest.alplus.dev, target: "https://ingest.postdeploy.dev", status: 308 }
+  lifecycle:
+    max_cached_orgs: 4096
+  credentials_file: /run/postdeploy/production.toml.enc
+  oauth:
+    issuer: <%= get_env(name="POSTDEPLOY_PUBLIC_URL") %>
+    resource: <%= get_env(name="POSTDEPLOY_PUBLIC_URL") %>/mcp
+  notifications:
+    public_url: <%= get_env(name="POSTDEPLOY_PUBLIC_URL") %>
+  tenants:
+    root: /data/tenants
+    max_pools: 100
+    max_connections: 2
+  storage:
+    prefix: <%= get_env(name="POSTDEPLOY_STORAGE_PREFIX") %>
+  logs:
+    max_attribute_bytes: 4096
+    max_record_bytes: 65536
+    search:
+      max_output_bytes: 1048576
+    tail:
+      replay_max_output_bytes: 1048576
+  auth:
+    secure_cookies: true
+    origin: <%= get_env(name="POSTDEPLOY_PUBLIC_URL") %>
+  disk:
+    max_bytes: 8589934592
+    min_free_bytes: 2147483648
+    max_entries: 16384
+    scan_interval_secs: 2
+  backup:
+    interval_secs: 3600
+    initial_delay_secs: 300
+    deadline_secs: 180
+    max_snapshot_bytes: 536870912
+    max_object_bytes: 268435456
+    max_scratch_dirs: 2
+    retention_days: 14
+    revision_attempts: 3

@@ -1,0 +1,129 @@
+# Text and data without credentials. One JSON value per line. Every line must
+# come back byte-identical from every surface: a string as free text, an
+# object as structured data.
+
+# JavaScript and TypeScript stack frames.
+"Error: boom\n    at verify (/srv/app/src/auth.ts:42:13)\n    at Session.save (/srv/app/session.js:10:5)\n    at main (/srv/app/index.js:3:1)"
+"    at TokenService.refresh (webpack:///./src/token.js:12:7)"
+"    at file:///app/auth/session.mjs:5:3"
+"    at async Promise.all (index 0)"
+"TypeError: Cannot read properties of undefined (reading 'token')"
+"TokenExpiredError: jwt expired"
+"JsonWebTokenError: invalid signature"
+"Type 'Promise<Session>' is not assignable to type 'Session'."
+
+# Java and Kotlin.
+"at com.example.TokenService.verify(TokenService.java:42)"
+"at org.apache.catalina.session.StandardManager.load(StandardManager.java:123)"
+"Caused by: java.lang.IllegalStateException: session closed"
+"org.springframework.security.authentication.BadCredentialsException: Bad credentials"
+"at com.example.auth.PasswordEncoder.matches(PasswordEncoder.kt:31)"
+
+# Ruby.
+"/app/models/token.rb:42:in 'create'"
+"app/controllers/sessions_controller.rb:15:in `create'"
+"ActiveRecord::RecordNotFound (Couldn't find Session with 'id'=42)"
+"ActionController::InvalidAuthenticityToken"
+
+# Go.
+"/app/auth/password.go:55 +0x1d"
+"goroutine 1 [running]:"
+"main.(*SessionStore).Get(0xc000010000)"
+"panic: runtime error: invalid memory address or nil pointer dereference"
+"dial tcp [::1]:6379: connect: connection refused"
+
+# Python.
+"File \"/app/auth.py\", line 42, in login"
+"  File \"/usr/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py\", line 51, in load"
+"KeyError: 'session_key'"
+"jwt.exceptions.ExpiredSignatureError: Signature has expired"
+"WARNING:django.contrib.sessions:Session data corrupted"
+
+# Elixir and Erlang.
+"** (RuntimeError) session expired"
+"    (myapp 0.1.0) lib/myapp/auth.ex:42: MyApp.Auth.verify/1"
+"    (phoenix 1.7.0) lib/phoenix/router.ex:354: Phoenix.Router.__call__/5"
+"** (Plug.Conn.InvalidSessionError) cookie store expects a session"
+
+# Hosts, ports and URLs.
+"connect ECONNREFUSED auth-db:5432"
+"redis session-store:6379 timeout"
+"connect ECONNREFUSED 127.0.0.1:5432"
+"GET https://auth.example.com:8443/login?next=/home failed"
+"https://example.com/a/b?page=2&sort=asc#top"
+"https://example.invalid/users/@alice"
+"https://example.invalid/search?q=a@b.example&page=2"
+"http://localhost:3000/@me/x"
+"http://[::1]:8080/x@y"
+"https://example.invalid/cb?next=https%3A%2F%2Fexample.invalid%2Fhome"
+"https://accounts.example.com/oauth/authorize?client_id=abc&scope=openid&state=xyz"
+"https://api.example.com/v1/sessions/123/tokens?limit=10"
+"https://example.com/password-reset"
+"postgres://db.example:5432/app"
+"redis://cache:6379/0"
+"GET /api/v1/sessions/42 200 12ms"
+"jdbc:oracle:thin:@db.example:1521:orcl"
+"git@github.com:org/repo.git"
+"ssh://git@github.com/org/repo.git"
+"git+ssh://git@example.invalid/org/repo.git"
+"cache miss for key=user:42"
+"GET https://example.invalid/kv?id=1&key_count=3"
+
+# Emails.
+"user alice@example.com not found; mailto:bob@example.com"
+"password reset email sent to a@b.example"
+
+# SQL.
+"SELECT id FROM sessions WHERE user_id = $1"
+"INSERT INTO auth_tokens (user_id, token_hash) VALUES ($1, $2)"
+"duplicate key value violates unique constraint \"sessions_pkey\""
+"DETAIL:  Key (email)=(a@b.example) already exists."
+
+# JSON without credentials.
+"{\"user_id\":1,\"prompt_tokens\":100,\"session_count\":3,\"region\":\"eu\"}"
+"{\"model\":\"m1\",\"usage\":{\"prompt_tokens\":12,\"completion_tokens\":30,\"total_tokens\":42}}"
+"{\"status\":\"ok\",\"items\":[1,2,3]}"
+"{\"event\":\"login\",\"user\":\"ada\",\"success\":true}"
+"{\"max_tokens\": 256}"
+"{\n  \"session_count\": 0,\n  \"region\": \"eu\"\n}"
+"{\"type\":\"session\",\"id\":7}"
+
+# Prose, headers and counters.
+"pass: 3 fail: 0"
+"started 12:30:45 session 7"
+"Host: h\r\nAccept: */*"
+"Error: connection refused"
+"author: Ada"
+"auth_provider: github"
+"auth_method=oidc"
+"Password must be at least 8 characters"
+"token expired"
+"Invalid token provided"
+"Authorization header missing"
+"2026-10-16T10:00:00Z"
+"x=1 y=2"
+"a=a=a=a"
+"Note: session handling changed"
+"retry in 5s (attempt 2/3)"
+"cache hit ratio: 0.93"
+"token_count: 5"
+"session: 7 users"
+"SessionNotFound: session 42 missing"
+"secret: true"
+"password_reset: false"
+"Error in session.yml: unexpected key"
+"session_timeout: 30"
+"pass: 3"
+"{\"prompt_tokens\": 12, \"session_count\": 3}"
+"author: Ada; authority: root CA; auth_method: oidc"
+"<passwordPolicy minLength=\"8\"/>"
+"{\"name\":\"Accept\",\"value\":\"*/*\"}"
+{"name": "Accept", "value": "*/*"}
+{"key": "region", "value": "eu"}
+{"pairs": [["Accept", "*/*", "x"]]}
+{"headers": [["X-Forwarded-Host", "h"], ["Accept", "*/*"]]}
+{"author": "Ada"}
+{"auth_provider": "github"}
+{"url": "https://example.invalid/list?page=2"}
+"key=x is missing"
+"monkey=1&page=2"

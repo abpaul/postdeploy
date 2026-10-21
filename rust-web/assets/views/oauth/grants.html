@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="access-page" class="flex w-full min-w-0 flex-col gap-4">
+  <div>
+    <h1 class="text-heading-01 text-text-primary">Access</h1>
+    <p class="mt-1 max-w-prose text-body text-text-secondary">Agents that can investigate this project and take the actions you allowed.</p>
+  </div>
+  {% if can_manage %}
+  {% include "partials/agent_setup.html" %}
+  {% endif %}
+  <section id="access-grants" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <h2 class="border-b border-border-default px-4 py-3 text-heading-03 text-text-primary">Connected agents</h2>
+    {% include "partials/grants.html" %}
+  </section>
+</div>
+{% endblock content %}

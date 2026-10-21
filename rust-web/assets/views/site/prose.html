@@ -1,0 +1,24 @@
+{% extends "site/layout.html" %}
+{% block content %}
+<div class="mx-auto grid max-w-content gap-10 px-5 py-12 sm:px-11 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-12 lg:py-16">
+  {% if docs %}
+  <nav aria-label="Documentation" class="min-w-0">
+    <p class="text-label font-semibold text-text-primary">Documentation</p>
+    <ul class="mt-2 flex flex-col">
+      {% for item in [["/docs", "Overview"], ["/docs/quickstart", "Quickstart"], ["/docs/agents", "Connect a coding agent"], ["/docs/api", "HTTP API"], ["/docs/usage-and-retention", "Usage and retention"]] %}
+      <li><a href="{{ item[0] }}" {% if current == item[0] %}aria-current="page"{% endif %} class="flex min-h-target-min items-center rounded-control-sm px-3 text-body hover:bg-hover hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus {% if current == item[0] %}bg-interactive-wash font-semibold text-text-primary{% else %}text-text-secondary{% endif %}">{{ item[1] }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% else %}
+  <div class="hidden lg:block" aria-hidden="true"></div>
+  {% endif %}
+  <article class="min-w-0 max-w-[70ch]" aria-labelledby="page-title">
+    <h1 id="page-title" class="font-display text-heading-01 text-balance text-text-primary">{% block heading %}{% endblock heading %}</h1>
+    <p class="mt-4 text-body-long text-text-secondary">{% block lede %}{% endblock lede %}</p>
+    <div class="mt-10 {{ <site.prose /> }}">
+      {% block body %}{% endblock body %}
+    </div>
+  </article>
+</div>
+{% endblock content %}

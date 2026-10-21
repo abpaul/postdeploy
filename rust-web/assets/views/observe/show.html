@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="observe-issue-page" class="flex w-full min-w-0 flex-col gap-4">
+  {% if load_error %}
+  <p id="observe-issue-error" role="alert" class="text-body text-status-error-ink">{{ load_error }}</p>
+  {% elif issue %}
+  {% if merged_parent %}
+  <p class="rounded-structural border border-border-default bg-surface-raised px-4 py-3 text-body text-text-secondary">This issue was merged into <a href="{{ merged_parent.href }}" class="font-medium text-interactive-strong hover:underline">{{ merged_parent.title }}</a>.</p>
+  {% endif %}
+
+  <section id="observe-issue-header">
+    <h1 class="break-words text-heading-01 text-text-primary">{{ issue.heading }}</h1>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      {% if issue.level_label %}
+      <span role="status" class="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-dot border px-2.5 py-1 text-label font-medium {% if issue.level_label == 'Error' or issue.level_label == 'Fatal' %}border-status-error-border bg-status-error-bg text-status-error-ink{% else %}border-status-neutral-border bg-status-neutral-bg text-status-neutral-ink{% endif %}">
+        <span class="size-1.5 shrink-0 rounded-dot {% if issue.level_label == 'Error' or issue.level_label == 'Fatal' %}bg-status-error{% else %}bg-status-neutral{% endif %}" aria-hidden="true"></span>
+        {{ issue.level_label }}
+      </span>
+      {% endif %}
+      {% if issue.status_label %}
+      <span role="status" class="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-dot border px-2.5 py-1 text-label font-medium {% if issue.status_label == 'Resolved' %}border-status-live-border bg-status-live-bg text-status-live-ink{% else %}border-status-neutral-border bg-status-neutral-bg text-status-neutral-ink{% endif %}">
+        <span class="size-1.5 shrink-0 rounded-dot {% if issue.status_label == 'Resolved' %}bg-status-live{% else %}bg-status-neutral{% endif %}" aria-hidden="true"></span>
+        {{ issue.status_label }}
+      </span>
+      {% endif %}
+      {% if issue.unhandled %}<span role="status" class="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-dot border border-status-error-border bg-status-error-bg px-2.5 py-1 text-label font-medium text-status-error-ink"><span class="size-1.5 shrink-0 rounded-dot bg-status-error" aria-hidden="true"></span>Unhandled</span>{% endif %}
+    </div>
+    {% if issue.culprit %}
+    <p id="observe-issue-culprit" class="mt-2 max-w-prose break-words font-mono text-data text-text-secondary">{{ issue.culprit }}</p>
+    {% endif %}
+    {% if issue.impact %}
+    <p id="observe-issue-impact" class="mt-3 text-heading-02 font-semibold text-text-primary">{{ issue.impact }}</p>
+    {% endif %}
+    <dl class="mt-4 grid grid-cols-2 gap-px border-y border-border-default bg-border-subtle sm:grid-cols-4">
+      <div class="bg-surface-raised px-4 py-3">
+        <dt class="text-label font-medium text-text-tertiary">First seen</dt>
+        <dd class="mt-1 text-data tabular-nums text-text-primary">{{ issue.first_seen | default(value="Not recorded") }}</dd>
+      </div>
+      <div class="bg-surface-raised px-4 py-3">
+        <dt class="text-label font-medium text-text-tertiary">Last seen</dt>
+        <dd class="mt-1 text-data tabular-nums text-text-primary">{{ issue.last_seen | default(value="Not recorded") }}</dd>
+      </div>
+      <div class="bg-surface-raised px-4 py-3">
+        <dt class="text-label font-medium text-text-tertiary">Release</dt>
+        <dd class="mt-1 break-words text-data text-text-primary">{{ issue.release | default(value="Not recorded") }}</dd>
+      </div>
+      <div class="bg-surface-raised px-4 py-3">
+        <dt class="text-label font-medium text-text-tertiary">Assignment</dt>
+        <dd class="mt-1 break-words text-data text-text-primary">{{ issue.assignee_label | default(value="Unassigned") }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  {% if recurrence %}
+  <section id="observe-issue-recurrence" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">After the fix</h2>
+    <p class="mt-1 text-body text-text-secondary">{{ recurrence.resolved }} {{ recurrence.summary }}</p>
+    {% if recurrence.releases %}
+    <dl class="mt-2">
+      {% for row in recurrence.releases %}
+      <div class="grid grid-cols-[auto_1fr] gap-2 border-t border-border-subtle py-1">
+        <dt class="break-words text-label text-text-tertiary">{{ row.release }}</dt>
+        <dd class="text-data tabular-nums text-text-primary">{{ row.events }} {% if row.events == 1 %}event{% else %}events{% endif %}</dd>
+      </div>
+      {% endfor %}
+    </dl>
+    {% endif %}
+    {% if recurrence.releases_truncated %}
+    <p class="mt-2 text-body text-text-secondary">Only the 10 releases with the most events are shown.</p>
+    {% endif %}
+    {% if recurrence.deployments %}
+    <p class="mt-2 text-body text-text-secondary">Deployments since the fix: {{ recurrence.deployments | join(sep=", ") }}.</p>
+    {% endif %}
+    {% if recurrence.deployments_truncated %}
+    <p class="mt-2 text-body text-text-secondary">Only the first 10 deployments since the fix are shown.</p>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if issue.recovery_steps %}
+  <section class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">{{ issue.recovery_title }}</h2>
+    {% if issue.recovery_summary %}<p class="mt-1 text-body text-text-secondary">{{ issue.recovery_summary }}</p>{% endif %}
+    <ol class="mt-3 list-decimal space-y-2 pl-5 text-body text-text-primary">
+      {% for step in issue.recovery_steps %}
+      <li>{{ step }}</li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  <div class="flex flex-wrap gap-2">
+    {% if resolve_action %}
+    <form method="post" action="{{ resolve_action }}">
+      {{ <ui.csrf  /> }}
+      <button type="submit" class="{{ <ui.secondary  /> }}">Resolve</button>
+    </form>
+    {% endif %}
+    {% if reopen_action %}
+    <form method="post" action="{{ reopen_action }}">
+      {{ <ui.csrf  /> }}
+      <button type="submit" class="{{ <ui.secondary  /> }}">Reopen</button>
+    </form>
+    {% endif %}
+    {% if assign_action and members %}
+    <form method="post" action="{{ assign_action }}" class="flex flex-wrap items-center gap-2">
+      {{ <ui.csrf  /> }}
+      <label for="issue-assignee" class="sr-only">Assignee</label>
+      <select id="issue-assignee" name="assignee_id" class="h-control-md rounded-control border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+        <option value="">Unassigned</option>
+        {% for member in members %}
+        <option value="{{ member.id }}" {% if member.current %}selected{% endif %}>{{ member.name | default(value=member.email) }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="{{ <ui.secondary  /> }}">Assign</button>
+    </form>
+    {% endif %}
+  </div>
+
+  {% if issue_tabs %}
+  <nav id="observe-issue-tabs" role="tablist" aria-label="Issue views" aria-orientation="horizontal" class="flex flex-wrap border-b border-border-default">
+    {% for tab in issue_tabs %}
+    <a id="observe-issue-tabs-tab-{{ tab.id }}" href="{{ tab.href }}" role="tab" aria-selected="{% if tab.current %}true{% else %}false{% endif %}" tabindex="{% if tab.current %}0{% else %}-1{% endif %}" class="inline-flex h-control-md items-center px-3 text-label transition-[box-shadow,color] duration-productive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus {% if tab.current %}font-semibold text-text-primary shadow-[inset_0_-2px_0_var(--color-interactive-primary)]{% else %}font-medium text-text-secondary shadow-[inset_0_-2px_0_transparent] hover:text-text-primary{% endif %}">{{ tab.label }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+
+  {% if issue_tab == "comments" %}
+  <section id="observe-issue-comments" aria-label="Comments" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <div class="border-b border-border-default px-5 py-3.5"><h2 class="text-heading-03 text-text-primary">Comments</h2></div>
+    <div class="p-5">
+    {% if comments %}
+    <ol class="divide-y divide-border-subtle">
+      {% for comment in comments %}
+      <li class="py-3">
+        <p class="text-label text-text-secondary">{{ comment.author_name }} · {{ comment.at }}</p>
+        <p class="mt-2 text-body text-text-primary">{{ comment.body }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="text-body text-text-secondary">No comments yet.</p>
+    {% endif %}
+    {% if comments_more_href %}
+    <a href="{{ comments_more_href }}" class="{{ <ui.secondary  /> }} mt-3">Load more comments</a>
+    {% endif %}
+    {% if comment_action %}
+    <form method="post" action="{{ comment_action }}" class="mt-4 max-w-xl">
+      {{ <ui.csrf  /> }}
+      <label for="issue-comment" class="mb-1.5 block text-label text-text-primary">Comment</label>
+      <textarea id="issue-comment" name="body" required rows="4" class="mb-3 block w-full rounded-control border border-border-control bg-surface-raised px-3 py-2 text-body text-text-primary"></textarea>
+      {% if field_errors.body %}<p role="alert" class="mb-3 text-body text-status-error-ink">{{ field_errors.body }}</p>{% endif %}
+      <button type="submit" class="{{ <ui.primary  /> }}">Add comment</button>
+    </form>
+    {% endif %}
+    </div>
+  </section>
+  {% elif issue_tab == "reports" %}
+  <section id="observe-issue-reports" aria-label="User reports" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <div class="border-b border-border-default px-5 py-3.5"><h2 class="text-heading-03 text-text-primary">User reports</h2></div>
+    <div class="p-5">
+    {% if user_reports %}
+    <ol class="divide-y divide-border-subtle">
+      {% for report in user_reports %}
+      <li class="py-3">
+        <p class="text-label text-text-secondary">{{ report.author_name }} · {{ report.at }}</p>
+        <p class="mt-2 text-body text-text-primary">{{ report.body }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="text-body text-text-secondary">No user reports yet.</p>
+    {% endif %}
+    {% if reports_more_href %}
+    <a href="{{ reports_more_href }}" class="{{ <ui.secondary  /> }} mt-3">Load more reports</a>
+    {% endif %}
+    </div>
+  </section>
+  {% else %}
+  <section id="observe-issue-event" aria-label="Evidence" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <div class="border-b border-border-default px-5 py-3.5"><h2 class="text-heading-03 text-text-primary">Event evidence</h2></div>
+    <div class="p-5">
+    {% if occurrences %}
+    <ul class="mb-3 flex flex-wrap gap-2">
+      {% for occurrence in occurrences %}
+      <li><a href="{{ occurrence.href }}" class="{% if occurrence.current %}{{ <ui.primary  /> }}{% else %}{{ <ui.secondary  /> }}{% endif %}">{{ occurrence.label }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if stack_links %}
+    <div class="mb-3 flex flex-wrap gap-2" role="group" aria-label="Stack view">
+      {% for link in stack_links %}
+      <a href="{{ link.href }}" class="{% if link.current %}{{ <ui.primary  /> }}{% else %}{{ <ui.secondary  /> }}{% endif %}" {% if link.current %}aria-current="true"{% endif %}>{{ link.label }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if stack_summary %}
+    <p class="mb-2 text-data text-text-secondary">{{ stack_summary }}</p>
+    {% endif %}
+    {% if stack_view == "raw" and raw_stack %}
+    <pre id="observe-issue-stack-raw" class="overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 font-mono text-data text-text-primary">{{ raw_stack }}</pre>
+    {% elif frames %}
+    <ol id="observe-issue-stacktrace" class="divide-y divide-border-subtle rounded-structural border border-border-default">
+      {% for frame in frames %}
+      <li class="px-4 py-3 {% if frame.in_app %}bg-surface-raised{% else %}bg-surface-sunken{% endif %}">
+        <p class="break-words font-mono text-data text-text-primary">{{ frame.function }}</p>
+        <p class="break-words text-caption text-text-secondary">{{ frame.filename }}{% if frame.lineno is defined %}:{{ frame.lineno }}{% endif %}</p>
+        {% if frame.context %}<pre class="mt-2 overflow-auto whitespace-pre-wrap font-mono text-data text-text-secondary">{{ frame.context }}</pre>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="text-body text-text-secondary">No per-event evidence has been captured for this issue yet.</p>
+    {% endif %}
+
+    {% if request %}
+    <section class="mt-4" aria-label="Request">
+      <h2 class="text-heading-03 text-text-primary">Request</h2>
+      <p class="mt-2 font-mono text-data text-text-primary">{{ request.method }} {{ request.url }}</p>
+      {% if request.headers %}
+      <dl class="mt-2">
+        {% for header in request.headers %}
+        <div class="grid grid-cols-[8rem_1fr] gap-2 border-t border-border-subtle py-1">
+          <dt class="text-label text-text-tertiary">{{ header.name }}</dt>
+          <dd class="break-all font-mono text-data text-text-primary">{{ header.value }}</dd>
+        </div>
+        {% endfor %}
+      </dl>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {% if event_breadcrumbs %}
+    <section class="mt-4" aria-label="Breadcrumbs">
+      <h2 class="text-heading-03 text-text-primary">Breadcrumbs</h2>
+      <ol class="mt-2 divide-y divide-border-subtle">
+        {% for crumb in event_breadcrumbs %}
+        <li class="py-2">
+          <p class="text-label text-text-tertiary">{{ crumb.at }} · {{ crumb.category }}</p>
+          <p class="text-body text-text-primary">{{ crumb.message }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+
+    {% if event_deployment %}
+    <p id="observe-issue-deployment" class="mt-4 text-body text-text-secondary">{{ event_deployment }}</p>
+    {% endif %}
+
+    {% if related_logs %}
+    <section id="observe-issue-logs" class="mt-4" aria-label="Related logs">
+      <h2 class="text-heading-03 text-text-primary">Related logs</h2>
+      <p class="mt-1 text-body text-text-secondary">{{ related_logs.summary }}</p>
+      {% if related_logs.rows %}
+      <ol class="mt-2 divide-y divide-border-subtle">
+        {% for row in related_logs.rows %}
+        <li class="py-2">
+          <p class="text-label text-text-tertiary">{{ row.at }} · {{ row.level }}</p>
+          <p class="break-words font-mono text-data text-text-primary">{{ row.message }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+      {% elif not related_logs.unread %}
+      <p class="mt-2 text-body text-text-secondary">No log lines match.</p>
+      {% endif %}
+      {% if related_logs.href %}
+      <p class="mt-2"><a href="{{ related_logs.href }}" class="text-body font-medium text-interactive-strong hover:underline">Open the matching log lines</a></p>
+      {% endif %}
+    </section>
+    {% endif %}
+    </div>
+  </section>
+  {% endif %}
+  {% else %}
+  <p class="text-body text-text-secondary">This issue is not available.</p>
+  {% endif %}
+</div>
+{% endblock content %}

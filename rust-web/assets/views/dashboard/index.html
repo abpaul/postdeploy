@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="dashboard-page" class="flex w-full min-w-0 flex-col gap-6">
+  <section id="organizations-summary" class="rounded-structural border border-border-default bg-surface-raised p-5" aria-labelledby="organizations-summary-title">
+    <div class="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
+      <div class="min-w-0">
+        <h2 id="organizations-summary-title" class="text-balance text-heading-02 text-text-primary">{{ organizations | length }} {% if organizations | length == 1 %}organization{% else %}organizations{% endif %}</h2>
+        <p class="mt-1 text-body text-text-secondary">Signed in as {{ user.email }}</p>
+      </div>
+      <dl class="grid grid-cols-2 gap-x-6 gap-y-2">
+        <div>
+          <dt class="text-label text-text-tertiary">Organizations</dt>
+          <dd class="text-heading-02 font-semibold tabular-nums text-text-primary">{{ organizations | length }}</dd>
+        </div>
+        <div>
+          <dt class="text-label text-text-tertiary">Projects</dt>
+          <dd class="text-heading-02 font-semibold tabular-nums text-text-primary">{{ project_total }}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="organizations-panel" class="w-full min-w-0 overflow-hidden rounded-structural border border-border-default bg-surface-raised">
+    <table class="block w-full text-left text-body sm:table">
+      <thead class="hidden sm:table-header-group">
+        <tr class="border-b border-border-default">
+          <th scope="col" class="px-4 py-2 text-label font-semibold uppercase text-text-secondary">Organization</th>
+          <th scope="col" class="px-4 py-2 text-label font-semibold uppercase text-text-secondary">Your role</th>
+          <th scope="col" class="px-4 py-2 text-right text-label font-semibold uppercase text-text-secondary">Projects</th>
+        </tr>
+      </thead>
+      <tbody class="block divide-y divide-border-default sm:table-row-group">
+        {% if organizations %}
+        {% for item in organizations %}
+        <tr class="block border-b border-border-default last:border-b-0 sm:table-row">
+          <td class="block px-4 py-3 sm:table-cell">
+            <a href="{{ item.href }}" class="flex min-h-target-min items-center gap-2.5 font-medium text-text-primary hover:text-interactive-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+              <span class="flex size-7 shrink-0 items-center justify-center rounded-dot border border-border-default bg-surface-sunken text-caption font-semibold text-interactive-strong">{{ item.initial }}</span>
+              <span class="min-w-0 truncate">{{ item.name }}</span>
+            </a>
+          </td>
+          <td class="block px-4 py-3 text-text-primary sm:table-cell">{{ item.role }}</td>
+          <td class="block px-4 py-3 text-right tabular-nums text-text-primary sm:table-cell">{{ item.project_count }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="3" class="block px-4 py-6 sm:table-cell">
+            <div class="rounded-structural border border-dashed border-border-default px-4 py-10 text-center">
+              <p class="text-body font-semibold text-text-primary">No organizations yet</p>
+              <p class="mt-1 text-body text-text-secondary">An organization is your team's workspace.</p>
+              <a href="/dashboard/orgs/new" class="{{ <ui.primary  /> }} mt-4">Create an organization</a>
+            </div>
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock content %}

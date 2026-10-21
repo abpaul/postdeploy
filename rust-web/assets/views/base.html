@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "partials/head.html" %}
+    <meta name="robots" content="noindex">
+  </head>
+  <body class="bg-surface-page font-sans text-body text-text-primary antialiased">
+    <div class="min-h-dvh bg-surface-page lg:flex">
+      <div class="flex min-h-target-min items-center justify-between border-b border-border-default bg-surface-raised px-4 lg:hidden">
+        {{ <logo.lockup href="/dashboard" label="PostDeploy home" size="sm" word={true} /> }}
+        <button type="button" id="mobile-nav-open" class="flex min-h-target-min min-w-target-min cursor-pointer items-center justify-center rounded-control border border-border-default bg-surface-raised text-text-primary hover:bg-interactive-tint" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false">
+          {{ <icons.glyph name="menu" class="size-5" /> }}
+        </button>
+      </div>
+      <div id="mobile-nav-scrim" class="fixed inset-0 z-30 hidden bg-scrim lg:hidden" aria-hidden="true"></div>
+      {% set drawer = true %}
+      {% set nav_id = "mobile-nav" %}
+      {% set nav_class = "fixed inset-y-0 left-0 z-40 hidden min-w-0 w-72 -translate-x-full flex flex-col border-r border-border-default bg-surface-page transition-transform duration-productive lg:hidden" %}
+      {% include "partials/sidebar.html" %}
+      {% set drawer = false %}
+      {% set nav_id = "desktop-nav" %}
+      {% set nav_class = "sticky top-0 hidden h-full h-dvh min-w-0 w-sidebar shrink-0 flex flex-col border-r border-border-default bg-surface-page lg:flex" %}
+      {% include "partials/sidebar.html" %}
+
+      <div data-console-content class="min-w-0 max-w-full flex-1 bg-surface-raised">
+        {% if organization or title or project_base or windows or agent_connected %}
+        <div class="border-b border-border-default bg-surface-raised">
+          <div class="mx-auto flex w-full max-w-page-full flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+            <div class="flex flex-wrap items-center gap-3">
+              {% if page_heading %}
+              <h1 class="sr-only">{{ title }}</h1>
+              {% endif %}
+              {% if crumbs %}
+              <nav id="breadcrumbs" aria-label="Breadcrumb" class="flex flex-wrap items-center gap-1.5 text-body text-text-tertiary">
+                {% for crumb in crumbs %}
+                {% if not loop.first %}<span class="select-none text-text-divider" aria-hidden="true">/</span>{% endif %}
+                {% if crumb.href %}
+                <a href="{{ crumb.href }}" class="max-w-40 truncate hover:text-text-primary">{{ crumb.label }}</a>
+                {% else %}
+                <span aria-current="page" class="max-w-64 truncate font-semibold text-text-primary">{{ crumb.label }}</span>
+                {% endif %}
+                {% endfor %}
+              </nav>
+              {% elif not organization %}
+              <p aria-hidden="true" class="text-body font-semibold text-text-primary">{{ title }}</p>
+              {% endif %}
+              {% if project_base and projects %}
+              <form method="get" action="{{ project_switch_action }}" class="flex items-center gap-2">
+                <label for="project-switch" class="sr-only">Project</label>
+                <select id="project-switch" name="project_id" class="h-control-md w-56 max-w-full rounded-control border border-border-default bg-surface-raised px-3 text-body text-text-primary" onchange="this.form.requestSubmit()">
+                  {% for item in projects %}
+                  <option value="{{ item.id }}" {% if project and project.id == item.id %}selected{% endif %}>{{ item.name }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="{{ <ui.secondary  /> }}">Open</button>
+              </form>
+              {% endif %}
+              {% if environments %}
+              <form method="get" action="{{ environment_action }}" class="flex items-center gap-2">
+                <label for="environment-switch" class="sr-only">Environment</label>
+                <select id="environment-switch" name="environment" class="h-control-md w-44 max-w-full rounded-control border border-border-default bg-surface-raised px-3 text-body text-text-primary" onchange="this.form.requestSubmit()">
+                  <option value="">All environments</option>
+                  {% for item in environments %}
+                  <option value="{{ item.name }}" {% if item.current %}selected{% endif %}>{{ item.name }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="{{ <ui.secondary  /> }}">Apply</button>
+              </form>
+              {% endif %}
+            </div>
+            {% if windows or agent_connected %}
+            <div class="flex flex-wrap items-center gap-2">
+              {% if agent_connected %}
+              <p id="topbar-agent-connection" class="flex items-center gap-2 whitespace-nowrap text-caption text-text-secondary">
+                <span class="size-2 shrink-0 rounded-dot bg-status-live" aria-hidden="true"></span>
+                Agent connected
+              </p>
+              {% endif %}
+              {% if windows %}
+              <div id="window-select" class="inline-flex rounded-dot bg-surface-sunken p-0.5" role="group" aria-label="Time range">
+                {% for item in windows %}
+                <a href="{{ item.href }}" class="inline-flex h-control-sm items-center whitespace-nowrap rounded-dot px-3.5 text-label font-semibold {% if item.current %}bg-surface-raised text-text-primary shadow-segment{% else %}text-text-tertiary hover:text-text-primary{% endif %}" {% if item.current %}aria-current="true"{% endif %}>{{ item.label }}</a>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <main class="mx-auto min-w-0 w-full max-w-page-full {% if onboarding and not project_base %}flex flex-col min-h-[calc(100dvh-3.5rem)] items-center px-4 py-6 sm:px-6 lg:min-h-[calc(100dvh-3rem)] lg:px-8 lg:py-7{% else %}p-4 sm:p-6 lg:px-8 lg:py-7{% endif %}">
+          {% if user and not user.confirmed %}
+          <section id="confirm-email-banner" class="mb-4 flex w-full items-center justify-between gap-3 rounded-control border border-border-default bg-surface-sunken px-3 py-2.5" aria-labelledby="confirm-email-heading" aria-describedby="confirm-email-description">
+            <div class="flex min-w-0 items-center gap-2.5">
+              <span class="size-2 shrink-0 rounded-dot bg-interactive-primary" aria-hidden="true"></span>
+              <div class="min-w-0">
+                <h2 id="confirm-email-heading" class="text-ui font-semibold text-text-primary">Confirm your email</h2>
+                <p id="confirm-email-description" class="text-label text-text-secondary">Required to send or accept invitations.</p>
+              </div>
+            </div>
+            <form method="post" action="/dashboard/account/confirmation" class="shrink-0">
+              {{ <ui.csrf  /> }}
+              <button type="submit" class="{{ <ui.secondary  /> }}">Send link</button>
+            </form>
+          </section>
+          {% endif %}
+          {% block content %}{% endblock content %}
+        </main>
+      </div>
+    </div>
+    {% include "partials/flash.html" %}
+    <script src="/js/console.js" defer></script>
+  </body>
+</html>

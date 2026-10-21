@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "partials/head.html" %}
+    <link rel="stylesheet" href="/css/site.css">
+  </head>
+  <body class="bg-surface-page font-public text-body text-text-primary antialiased">
+    <a href="#site-main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 z-50 rounded-control bg-surface-raised px-4 py-2 text-label font-semibold text-text-primary">Skip to content</a>
+    <header id="site-header" class="sticky top-0 z-40 border-b border-border-subtle bg-surface-page">
+      <div class="relative mx-auto flex h-[72px] max-w-content items-center justify-between gap-4 px-5 sm:px-11">
+        {{ <logo.lockup href="/" label="PostDeploy home" size="sm" word={true} /> }}
+        <nav aria-label="Primary" class="hidden min-w-0 items-center gap-[30px] lg:flex">
+          {{ <site.nav href="/pricing" label="Pricing" current={current} /> }}
+          {{ <site.nav href="/docs" label="Docs" current={current} /> }}
+          {{ <site.nav href="/docs/agents" label="Agent setup" current={current} /> }}
+          {{ <site.nav href="/docs/api" label="API" current={current} /> }}
+        </nav>
+        <div class="flex items-center gap-[18px]">
+          {% if signed_in %}
+          <a href="/dashboard" class="{{ <site.cta /> }}">Dashboard</a>
+          {% else %}
+          <a href="/sign-in" class="hidden min-h-target-min items-center text-[14px] font-semibold text-text-secondary hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:inline-flex">Sign in</a>
+          <a href="/register" class="{{ <site.cta /> }}">Start free trial</a>
+          {% endif %}
+          <details id="site-menu" class="lg:hidden">
+            <summary class="inline-flex min-h-target-min min-w-target-min cursor-pointer items-center justify-center rounded-control text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" aria-label="Menu">
+              {{ <icons.glyph name="menu" class="size-5" /> }}
+            </summary>
+            <nav aria-label="Menu" class="absolute inset-x-0 top-full border-b border-border-subtle bg-surface-page px-3 py-3 shadow-overlay">
+              {{ <site.menu href="/pricing" label="Pricing" current={current} /> }}
+              {{ <site.menu href="/docs" label="Docs" current={current} /> }}
+              {{ <site.menu href="/docs/agents" label="Agent setup" current={current} /> }}
+              {{ <site.menu href="/docs/api" label="API" current={current} /> }}
+              {% if not signed_in %}
+              {{ <site.menu href="/sign-in" label="Sign in" current={current} /> }}
+              {{ <site.menu href="/register" label="Start free trial" current={current} /> }}
+              {% endif %}
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
+    <main id="site-main" data-public-shell tabindex="-1" class="min-w-0">
+      {% block content %}{% endblock content %}
+    </main>
+    <footer id="site-footer" class="border-t border-border-public bg-surface-sunken text-text-secondary">
+      <div class="mx-auto flex max-w-content flex-col gap-8 px-5 py-12 sm:px-11 lg:flex-row lg:justify-between">
+        <div class="max-w-xs">
+          {{ <logo.lockup href="/" label="PostDeploy home" size="sm" word={true} /> }}
+          <p class="mt-4 text-body text-text-secondary">Production debugging built for AI agents.</p>
+        </div>
+        <nav aria-label="Footer" class="grid grid-cols-2 gap-x-12 gap-y-1 sm:grid-cols-3">
+          <a href="/pricing" class="inline-flex min-h-target-min items-center text-body hover:text-text-primary">Pricing</a>
+          <a href="/docs/quickstart" class="inline-flex min-h-target-min items-center text-body hover:text-text-primary">Quickstart</a>
+          <a href="/docs/usage-and-retention" class="inline-flex min-h-target-min items-center text-body hover:text-text-primary">Usage and retention</a>
+          <a href="/about" class="inline-flex min-h-target-min items-center text-body hover:text-text-primary">About</a>
+          <a href="/privacy" class="inline-flex min-h-target-min items-center text-body hover:text-text-primary">Privacy</a>
+          <a href="/terms" class="inline-flex min-h-target-min items-center text-body hover:text-text-primary">Terms</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

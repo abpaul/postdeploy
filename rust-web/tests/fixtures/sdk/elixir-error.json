@@ -1,0 +1,164 @@
+{
+ "breadcrumbs": [
+  {
+   "category": "verification",
+   "data": null,
+   "level": "info",
+   "message": "Elixir error fixture",
+   "timestamp": 1792139445,
+   "type": null
+  }
+ ],
+ "contexts": {
+  "os": {
+   "name": "darwin",
+   "version": "27.0.0"
+  },
+  "runtime": {
+   "name": "elixir",
+   "version": "1.20.3 (compiled with Erlang/OTP 29)"
+  }
+ },
+ "culprit": ":elixir_compiler_2.__FILE__/1",
+ "dist": null,
+ "environment": "sdk-research",
+ "event_id": "829a241dd2c3431eaa2b0105bf9271a4",
+ "exception": [
+  {
+   "mechanism": {
+    "data": null,
+    "handled": true,
+    "help_link": null,
+    "meta": null,
+    "synthetic": null,
+    "type": "generic"
+   },
+   "module": null,
+   "stacktrace": {
+    "frames": [
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "lib/code.ex",
+      "function": "Code.require_file/2",
+      "in_app": false,
+      "lineno": 1639,
+      "module": "Elixir.Code",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "lib/module/parallel_checker.ex",
+      "function": "Module.ParallelChecker.verify/1",
+      "in_app": false,
+      "lineno": 157,
+      "module": "Elixir.Module.ParallelChecker",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "src/elixir_compiler.erl",
+      "function": ":elixir_compiler.quoted/3",
+      "in_app": false,
+      "lineno": 21,
+      "module": "elixir_compiler",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "src/elixir_lexical.erl",
+      "function": ":elixir_lexical.run/3",
+      "in_app": false,
+      "lineno": 18,
+      "module": "elixir_lexical",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "src/elixir_compiler.erl",
+      "function": ":elixir_compiler.optimize_defmodule/2",
+      "in_app": false,
+      "lineno": 42,
+      "module": "elixir_compiler",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "src/elixir_compiler.erl",
+      "function": ":elixir_compiler.compile/4",
+      "in_app": false,
+      "lineno": 76,
+      "module": "elixir_compiler",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "src/elixir_compiler.erl",
+      "function": ":elixir_compiler.dispatch/4",
+      "in_app": false,
+      "lineno": 102,
+      "module": "elixir_compiler",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     },
+     {
+      "colno": null,
+      "context_line": null,
+      "filename": "error.exs",
+      "function": ":elixir_compiler_2.__FILE__/1",
+      "in_app": false,
+      "lineno": 36,
+      "module": "elixir_compiler_2",
+      "post_context": [],
+      "pre_context": [],
+      "vars": {}
+     }
+    ]
+   },
+   "type": "RuntimeError",
+   "value": "postdeploy-elixir-078d5f2eab4e249d"
+  }
+ ],
+ "extra": {},
+ "fingerprint": [
+  "{{ default }}"
+ ],
+ "level": "error",
+ "logger": null,
+ "message": null,
+ "platform": "elixir",
+ "release": "postdeploy-sdk-research@20261016",
+ "request": {},
+ "sdk": {
+  "name": "sentry-elixir",
+  "version": "14.0.0"
+ },
+ "server_name": "fixture-host",
+ "tags": {
+  "sdk_research_marker": "postdeploy-elixir-078d5f2eab4e249d",
+  "verification": "elixir-real-sdk"
+ },
+ "threads": null,
+ "timestamp": "2026-10-16T08:30:45.281898",
+ "transaction": null,
+ "user": {}
+}

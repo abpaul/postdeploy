@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="notification-settings-page" class="flex w-full min-w-0 flex-col gap-4">
+  <section class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 class="text-heading-02 text-text-primary">Notification routing</h1>
+        <p class="mt-1 max-w-prose text-body text-text-secondary">Send email, or a signed webhook, when an issue is new, an issue regresses, or an agent publishes a report.</p>
+      </div>
+      <a href="{{ org_base }}/settings" class="{{ <ui.secondary  /> }}">Organization settings</a>
+    </div>
+  </section>
+
+  {% if not can_manage %}
+  <p id="notification-settings-permission" class="text-body text-text-secondary">You can view this organization. Only owners and administrators can manage notification routing.</p>
+  {% endif %}
+
+  <section id="notification-channels" class="rounded-structural border border-border-default bg-surface-raised p-5">
+    <h2 class="text-heading-03 text-text-primary">Channels</h2>
+    <p id="notification-events" class="mt-1 text-body text-text-secondary">Every channel receives new issues, regressions, and published reports.</p>
+    {% if can_manage %}
+    <div class="mt-4 flex flex-wrap gap-3">
+      <details {% if field_errors.email %}open{% endif %}>
+        <summary class="{{ <ui.primary  /> }} cursor-pointer">Add email</summary>
+        <form method="post" action="{{ channel_email_action }}" class="mt-4 max-w-md">
+          {{ <ui.csrf  /> }}
+          <input type="hidden" name="kind" value="email">
+          {{ <ui.text id="email-channel-address" name="email" label="Email address" type="email" value={values.email} error={field_errors.email} autocomplete="email" required={true} tone="console" /> }}
+          <button type="submit" class="{{ <ui.primary  /> }}">Create email channel</button>
+        </form>
+      </details>
+      <details {% if field_errors.url or field_errors.secret %}open{% endif %}>
+        <summary class="{{ <ui.secondary  /> }} cursor-pointer">Add signed webhook</summary>
+        <form method="post" action="{{ channel_webhook_action }}" class="mt-4 max-w-md">
+          {{ <ui.csrf  /> }}
+          <input type="hidden" name="kind" value="webhook">
+          {{ <ui.text id="webhook-channel-url" name="url" label="HTTPS endpoint" type="url" value={values.url} error={field_errors.url} autocomplete="off" required={true} tone="console" /> }}
+          <p class="mb-4 text-caption text-text-tertiary">PostDeploy generates a signing secret and shows it once after you create the webhook.</p>
+          <button type="submit" class="{{ <ui.primary  /> }}">Create webhook channel</button>
+        </form>
+      </details>
+    </div>
+    {% endif %}
+    {% if channels %}
+    <ul class="mt-4 divide-y divide-border-subtle">
+      {% for channel in channels %}
+      <li class="flex flex-wrap items-center justify-between gap-3 py-3">
+        <div class="min-w-0">
+          <p class="font-semibold text-text-primary">{{ channel.name }}</p>
+          <p class="truncate text-label text-text-secondary">{{ channel.kind_label }}: {{ channel.destination }}</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          {% if channel.is_default %}<span class="text-label text-status-live-ink">Default</span>{% endif %}
+          {% if can_manage and not channel.is_default and channel.default_action %}
+          <form method="post" action="{{ channel.default_action }}">
+            {{ <ui.csrf  /> }}
+            <button type="submit" class="{{ <ui.secondary  /> }}">Make default</button>
+          </form>
+          {% endif %}
+          {% if can_manage and channel.delete_action %}
+          <details>
+            <summary class="{{ <ui.destructive  /> }} cursor-pointer">Delete</summary>
+            <form method="post" action="{{ channel.delete_action }}" class="mt-2">
+              {{ <ui.csrf  /> }}
+              <button type="submit" class="{{ <ui.destructive  /> }}">Confirm delete</button>
+            </form>
+          </details>
+          {% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="mt-4 text-body text-text-secondary">No notification channels.</p>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% if agent_setup or mcp_endpoint %}
+<section id="org-agent-connection" class="w-full min-w-0 max-w-full overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="org-agent-connection-title">
+  <div class="border-b border-border-default px-5 py-3.5">
+    <h2 id="org-agent-connection-title" class="text-heading-03 text-text-primary">Connect an agent</h2>
+    <p class="mt-1 text-body text-text-secondary">Authorize one agent for every current and future project in this organization.</p>
+  </div>
+  <div class="flex min-w-0 flex-col gap-4 p-5">
+    <p class="text-body text-text-secondary">Paste this setup request into your MCP client. Your browser opens so you can confirm the account, client, organization, and access level.</p>
+    {% if agent_setup %}
+    <div class="relative">
+      <pre id="agent-setup-text" class="max-h-96 overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 pr-24 font-mono text-data leading-relaxed text-text-primary">{{ agent_setup }}</pre>
+      <div class="absolute right-3 top-3">
+        <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="agent-setup-text"><span data-copy-label>Copy</span></button>
+      </div>
+    </div>
+    {% endif %}
+    {% if mcp_endpoint %}
+    <div class="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+      <span class="text-label text-text-tertiary">Endpoint</span>
+      <code id="agent-setup-endpoint" class="min-w-0 break-all font-mono text-data text-text-primary">{{ mcp_endpoint }}</code>
+      <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="agent-setup-endpoint"><span data-copy-label>Copy</span></button>
+    </div>
+    <p class="text-caption text-text-secondary">After approval, ask the client to run <code class="font-mono">list_projects</code>. The connection then appears below with its last use.</p>
+    <div class="relative">
+      <pre id="agent-setup-claude" class="overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 pr-24 font-mono text-data text-text-primary">claude mcp add --transport http postdeploy {{ mcp_endpoint }}</pre>
+      <div class="absolute right-3 top-3">
+        <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="agent-setup-claude"><span data-copy-label>Copy</span></button>
+      </div>
+    </div>
+    <div class="relative">
+      <pre id="agent-setup-codex" class="overflow-auto whitespace-pre-wrap break-words rounded-control bg-surface-sunken p-4 pr-24 font-mono text-data text-text-primary">codex mcp add postdeploy --url {{ mcp_endpoint }}</pre>
+      <div class="absolute right-3 top-3">
+        <button type="button" class="{{ <ui.secondary  /> }}" data-copy-target="agent-setup-codex"><span data-copy-label>Copy</span></button>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

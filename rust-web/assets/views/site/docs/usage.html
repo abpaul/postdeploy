@@ -1,0 +1,40 @@
+{% extends "site/prose.html" %}
+{% block heading %}Usage, limits and data retention{% endblock heading %}
+{% block lede %}What counts toward the plan, what happens at a limit or at the end of the trial, and how long PostDeploy keeps your data.{% endblock lede %}
+{% block body %}
+<h2 id="usage">What counts</h2>
+<p>Each organization can store {{ plan.errors }} error events and {{ plan.log_volume }} of logs per calendar month (UTC).</p>
+<p>Log usage counts the bytes of each accepted log entry once.</p>
+<p>Items that your filters or sampling refuse do not count toward usage.</p>
+<p>Owners and admins set those filters on the <strong>Data controls</strong> settings page: extra sensitive field names, stored log levels, excluded exception types, and error and log sampling.</p>
+<p>The billing page and the <code>get_usage</code> MCP tool show this month's usage against each allowance.</p>
+
+<h2 id="limits">At a limit</h2>
+<p>When an allowance is used up, ingestion answers <code>429</code> with <code>Retry-After</code> until the next month starts, and stores nothing from that request.</p>
+<p>Owners get an email when usage reaches 70%, 90% and 100% of an allowance.</p>
+<p>Each organization also has a request rate limit. Over it, ingestion answers <code>429 rate_limited</code> with <code>Retry-After</code>.</p>
+
+<h2 id="trial">After the trial</h2>
+<p>When the trial ends without a subscription, ingestion answers <code>429 subscription_required</code>. Stored errors and logs stay readable until they expire.</p>
+<p>Subscribing from the billing page starts ingestion again for the same organization.</p>
+
+<h2 id="retention">Retention</h2>
+<p>Errors are kept {{ plan.error_retention_days }} days from the time PostDeploy receives them.</p>
+<p>Logs are kept {{ plan.log_retention_days }} days from the time PostDeploy receives them, even when the log entry carries an older timestamp.</p>
+<p>Searches and agent tools do not return data past retention, even before the deletion job removes it.</p>
+
+<h2 id="storage">Where data is stored</h2>
+<p>Each organization has its own SQLite database on the server. Error payloads are stored in Cloudflare R2 before ingestion answers success.</p>
+<p>If R2 is unreachable, PostDeploy stores no error events and answers <code>503 ingest_unavailable</code>. Whether the event is sent again depends on the SDK.</p>
+<p>A success response means the logs are committed to the server's SQLite database. They survive a server restart before they reach R2.</p>
+<p>The server writes log batches to R2 within five minutes when R2 is reachable. Logs that are not yet in R2 are lost if the server's disk is lost.</p>
+<p>If R2 is unreachable, logs stay in SQLite and stay searchable. When an organization's unarchived logs reach the backlog limit, ingestion answers <code>503 log_backlog_full</code> until archiving catches up.</p>
+
+<h2 id="search">Search limits</h2>
+<p>A log search reads a bounded part of the history per request. When the response sets <code>coverage.truncated_by</code>, pass <code>next</code> as <code>before</code> to continue further back.</p>
+
+<h2 id="backups">Backups</h2>
+<p>The server writes encrypted backup sets of every organization database to R2.</p>
+<p>A restore task rebuilds the databases from one backup set while the server is stopped.</p>
+<p>Backup sets keep copies of deleted and expired data for {{ plan.backup_retention_days }} days. The first successful backup after that deletes them.</p>
+{% endblock body %}

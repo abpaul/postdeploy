@@ -1,0 +1,60 @@
+{% extends "site/prose.html" %}
+{% block heading %}Connect a coding agent{% endblock heading %}
+{% block lede %}Your agent reads PostDeploy through the MCP server or the HTTP API. You approve each connection and choose what it can do.{% endblock lede %}
+{% block body %}
+<h2 id="mcp">MCP server</h2>
+<p>The MCP URL is <code>{{ plan.mcp_url }}</code>.</p>
+<h3 id="claude-code">Claude Code</h3>
+<pre><code>claude mcp add --transport http postdeploy {{ plan.mcp_url }}</code></pre>
+<h3 id="codex">Codex</h3>
+<pre><code>codex mcp add postdeploy --url {{ plan.mcp_url }}</code></pre>
+<p>If Codex does not open the browser by itself, run:</p>
+<pre><code>codex mcp login postdeploy</code></pre>
+<h3 id="other-clients">Other MCP clients</h3>
+<p>Add the server to the client's MCP configuration:</p>
+<pre><code>{
+  "mcpServers": {
+    "postdeploy": {
+      "type": "http",
+      "url": "{{ plan.mcp_url }}"
+    }
+  }
+}</code></pre>
+<p>The same text is on the organization settings page, ready to copy.</p>
+
+<h2 id="oauth">Approve the connection</h2>
+<ol>
+  <li>Your client registers with PostDeploy and opens a browser window.</li>
+  <li>Sign in. The page shows the client, its host, your account and the organization.</li>
+  <li>Choose the access. Read access to issues, logs and projects is selected by default.</li>
+  <li>Approve. The client gets a token for that organization only.</li>
+</ol>
+<p>The connection then appears under <strong>Connected agents</strong> in the organization settings, with the time it was last used. Revoke it there when you no longer need it.</p>
+
+<h2 id="scopes">Access scopes</h2>
+<table>
+  <thead>
+    <tr><th scope="col">Scope</th><th scope="col">Allows</th><th scope="col">Who can grant it</th></tr>
+  </thead>
+  <tbody>
+    {% for scope in scopes %}
+    <tr><td><code>{{ scope.id }}</code></td><td>{{ scope.description }}</td><td>{% if scope.manager %}Owners and admins{% else %}Any member{% endif %}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 id="api-keys">API keys</h2>
+<p>Use an API key for CI or for a client without OAuth. Create one in the organization settings. A new key has read access to issues, logs and projects unless you choose other scopes. It expires after 30 days unless you choose a shorter or longer period, up to 90 days.</p>
+<p>PostDeploy shows the key once. Send it as a bearer token to the HTTP API or the MCP server:</p>
+<pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+<p>Keys stop working when they expire, when you revoke them, when their owner resets the password or leaves the organization, and when the organization is deleted. A key that holds a scope for owners and admins loses that scope when its owner loses the role.</p>
+
+<h2 id="example">Example investigation</h2>
+<p>A short investigation of a new error, with the MCP tools in the order an agent calls them:</p>
+<pre><code>list_issues          {"status": "open"}
+get_error_context    {"issue_id": 41}
+list_deployments     {"project_id": 3}
+compare_deployment   {"deployment_id": 7}</code></pre>
+<p><code>get_error_context</code> returns one event with its stack, the deployment that was live at the time, and at most 50 related logs. Logs match on the event's trace ID, then its request ID, then its service and release. The response says which match it used.</p>
+<p><code>compare_deployment</code> counts error events per minute in equal windows before and after a deployment. It shows that two things happened together in time. Your agent still needs the stack and logs to explain a cause.</p>
+{% endblock body %}

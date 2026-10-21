@@ -1,0 +1,34 @@
+{% extends "site/prose.html" %}
+{% block heading %}Terms of service{% endblock heading %}
+{% block lede %}What the service is, how the trial and the subscription work, what happens at an allowance or at the end of a trial, and what PostDeploy does not promise.{% endblock lede %}
+{% block body %}
+<h2 id="provider">Who provides the service</h2>
+<p>ALPLUS TECHNOLOGIES SRL provides PostDeploy. The company is registered in Romania under registration number 55013997.</p>
+<p>Write to <a href="mailto:hello@alplustech.com">hello@alplustech.com</a> with any question about these terms, about billing, or about your account.</p>
+
+<h2 id="service">What the service is</h2>
+<p>PostDeploy stores the errors, structured logs and deployment records that your software sends to it. You and the agents you authorize read them through the dashboard, an MCP server and an HTTP API.</p>
+
+<h2 id="trial">The free trial</h2>
+<p>Every new organization starts with a {{ plan.trial_days }}-day free trial. The trial needs no credit card and includes every feature and allowance of the paid plan.</p>
+<p>When the trial ends without a subscription, PostDeploy stops accepting new errors and logs for the organization. Stored data stays readable until its retention period ends.</p>
+
+<h2 id="subscription">Subscription</h2>
+<p>The subscription costs {{ plan.price }} per year per organization, billed annually through Stripe. There is one plan. Stripe processes the payment. PostDeploy does not store card details.</p>
+<p>Subscribing during or after the trial keeps the organization, its projects and its stored data.</p>
+
+<h2 id="allowances">Allowances</h2>
+<p>The plan includes {{ plan.errors }} error events and {{ plan.log_volume }} of logs per organization per calendar month (UTC). When an allowance is used up, PostDeploy refuses new data of that type until the next month starts. Going over an allowance adds no charge to your bill.</p>
+
+<h2 id="data">Organizations and data</h2>
+<p>Errors are kept {{ plan.error_retention_days }} days and logs {{ plan.log_retention_days }} days from the time PostDeploy receives them. An owner can delete an organization at any time. Deleting it deletes its projects, stored errors, logs and API keys.</p>
+<p>Backup sets keep copies of deleted and expired data for {{ plan.backup_retention_days }} days. The first successful backup after that deletes them.</p>
+
+<h2 id="no-sla">No service level is promised</h2>
+<p>PostDeploy does not promise a level of service availability, response time or support turnaround. If your use of PostDeploy depends on such a guarantee, PostDeploy does not provide one today.</p>
+<p>PostDeploy may update these terms. If you continue to use the service after an update, you accept the change.</p>
+
+<h2 id="law">Governing law</h2>
+<p>Romanian law governs these terms, because ALPLUS TECHNOLOGIES SRL is registered in Romania.</p>
+<p>Nothing on this page removes a right you hold as a consumer under Romanian or European Union law.</p>
+{% endblock body %}

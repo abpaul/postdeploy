@@ -1,0 +1,10 @@
+{% if flash and flash.message %}
+<div id="flash" data-flash role="status" class="fixed right-2 top-2 z-50 w-80 max-w-[calc(100vw-1rem)] rounded-frame border p-3 text-body sm:w-96 {% if flash.kind == 'error' %}border-status-error-border bg-status-error-bg text-status-error-ink{% else %}border-status-neutral-border bg-status-neutral-bg text-status-neutral-ink{% endif %}">
+  <div class="flex items-start justify-between gap-3">
+    <p>{{ flash.message }}</p>
+    <button type="button" data-flash-close class="flex size-6 shrink-0 items-center justify-center rounded-control text-current hover:bg-hover" aria-label="Dismiss">
+      <span class="hero-x-mark size-4" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
+{% endif %}

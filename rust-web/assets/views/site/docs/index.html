@@ -1,0 +1,11 @@
+{% extends "site/prose.html" %}
+{% block heading %}Documentation{% endblock heading %}
+{% block lede %}Send your first error, connect a coding agent, and learn how usage and retention work.{% endblock lede %}
+{% block body %}
+<ul>
+  <li><a href="/docs/quickstart">Quickstart</a>. Create a source, add its DSN to a Sentry SDK and confirm the first event.</li>
+  <li><a href="/docs/agents">Connect a coding agent</a>. Add the MCP server with OAuth, or create an API key.</li>
+  <li><a href="/docs/api">HTTP API</a>. Authenticate with a bearer token and call the organization endpoints.</li>
+  <li><a href="/docs/usage-and-retention">Usage, limits and data retention</a>. What counts toward the plan, what happens at a limit, and how long data is kept.</li>
+</ul>
+{% endblock body %}

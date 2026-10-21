@@ -1,0 +1,71 @@
+{% extends "site/layout.html" %}
+{% block content %}
+<section aria-labelledby="pricing-title" class="pd-on-lime pd-hero">
+  <div class="pd-wrap pd-hero-grid pd-hero-priced">
+    <div class="pd-hero-copy">
+      <h1 id="pricing-title" class="pd-display">One plan for production debugging</h1>
+      <p class="pd-lede pd-soft mt-6">Every organization gets the same features and allowances. Start with a {{ plan.trial_days }}-day free trial. The trial has every paid feature and needs no credit card.</p>
+      <div class="pd-hero-actions">
+        <a href="/register" class="pd-pill pd-pill-ink">Start {{ plan.trial_days }}-day free trial</a>
+        <a href="/docs/quickstart" class="pd-link">Read the quickstart</a>
+      </div>
+    </div>
+    <div id="pricing-plan" class="pd-term pd-hero-object pd-price-panel">
+      <p class="pd-muted font-bold">PostDeploy</p>
+      <p class="pd-price">{{ plan.price }}<small>/year</small></p>
+      <p class="pd-muted mt-3">per organization, billed annually</p>
+      <dl class="pd-rows">
+        <div>
+          <dt>Log ingestion</dt>
+          <dd>{{ plan.log_volume }} per month</dd>
+        </div>
+        <div>
+          <dt>Error events</dt>
+          <dd>{{ plan.errors }} per month</dd>
+        </div>
+        <div>
+          <dt>Error retention</dt>
+          <dd>{{ plan.error_retention_days }} days</dd>
+        </div>
+        <div>
+          <dt>Log retention</dt>
+          <dd>{{ plan.log_retention_days }} days</dd>
+        </div>
+        <div>
+          <dt>Projects and team members</dt>
+          <dd>Unlimited projects and members</dd>
+        </div>
+      </dl>
+      <p class="pd-muted mt-4">Allowances reset at the start of each calendar month (UTC).</p>
+      <a href="/register" class="pd-pill pd-pill-lime">Start free trial</a>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="pricing-included" class="pd-section pd-after-hero">
+  <div class="pd-wrap">
+    <h2 id="pricing-included" class="pd-statement">Included in the plan</h2>
+    <ul class="pd-included mt-12">
+      <li><strong>MCP server with OAuth</strong>Your agent connects after you approve it in the browser.</li>
+      <li><strong>API keys</strong>Each key has scopes and an expiry date.</li>
+      <li><strong>Email alerts and signed webhooks</strong>For new issues, regressions and published reports.</li>
+      <li><strong>Release context</strong>Record deployments from CI and compare error rates before and after each one.</li>
+      <li><strong>Error and log correlation</strong>One error with the logs that share its trace ID, request ID, or service and release.</li>
+      <li><strong>Privacy controls</strong>Built-in redaction, extra sensitive fields, level filters and sampling.</li>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="pricing-limits" class="pd-section pd-ink">
+  <div class="pd-wrap pd-split">
+    <h2 id="pricing-limits" class="pd-statement">At a limit, and after the trial</h2>
+    <div>
+      <p class="pd-body pd-muted">When a monthly allowance is used up, PostDeploy refuses new data of that type until the next month starts. Owners get an email at 70%, 90% and 100% of each allowance. Nothing is billed on top of the plan.</p>
+      <p class="pd-body pd-muted">When the trial ends without a subscription, PostDeploy stops accepting new errors and logs. You can still read what is stored until it expires.</p>
+      <div class="pd-links">
+        <a href="/docs/usage-and-retention" class="pd-link">Read how usage, limits and retention work</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

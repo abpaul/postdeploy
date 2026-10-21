@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="account-page" class="flex w-full min-w-0 max-w-content flex-col gap-6">
+  <h1 id="account-page-heading" class="text-heading-01 text-text-primary">Account</h1>
+  <div class="flex flex-col gap-4">
+  <section id="account-name" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="account-name-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 id="account-name-title" class="text-heading-03 text-text-primary">Display name</h2>
+      <p class="mt-1 text-body text-text-secondary">Shown instead of your email address across the dashboard.</p>
+    </div>
+    <form id="profile-name-form" method="post" action="{{ name_action }}" class="p-5">
+      {{ <ui.csrf  /> }}
+      {{ <ui.text id="profile-name" placeholder="Ada Lovelace" name="name" label="Your name" type="text" value={values.name} error={field_errors.name} autocomplete="name" required={false} tone="console" /> }}
+      <button type="submit" class="{{ <ui.primary  /> }}">Save name</button>
+    </form>
+  </section>
+
+  <section id="account-email" class="overflow-hidden rounded-structural border border-border-default bg-surface-raised" aria-labelledby="account-email-title">
+    <div class="border-b border-border-default px-5 py-3.5">
+      <h2 id="account-email-title" class="text-heading-03 text-text-primary">Email address</h2>
+      <p class="mt-1 text-body text-text-secondary">Your sign-in address. Account and security messages are sent here.</p>
+    </div>
+    <div class="p-5">
+      <dl class="min-w-0 divide-y divide-border-default">
+        <div class="flex min-h-row min-w-0 items-start justify-between gap-3 py-3">
+          <dt class="shrink-0 text-body text-text-secondary">Current</dt>
+          <dd class="min-w-0 break-words text-right font-semibold text-text-primary text-data"><span class="font-mono">{{ user.email }}</span></dd>
+        </div>
+      </dl>
+      <form id="profile-email-form" method="post" action="{{ email_action }}" class="mt-4 border-t border-border-subtle pt-4">
+        {{ <ui.csrf  /> }}
+        {{ <ui.text id="profile-email" placeholder="you@example.com" name="email" label="New address" type="email" value={values.email | default(value=user.email)} error={field_errors.email} autocomplete="email" required={true} tone="console" /> }}
+        <button type="submit" class="{{ <ui.secondary  /> }}">Send confirmation link</button>
+        <p class="mt-2 text-label text-text-tertiary">Your current address keeps working until you follow the link.</p>
+      </form>
+    </div>
+  </section>
+  </div>
+</div>
+{% endblock content %}

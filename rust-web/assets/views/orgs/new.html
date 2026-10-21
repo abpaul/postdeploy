@@ -1,0 +1,21 @@
+{% extends "auth_base.html" %}
+{% block cross %}{% if organizations %}<a href="/dashboard" class="border-b-2 border-interactive-primary pb-px font-semibold text-text-primary">Back to your account</a>{% endif %}{% endblock cross %}
+{% block heading %}Create your organization{% endblock heading %}
+{% block subtitle %}Your team's workspace. You can rename it later.{% endblock subtitle %}
+{% block form %}
+{% if not create_allowed %}
+<div id="org-limit-notice" role="status" class="rounded-frame border border-border-default bg-surface-sunken px-4 py-3 text-body text-text-secondary">
+  <p class="font-semibold text-text-primary">Another organization cannot be created from this account.</p>
+</div>
+{% else %}
+{% if agent_waiting %}
+<p id="org-agent-waiting" role="status" class="mb-4 rounded-frame border border-border-default bg-surface-sunken px-4 py-3 text-body font-semibold text-text-primary">{{ agent_waiting }}</p>
+{% endif %}
+<form id="new-org-form" method="post" action="{{ form_action }}">
+  {{ <ui.csrf  /> }}
+  {% if return_to %}<input type="hidden" name="return_to" value="{{ return_to }}">{% endif %}
+  {{ <ui.text id="org-name" name="name" label="Name" type="text" value={values.name} error={field_errors.name} autocomplete="organization" required={true} tone="auth" /> }}
+  <button type="submit" id="create-org-submit" class="{{ <ui.primary  /> }} w-full font-bold">Create organization</button>
+</form>
+{% endif %}
+{% endblock form %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "partials/head.html" %}
+  </head>
+  <body class="bg-surface-raised font-sans text-body text-text-primary antialiased">
+    <main id="oauth-consent" data-public-shell class="flex min-h-dvh flex-col bg-surface-raised">
+      <div class="border-b border-border-public px-5 py-4 sm:px-9">
+        {{ <logo.lockup href="/dashboard" label="PostDeploy home" size="sm" word={true} /> }}
+      </div>
+      <div class="flex flex-1 items-start justify-center px-5 py-10">
+        <section aria-labelledby="oauth-consent-heading" class="w-full max-w-[560px] overflow-hidden rounded-frame border border-border-public bg-surface-page">
+          <div class="border-b border-border-subtle px-5 py-4 sm:px-6">
+            <h1 id="oauth-consent-heading" class="break-words text-heading-03 text-text-primary">{{ client_name }}</h1>
+            <p class="mt-0.5 break-words text-caption text-text-secondary">{% if client_host %}From {{ client_host }}. {% endif %}Signed in as {{ user.email }}.</p>
+          </div>
+          {% if permission_error %}
+          <div class="flex flex-col gap-4 px-5 py-4 sm:px-6">
+            <p id="oauth-permissions-error" role="alert" class="text-body text-status-error-ink">{{ permission_error }}</p>
+            {% if organizations %}
+            <a id="oauth-next-action" href="/dashboard" class="{{ <ui.secondary  /> }}">Go to the dashboard</a>
+            {% else %}
+            <a id="oauth-next-action" href="/dashboard/orgs/new" class="{{ <ui.primary  /> }}">Create an organization</a>
+            {% endif %}
+          </div>
+          {% else %}
+          <form id="oauth-authorization-form" method="post" action="{{ form_action }}">
+            {{ <ui.csrf  /> }}
+            {% for field in oauth_fields %}
+            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+            {% endfor %}
+
+            {% if organization_mode %}
+            <dl class="grid gap-4 border-b border-border-subtle px-5 py-4 sm:grid-cols-2 sm:px-6">
+              <div>
+                <dt class="text-label text-text-tertiary">Organization</dt>
+                <dd class="mt-1 text-body font-semibold text-text-primary">{{ organization.name }}</dd>
+              </div>
+              <div>
+                <dt class="text-label text-text-tertiary">Account</dt>
+                <dd class="mt-1 break-all text-body text-text-primary">{{ user.email }}</dd>
+              </div>
+            </dl>
+            {% elif oauth_choices %}
+            <div class="grid gap-4 border-b border-border-subtle px-5 py-4 sm:grid-cols-2 sm:px-6">
+              <div>
+                <label for="oauth-organization" class="mb-1.5 block text-label text-text-primary">Organization</label>
+                <select id="oauth-organization" name="org_id" class="block h-control-md w-full rounded-input border border-border-control bg-surface-raised px-3 text-body text-text-primary">
+                  {% for choice in oauth_choices %}
+                  <option value="{{ choice.organization.id }}">{{ choice.organization.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            {% endif %}
+
+            <fieldset class="border-b border-border-subtle px-5 py-4 sm:px-6">
+              <legend class="text-body font-semibold text-text-primary">Access</legend>
+              <p id="oauth-access-help" class="mt-1 text-caption text-text-secondary">The agent can investigate and act only on the access you allow here.</p>
+              <div class="mt-3">
+                {% for scope in scopes %}
+                <label class="flex min-h-target-min cursor-pointer items-start gap-3 border-t border-border-subtle py-3">
+                  <input type="checkbox" name="scopes" value="{{ scope.id }}" {% if scope.checked %}checked{% endif %} class="mt-1">
+                  <span>
+                    <span class="block text-body font-medium text-text-primary">{{ scope.label }}</span>
+                    {% if scope.description %}<span class="block text-caption text-text-secondary">{{ scope.description }}</span>{% endif %}
+                  </span>
+                </label>
+                {% endfor %}
+              </div>
+            </fieldset>
+
+            <div class="flex flex-wrap gap-2 px-5 py-4 sm:px-6">
+              <button type="submit" name="decision" value="allow" class="{{ <ui.primary  /> }}">Allow</button>
+              <button type="submit" name="decision" value="deny" class="{{ <ui.secondary  /> }}">Deny</button>
+            </div>
+          </form>
+          {% endif %}
+        </section>
+      </div>
+    </main>
+    {% include "partials/flash.html" %}
+  </body>
+</html>

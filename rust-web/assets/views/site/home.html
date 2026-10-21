@@ -1,0 +1,167 @@
+{% extends "site/layout.html" %}
+{% block content %}
+<section id="home-hero" aria-labelledby="home-title" class="pd-on-lime pd-hero">
+  <div class="pd-wrap pd-hero-grid">
+    <h1 id="home-title" class="pd-display pd-hero-title">Your coding agent can read your code. Now it can read production.</h1>
+    <div class="pd-hero-copy">
+      <p class="pd-lede">PostDeploy stores errors, logs and deployments from your existing Sentry SDK. Your agent reads them over MCP. One call returns the stack trace, up to 50 related logs and the release that was live.</p>
+      <div class="pd-hero-actions">
+        <a href="/register" class="pd-pill pd-pill-ink">Start {{ plan.trial_days }}-day free trial</a>
+        <a href="/docs/agents" class="pd-link">See agent setup</a>
+      </div>
+      <p class="pd-hero-note pd-soft">No credit card. {{ plan.price }} per year per organization after the trial.</p>
+    </div>
+    <figure id="home-example" class="pd-term pd-hero-object pd-play">
+      <figcaption class="pd-term-bar"><span class="pd-mono">~/checkout</span><span>Sample data.</span></figcaption>
+      <pre class="pd-term-body"><code><span class="pd-line pd-type" style="--d: 300ms"><span class="pd-ps">$</span> claude mcp add --transport http postdeploy {{ plan.mcp_url }}</span>
+<span class="pd-line pd-call pd-gap" style="--d: 1700ms">&gt; get_error_context issue_id=41</span>
+<span class="pd-line pd-l1" style="--d: 2150ms">TypeError: Cannot read properties of undefined</span>
+<span class="pd-line pd-l2 pd-dim" style="--d: 2230ms">at applyCoupon (src/cart/coupon.ts:88)</span>
+<span class="pd-line pd-l1" style="--d: 2310ms"><span class="pd-key">deployment</span> checkout@1.4.2, live since 14:02 UTC</span>
+<span class="pd-line pd-l1" style="--d: 2390ms"><span class="pd-key">logs</span> 12 matched by trace_id</span>
+<span class="pd-line pd-call pd-gap" style="--d: 3000ms">&gt; compare_deployment deployment_id=7</span>
+<span class="pd-line pd-l1" style="--d: 3450ms"><span class="pd-key">before</span> 0.0 error events per minute</span>
+<span class="pd-line pd-l1" style="--d: 3530ms"><span class="pd-key">after</span> 3.2 error events per minute</span>
+<span class="pd-line pd-call pd-gap" style="--d: 3900ms" aria-hidden="true">&gt; <span class="pd-caret"></span></span></code></pre>
+    </figure>
+  </div>
+</section>
+
+<section aria-labelledby="home-problem" class="pd-section pd-after-hero">
+  <div class="pd-wrap pd-split">
+    <h2 id="home-problem" class="pd-statement">Your agent works from whatever you paste.</h2>
+    <p class="pd-body pd-muted">When production breaks, you copy a stack trace from one tab, search logs in another and check which deploy went out. Then you paste it into the chat. The agent sees only what you remembered to copy.</p>
+  </div>
+</section>
+
+<section aria-labelledby="home-solution" class="pd-section pd-ink">
+  <div class="pd-wrap pd-split">
+    <h2 id="home-solution" class="pd-statement">One tool call returns the evidence.</h2>
+    <p class="pd-body pd-muted"><code class="pd-code">get_error_context</code> returns one error event with its stack, the deployment that was live, and up to 50 logs that share its trace ID. Without a trace ID it matches on request ID, then on service and release, and says which match it used. Every result is size-limited and says when it was cut.</p>
+  </div>
+</section>
+
+<section aria-labelledby="home-how" class="pd-section">
+  <div class="pd-wrap">
+    <h2 id="home-how" class="pd-h2">How it works</h2>
+    <ol class="pd-steps">
+      <li class="pd-step">
+        <h3 class="pd-h3">Change one DSN.</h3>
+        <p class="pd-body pd-muted">Point your Sentry SDK at a PostDeploy DSN. Node.js sends errors and logs. Python, Ruby and Elixir send errors. A test event checks the path before you deploy. Read the <a href="/docs/quickstart" class="pd-text-link">quickstart</a>.</p>
+      </li>
+      <li class="pd-step">
+        <h3 class="pd-h3">Connect your agent.</h3>
+        <div>
+          <div class="pd-cmds">
+            <pre class="pd-cmd"><code>claude mcp add --transport http postdeploy {{ plan.mcp_url }}</code></pre>
+            <pre class="pd-cmd"><code>codex mcp add postdeploy --url {{ plan.mcp_url }}</code></pre>
+          </div>
+          <p class="pd-body pd-muted">Your browser opens. You choose the organization and the access. New connections can only read.</p>
+        </div>
+      </li>
+      <li class="pd-step">
+        <h3 class="pd-h3">Ask what broke.</h3>
+        <p class="pd-body pd-muted">Your agent lists open issues, reads the error context and compares error rates before and after the last deployment.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="pd-section pd-sunken">
+  <figure id="home-demo" class="pd-wrap">
+    <div class="pd-term">
+      <ol class="pd-demo-body">
+        <li class="pd-turn pd-reveal">
+          <span class="pd-who">You</span>
+          <p class="pd-said">Checkout has been throwing errors since this afternoon. What happened?</p>
+        </li>
+        <li class="pd-turn pd-reveal">
+          <span class="pd-who">Agent</span>
+          <div class="pd-said">
+            <code class="pd-line pd-call">list_issues {"status":"open"}</code>
+            <code class="pd-line pd-l1">#41 TypeError: Cannot read properties of undefined, first seen 14:06 UTC</code>
+            <code class="pd-line pd-call">get_error_context {"issue_id":41}</code>
+            <code class="pd-line pd-l1">at applyCoupon (src/cart/coupon.ts:88), deployment checkout@1.4.2 live 14:02 UTC, 12 logs matched_by trace_id</code>
+            <code class="pd-line pd-call">compare_deployment {"deployment_id":7}</code>
+            <code class="pd-line pd-l1">before 0.0/min, after 3.2/min, newly_observed #41</code>
+          </div>
+        </li>
+        <li class="pd-turn pd-reveal">
+          <span class="pd-who">Agent</span>
+          <p class="pd-said">#41 started 4 minutes after checkout@1.4.2 went live. The logs show carts without a promo code reach coupon.ts:88, which reads coupon.code with no check. The deploy timing is a correlation. The stack and logs point to the missing check.</p>
+        </li>
+      </ol>
+    </div>
+    <figcaption class="pd-caption">Sample data. The tool calls and fields are real. The reasoning is your agent's.</figcaption>
+  </figure>
+</div>
+
+<section aria-labelledby="home-capabilities" class="pd-section">
+  <div class="pd-wrap">
+    <h2 id="home-capabilities" class="sr-only">Capabilities</h2>
+    <ul class="pd-caps">
+      <li>
+        <h3 class="pd-h3">Keep your Sentry SDK.</h3>
+        <p class="pd-body pd-muted">PostDeploy accepts a standard DSN. To leave, change the DSN back.</p>
+      </li>
+      <li>
+        <h3 class="pd-h3">Errors linked to logs.</h3>
+        <p class="pd-body pd-muted">Matched by trace ID or request ID, and labeled with how they matched.</p>
+      </li>
+      <li>
+        <h3 class="pd-h3">Deployments from CI.</h3>
+        <p class="pd-body pd-muted">One HTTP call per deploy. Compare error rates before and after it.</p>
+      </li>
+      <li>
+        <h3 class="pd-h3">Least access by default.</h3>
+        <p class="pd-body pd-muted">Read-only connections, scopes you grant, keys that expire in 30 days. Revoke any of them from the dashboard.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="home-plan" class="pd-section pd-sunken">
+  <div class="pd-wrap">
+    <div class="pd-split">
+      <h2 id="home-plan" class="pd-statement">{{ plan.price }} per year for one organization, every feature included.</h2>
+      <dl class="pd-facts">
+        <div>
+          <dt>Error events</dt>
+          <dd class="pd-num">{{ plan.errors }} per month</dd>
+        </div>
+        <div>
+          <dt>Logs</dt>
+          <dd class="pd-num">{{ plan.log_volume }} per month</dd>
+        </div>
+        <div>
+          <dt>Retention</dt>
+          <dd class="pd-num">{% if plan.error_retention_days == plan.log_retention_days %}{{ plan.log_retention_days }} days{% else %}Errors {{ plan.error_retention_days }} days, logs {{ plan.log_retention_days }} days{% endif %}</dd>
+        </div>
+        <div>
+          <dt>Projects and members</dt>
+          <dd>Unlimited</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="pd-trust">
+      <p class="pd-body pd-muted">Over a monthly allowance, PostDeploy refuses new data until the next month. It never bills overages.</p>
+      <p class="pd-body pd-muted">Without a subscription after the trial, ingestion stops. You can read stored data until it expires.</p>
+      <p class="pd-body pd-muted">Credentials are redacted before storage. PostDeploy runs on one OVH server and stores payloads in Cloudflare R2. One person builds and runs it.</p>
+    </div>
+    <div class="pd-links">
+      <a href="/pricing" class="pd-link">See pricing</a>
+      <a href="/privacy" class="pd-link">Privacy</a>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="home-cta" class="pd-ink pd-final">
+  <div class="pd-wrap">
+    <h2 id="home-cta" class="pd-display">Change one DSN and ask your agent what broke.</h2>
+    <div class="pd-final-actions">
+      <a href="/register" class="pd-pill pd-pill-lime">Start {{ plan.trial_days }}-day free trial</a>
+      <p class="pd-muted">No credit card.</p>
+    </div>
+  </div>
+</section>
+{% endblock content %}

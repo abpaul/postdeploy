@@ -1,0 +1,18 @@
+{% extends "auth_base.html" %}
+{% block cross %}<a href="/sign-in" class="border-b-2 border-interactive-primary pb-px font-semibold text-text-primary">Sign in</a>{% endblock cross %}
+{% block heading %}{% if confirm_kind == "email_change" %}Confirm your new email.{% else %}Confirm your account.{% endif %}{% endblock heading %}
+{% block subtitle %}{% if confirm_kind == "email_change" %}This keeps your account details up to date.{% else %}One more step before you can sign in.{% endif %}{% endblock subtitle %}
+{% block form %}
+{% if confirmed %}
+<p role="status" class="text-center text-body text-text-secondary">This link is already confirmed.</p>
+{% else %}
+<form id="confirm-form" method="post" action="{{ form_action }}">
+  {{ <ui.csrf  /> }}
+  <input type="hidden" name="confirm_token" value="{{ confirm_token }}">
+  {% if field_errors.confirm_token %}
+  <p role="alert" class="mb-4 text-body text-status-error-ink">{{ field_errors.confirm_token }}</p>
+  {% endif %}
+  <button type="submit" class="{{ <ui.primary  /> }} w-full font-bold">Confirm</button>
+</form>
+{% endif %}
+{% endblock form %}
